@@ -1,0 +1,8 @@
+code .comment { color: #408080; font-style: italic }
+code .keyword { color: #008000; font-weight: bold }
+code .string { color: #BA2121 }
+code .integer { color: #666666 }
+code .predefined-type { color: #B00040 }
+code .directive { color: #008000; font-weight: bold }
+code .preprocessor { color: #A0A0A0; font-weight: bold }
+code .include { color: #A0A0A0; font-weight: bold }

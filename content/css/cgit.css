@@ -1,0 +1,798 @@
+#content {
+	margin: 0;
+}
+
+.onecolumn #content {
+	width: 100%;
+}
+
+#content tr td {
+	border: none;
+}
+
+#content table {
+	border: none;
+}
+
+#content input {
+	line-height: normal;
+}
+
+#cgit {
+	line-height: 1em;
+	padding: 0em;
+	margin: 0em;
+	font-family: sans-serif;
+	font-size: .7em;
+	color: #333;
+	background: white;
+	padding: 4px;
+}
+
+#cgit table, form {
+	padding: 0em;
+	margin: 0em;
+}
+
+#cgit a {
+	color: blue;
+	text-decoration: none;
+}
+
+#cgit a:hover {
+	text-decoration: underline;
+}
+
+#cgit table {
+      border-collapse: collapse;
+}
+
+#cgit table#header {
+	width: 100%;
+	margin-bottom: 1em;
+}
+
+#cgit table#header td.logo {
+	display: none;
+	visibility: hidden;
+	width: 96px;
+}
+
+#cgit table#header td.main {
+	font-size: 250%;
+	padding-left: 10px;
+	white-space: nowrap;
+}
+
+#cgit table#header td.main a {
+	color: #000;
+}
+
+#cgit table#header td.form {
+	text-align: right;
+	vertical-align: bottom;
+	padding-right: 1em;
+	padding-bottom: 2px;
+	white-space: nowrap;
+}
+
+#cgit table#header td.form form,
+#cgit table#header td.form input,
+#cgit table#header td.form select {
+	font-size: 90%;
+}
+
+#cgit table#header td.sub {
+	color: #777;
+	/*border-top: solid 1px #ccc;*/
+	padding-left: 10px;
+}
+
+#cgit table.tabs {
+	border-bottom: solid 1px #ccc;
+	border-collapse: collapse;
+	margin-bottom: 0px;
+	width: 100%;
+}
+
+#cgit table.tabs td {
+	padding: 0px 1em;
+	vertical-align: bottom;
+	border: 0px;
+}
+
+#cgit table.tabs td a {
+	padding: 2px 0.75em;
+	color: #777;
+	font-size: 110%;
+}
+
+#cgit table.tabs td a.active {
+	color: #000;
+	background-color: #ccc;
+}
+
+#cgit table.tabs td.form {
+	text-align: right;
+}
+
+#cgit table.tabs td.form form {
+	padding-bottom: 2px;
+	font-size: 90%;
+	white-space: nowrap;
+}
+
+#cgit table.tabs td.form input,
+#cgit table.tabs td.form select {
+	font-size: 90%;
+}
+
+#cgit div.path {
+	margin: 0px;
+	padding: 5px 2em 2px 2em;
+	color: #000;
+	background-color: #eee;
+}
+
+#cgit div.content {
+	margin: 0px;
+	padding: 2em;
+}
+
+
+#cgit table.list {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#cgit table.list tr {
+	background: white;
+}
+
+#cgit table.list tr.logheader {
+	background: #eee;
+}
+
+#cgit table.list tr:hover {
+	background: #eee;
+}
+
+#cgit table.list tr.nohover:hover {
+	background: white;
+}
+
+#cgit table.list th {
+	font-weight: bold;
+	/* color: #888;
+	border-top: dashed 1px #888;
+	border-bottom: dashed 1px #888;
+	*/
+	padding: 0.1em 0.5em 0.05em 0.5em;
+	vertical-align: baseline;
+}
+
+#cgit table.list td {
+	padding: 0.1em 0.5em 0.1em 0.5em;
+}
+
+#cgit table.list td.commitgraph {
+	font-family: monospace;
+	white-space: pre;
+}
+
+#cgit table.list td.commitgraph .column1 {
+	color: #a00;
+}
+
+#cgit table.list td.commitgraph .column2 {
+	color: #0a0;
+}
+
+#cgit table.list td.commitgraph .column3 {
+	color: #aa0;
+}
+
+#cgit table.list td.commitgraph .column4 {
+	color: #00a;
+}
+
+#cgit table.list td.commitgraph .column5 {
+	color: #a0a;
+}
+
+#cgit table.list td.commitgraph .column6 {
+	color: #0aa;
+}
+
+#cgit table.list td.logsubject {
+	font-family: monospace;
+	font-weight: bold;
+}
+
+#cgit table.list td.logmsg {
+	font-family: monospace;
+	white-space: pre;
+	padding: 0 0.5em;
+}
+
+#cgit table.list td a {
+	color: black;
+}
+
+#cgit table.list td a.ls-dir {
+	font-weight: bold;
+	color: #00f;
+}
+
+#cgit table.list td a:hover {
+	color: #00f;
+}
+
+#cgit img {
+	border: none;
+}
+
+#cgit input#switch-btn {
+	margin: 2px 0px 0px 0px;
+}
+
+#cgit td#sidebar input.txt {
+	width: 100%;
+	margin: 2px 0px 0px 0px;
+}
+
+#cgit table#grid {
+	margin: 0px;
+}
+
+#cgit td#content {
+	vertical-align: top;
+	padding: 1em 2em 1em 1em;
+}
+
+#cgit div#summary {
+	vertical-align: top;
+	margin-bottom: 1em;
+}
+
+#cgit table#downloads {
+	float: right;
+	border-collapse: collapse;
+	border: solid 1px #777;
+	margin-left: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+#cgit table#downloads th {
+	background-color: #ccc;
+}
+
+#cgit div#blob {
+	border: solid 1px black;
+}
+
+#cgit div.error {
+	color: red;
+	font-weight: bold;
+	margin: 1em 2em;
+}
+
+#cgit a.ls-blob, a.ls-dir, a.ls-mod {
+	font-family: monospace;
+}
+
+#cgit td.ls-size {
+	text-align: right;
+	font-family: monospace;
+	width: 10em;
+}
+
+#cgit td.ls-mode {
+	font-family: monospace;
+	width: 10em;
+}
+
+#cgit table.blob {
+	margin-top: 0.5em;
+	border-top: solid 1px black;
+}
+
+#cgit table.blob td.lines {
+	margin: 0; padding: 0 0 0 0.5em;
+	vertical-align: top;
+	color: black;
+}
+
+#cgit table.blob td.linenumbers {
+	margin: 0; padding: 0 0.5em 0 0.5em;
+	vertical-align: top;
+	text-align: right;
+	border-right: 1px solid gray;
+}
+
+#cgit table.blob pre {
+	padding: 0; margin: 0;
+}
+
+#cgit table.blob a.no, table.ssdiff a.no {
+	color: gray;
+	text-align: right;
+	text-decoration: none;
+}
+
+#cgit table.blob a.no a:hover {
+	color: black;
+}
+
+#cgit table.bin-blob {
+	margin-top: 0.5em;
+	border: solid 1px black;
+}
+
+#cgit table.bin-blob th {
+	font-family: monospace;
+	white-space: pre;
+	border: solid 1px #777;
+	padding: 0.5em 1em;
+}
+
+#cgit table.bin-blob td {
+	font-family: monospace;
+	white-space: pre;
+	border-left: solid 1px #777;
+	padding: 0em 1em;
+}
+
+#cgit table.nowrap td {
+	white-space: nowrap;
+}
+
+#cgit table.commit-info {
+	border-collapse: collapse;
+	margin-top: 1.5em;
+}
+
+#cgit table.commit-info th {
+	text-align: left;
+	font-weight: normal;
+	padding: 0.1em 1em 0.1em 0.1em;
+	vertical-align: top;
+}
+
+#cgit table.commit-info td {
+	font-weight: normal;
+	padding: 0.1em 1em 0.1em 0.1em;
+}
+
+#cgit div.commit-subject {
+	font-weight: bold;
+	font-size: 125%;
+	margin: 1.5em 0em 0.5em 0em;
+	padding: 0em;
+}
+
+#cgit div.commit-msg {
+	white-space: pre;
+	font-family: monospace;
+}
+
+#cgit div.notes-header {
+	font-weight: bold;
+	padding-top: 1.5em;
+}
+
+#cgit div.notes {
+	white-space: pre;
+	font-family: monospace;
+	border: solid 1px #ee9;
+	background-color: #ffd;
+	padding: 0.3em 2em 0.3em 1em;
+	float: left;
+}
+
+#cgit div.notes-footer {
+	clear: left;
+}
+
+#cgit div.diffstat-header {
+	font-weight: bold;
+	padding-top: 1.5em;
+}
+
+#cgit table.diffstat {
+	border-collapse: collapse;
+	border: solid 1px #aaa;
+	background-color: #eee;
+}
+
+#cgit table.diffstat th {
+	font-weight: normal;
+	text-align: left;
+	text-decoration: underline;
+	padding: 0.1em 1em 0.1em 0.1em;
+	font-size: 100%;
+}
+
+#cgit table.diffstat td {
+	padding: 0.2em 0.2em 0.1em 0.1em;
+	font-size: 100%;
+	border: none;
+}
+
+#cgit table.diffstat td.mode {
+	white-space: nowrap;
+}
+
+#cgit table.diffstat td span.modechange {
+	padding-left: 1em;
+	color: red;
+}
+
+#cgit table.diffstat td.add a {
+	color: green;
+}
+
+#cgit table.diffstat td.del a {
+	color: red;
+}
+
+#cgit table.diffstat td.upd a {
+	color: blue;
+}
+
+#cgit table.diffstat td.graph {
+	width: 500px;
+	vertical-align: middle;
+}
+
+#cgit table.diffstat td.graph table {
+	border: none;
+}
+
+#cgit table.diffstat td.graph td {
+	padding: 0px;
+	border: 0px;
+	height: 7pt;
+}
+
+#cgit table.diffstat td.graph td.add {
+	background-color: #5c5;
+}
+
+#cgit table.diffstat td.graph td.rem {
+	background-color: #c55;
+}
+
+#cgit div.diffstat-summary {
+	color: #888;
+	padding-top: 0.5em;
+}
+
+#cgit table.diff {
+	width: 100%;
+}
+
+#cgit table.diff td {
+	font-family: monospace;
+	white-space: pre;
+}
+
+#cgit table.diff td div.head {
+	font-weight: bold;
+	margin-top: 1em;
+	color: black;
+}
+
+#cgit table.diff td div.hunk {
+	color: #009;
+}
+
+#cgit table.diff td div.add {
+	color: green;
+}
+
+#cgit table.diff td div.del {
+	color: red;
+}
+
+.sha1 {
+	font-family: monospace;
+	font-size: 90%;
+}
+
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
+#cgit table.list td.reposection {
+	font-style: italic;
+	color: #888;
+}
+
+#cgit a.button {
+	font-size: 80%;
+	padding: 0em 0.5em;
+}
+
+#cgit a.primary {
+	font-size: 100%;
+}
+
+#cgit a.secondary {
+	font-size: 90%;
+}
+
+#cgit td.toplevel-repo {
+
+}
+
+#cgit table.list td.sublevel-repo {
+	padding-left: 1.5em;
+}
+
+#cgit div.pager {
+	text-align: center;
+	margin: 1em 0em 0em 0em;
+}
+
+#cgit div.pager a {
+	color: #777;
+	margin: 0em 0.5em;
+}
+
+#cgit span.age-mins {
+	font-weight: bold;
+	color: #080;
+}
+
+#cgit span.age-hours {
+	color: #080;
+}
+
+#cgit span.age-days {
+	color: #040;
+}
+
+#cgit span.age-weeks {
+	color: #444;
+}
+
+#cgit span.age-months {
+	color: #888;
+}
+
+#cgit span.age-years {
+	color: #bbb;
+}
+#cgit div.footer {
+	margin-top: 0.5em;
+	text-align: center;
+	font-size: 80%;
+	color: #ccc;
+}
+#cgit a.branch-deco {
+	margin: 0px 0.5em;
+	padding: 0px 0.25em;
+	background-color: #88ff88;
+	border: solid 1px #007700;
+}
+#cgit a.tag-deco {
+	margin: 0px 0.5em;
+	padding: 0px 0.25em;
+	background-color: #ffff88;
+	border: solid 1px #777700;
+}
+#cgit a.remote-deco {
+	margin: 0px 0.5em;
+	padding: 0px 0.25em;
+	background-color: #ccccff;
+	border: solid 1px #000077;
+}
+#cgit a.deco {
+	margin: 0px 0.5em;
+	padding: 0px 0.25em;
+	background-color: #ff8888;
+	border: solid 1px #770000;
+}
+
+#cgit div.commit-subject a.branch-deco,
+#cgit div.commit-subject a.tag-deco,
+#cgit div.commit-subject a.remote-deco,
+#cgit div.commit-subject a.deco {
+	margin-left: 1em;
+	font-size: 75%;
+}
+
+#cgit table.stats {
+	border: solid 1px black;
+	border-collapse: collapse;
+}
+
+#cgit table.stats th {
+	text-align: left;
+	padding: 1px 0.5em;
+	background-color: #eee;
+	border: solid 1px black;
+}
+
+#cgit table.stats td {
+	text-align: right;
+	padding: 1px 0.5em;
+	border: solid 1px black;
+}
+
+#cgit table.stats td.total {
+	font-weight: bold;
+	text-align: left;
+}
+
+#cgit table.stats td.sum {
+	color: #c00;
+	font-weight: bold;
+/*	background-color: #eee; */
+}
+
+#cgit table.stats td.left {
+	text-align: left;
+}
+
+#cgit table.vgraph {
+	border-collapse: separate;
+	border: solid 1px black;
+	height: 200px;
+}
+
+#cgit table.vgraph th {
+	background-color: #eee;
+	font-weight: bold;
+	border: solid 1px white;
+	padding: 1px 0.5em;
+}
+
+#cgit table.vgraph td {
+	vertical-align: bottom;
+	padding: 0px 10px;
+}
+
+#cgit table.vgraph div.bar {
+	background-color: #eee;
+}
+
+#cgit table.hgraph {
+	border: solid 1px black;
+	width: 800px;
+}
+
+#cgit table.hgraph th {
+	background-color: #eee;
+	font-weight: bold;
+	border: solid 1px black;
+	padding: 1px 0.5em;
+}
+
+#cgit table.hgraph td {
+	vertical-align: middle;
+	padding: 2px 2px;
+}
+
+#cgit table.hgraph div.bar {
+	background-color: #eee;
+	height: 1em;
+}
+
+#cgit table.ssdiff {
+	width: 100%;
+}
+
+#cgit table.ssdiff td {
+	font-size: 75%;
+	font-family: monospace;
+	white-space: pre;
+	padding: 1px 4px 1px 4px;
+	border-left: solid 1px #aaa;
+	border-right: solid 1px #aaa;
+}
+
+#cgit table.ssdiff td.add {
+	color: black;
+	background: #cfc;
+	min-width: 50%;
+}
+
+#cgit table.ssdiff td.add_dark {
+	color: black;
+	background: #aca;
+	min-width: 50%;
+}
+
+#cgit table.ssdiff span.add {
+	background: #cfc;
+	font-weight: bold;
+}
+
+#cgit table.ssdiff td.del {
+	color: black;
+	background: #fcc;
+	min-width: 50%;
+}
+
+#cgit table.ssdiff td.del_dark {
+	color: black;
+	background: #caa;
+	min-width: 50%;
+}
+
+#cgit table.ssdiff span.del {
+	background: #fcc;
+	font-weight: bold;
+}
+
+#cgit table.ssdiff td.changed {
+	color: black;
+	background: #ffc;
+	min-width: 50%;
+}
+
+#cgit table.ssdiff td.changed_dark {
+	color: black;
+	background: #cca;
+	min-width: 50%;
+}
+
+#cgit table.ssdiff td.lineno {
+	color: black;
+	background: #eee;
+	text-align: right;
+	width: 3em;
+	min-width: 3em;
+}
+
+#cgit table.ssdiff td.hunk {
+	color: black;
+	background: #ccf;
+	border-top: solid 1px #aaa;
+	border-bottom: solid 1px #aaa;
+}
+
+#cgit table.ssdiff td.head {
+	border-top: solid 1px #aaa;
+	border-bottom: solid 1px #aaa;
+}
+
+#cgit table.ssdiff td.head div.head {
+	font-weight: bold;
+	color: black;
+}
+
+#cgit table.ssdiff td.foot {
+	border-top: solid 1px #aaa;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+}
+
+#cgit table.ssdiff td.space {
+	border: none;
+}
+
+#cgit table.ssdiff td.space div {
+	min-height: 3em;
+}
+
+/* Syntax highlighting */
+#cgit table.blob .num  { color:#2928ff; }
+#cgit table.blob .esc  { color:#ff00ff; }
+#cgit table.blob .str  { color:#ff0000; }
+#cgit table.blob .dstr { color:#818100; }
+#cgit table.blob .slc  { color:#838183; font-style:italic; }
+#cgit table.blob .com  { color:#838183; font-style:italic; }
+#cgit table.blob .dir  { color:#008200; }
+#cgit table.blob .sym  { color:#000000; }
+#cgit table.blob .kwa  { color:#000000; font-weight:bold; }
+#cgit table.blob .kwb  { color:#830000; }
+#cgit table.blob .kwc  { color:#000000; font-weight:bold; }
+#cgit table.blob .kwd  { color:#010181; }

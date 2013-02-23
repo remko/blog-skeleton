@@ -1,0 +1,16 @@
+<div class="single">
+	<div class="post hentry">
+		<h1 class="entry-title"><%= @item[:title] %></h1>
+		<div class="entry-meta">
+      <span class="meta-prep meta-prep-author">Posted on</span> <a href="<%= @item.path %>" rel="bookmark"><span class="entry-date"><%= Date.parse(@item[:created_at]).strftime("%B %d, %Y") %></span></a> <span class="meta-sep">by</span> <span class="author vcard"><%= @config[:author_name] %></span>
+		</div>
+		<div class="entry-content">
+			<%= yield %>
+		</div>
+		<div class="entry-utility">
+      This page was posted in <%= category_links(@item) %> with tags <%= tag_links(@item) %>.
+		</div>
+	</div>
+</div>
+
+<%= render "include/disqus" %>

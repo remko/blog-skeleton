@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="author" content="<%= @config[:author_name] %>" />
+		<%= render "include/twitter_card" %>
+		<% if item.identifier == "/" %>
+		<title><%= @item[:title] %></title>
+		<link rel="openid2.provider" href="https://www.google.com/accounts/o8/ud" />
+		<% else %>
+		<title><%= @item[:title] %> | <%= @config[:site_title] %></title>
+		<% end %>
+		<link rel="alternate" type="application/atom+xml" href="<%= @item[:feed] %>" />
+		<link rel="stylesheet" type="text/css" href="/css/twentyten.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/code.css"/>
+		<link rel="stylesheet" href="http://www.google.com/cse/style/look/default.css" type="text/css" />
+	</head>
+
+	<body class="home blog <%= @item[:no_sidebar] ? 'onecolumn ' : '' %> <%= @item[:archive] ? 'paged ' : '' %>">
+		<div id="wrapper" class="hfeed">
+			<div id="header">
+				<div id="masthead">
+					<div id="branding">
+						<h1 id="site-title"><span><a href="/"><%= @config[:site_title] %></a></span></h1>
+						<div id="site-description"><%= @config[:site_subtitle] %></div>
+						<img src="/img/header.jpg" width="940" height="198" alt="Banner"/>
+					</div>
+					<%= render "include/menu" %>
+				</div>
+			</div>
+
+			<div id="main">
+				<div id="container">
+					<div id="content">
+						<%= yield %>
+					</div>
+				</div>
+
+				<% unless @item[:no_sidebar] %>
+				<div id="primary" class="widget-area">
+					<ul class="xoxo">
+						<li class="widget-container widget_categories">
+							<h3 class="widget-title">Categories</h3>
+							<ul>
+								<%= category_list %>
+							</ul>
+						</li>
+						<%= render "include/book" %>
+					</ul>
+				</div>
+				<% end %>
+			</div>
+
+			<div id="footer">
+				<div id="colophon">
+					<div id="site-info">
+						<a href="/" title="<%= @config[:site_title] %>" rel="home"><%= @config[:site_title] %></a>
+					</div>
+					<div id="site-generator">
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>

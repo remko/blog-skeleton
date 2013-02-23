@@ -1,0 +1,41 @@
+.twtr-widget h3, h4 {
+		clear: none;
+}
+
+.twtr-ft span { visibility: hidden; display: none; }
+
+#dsq-content h3 { visibility: hidden; display: none; }
+#dsq-subscribe { visibility: hidden; display: none; }
+#dsq-sort-by { visibility: hidden; display: none; }
+#dsq-like-tooltip { visibility: hidden; display: none; }
+.dsq-like-thread { visibility: hidden; display: none; }
+.dsq-dislike-thread { visibility: hidden; display: none; }
+.dsq-trackback-url { visibility: hidden; display: none; }
+
+.onecolumn #content {
+	width: 95%;
+}
+
+/* Gallery index */
+div.gallery-index ul {
+	position: relative;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+div.gallery-index li {
+	float: left;
+	padding: 0;
+	margin: 2px;
+	list-style: none;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	text-align: center;
+	width: 200px;
+}
+
+/* Override 'c' class for pygments */
+code.c {
+	font-style: normal;
+	color: black;
+}

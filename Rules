@@ -1,0 +1,171 @@
+#!/usr/bin/env ruby
+
+################################################################################
+# Preprocessing
+################################################################################
+
+preprocess do
+	# Everything in my blog/ dir is an article.
+	# Derive the date from the filename (for Jekyll-style post naming)
+	@items.each do |item|
+		if /\/blog\/[^\/]*\/$/.match(item.identifier)
+			item[:kind] = "article"
+			item[:layout] = "post"
+			unless item[:created_at] 
+				if m = /blog\/(\d\d\d\d-\d\d-\d\d)/.match(item.identifier)
+					item[:created_at] = m[1]
+				end
+			end
+		end
+	end
+
+	# Create paginated article pages (including front page)
+	articles_to_paginate = sorted_articles
+	article_groups = []
+	until articles_to_paginate.empty?
+			article_groups << articles_to_paginate.slice!(0..@config[:page_size]-1)
+	end
+	article_groups.each_with_index do |subarticles, i|
+			first = i*config[:page_size] + 1
+			last	= (i+1)*config[:page_size]
+			if i == 0
+				title = "#{@config[:site_title]} | #{@config[:site_subtitle]}"
+				id = "/"
+			else
+				title = "Archive (posts #{first} to #{last})"
+				id = "/blog/page#{i+1}"
+			end
+			items << Nanoc::Item.new("<%= render 'include/blog_page', :item_id => #{i} %>", { 
+				:title => title, :created_at => DateTime.now, :archive => true }, id)
+	end
+
+	# Add top feed to all items
+	@items.each do |item|
+		unless item[:feed]
+			item[:feed] = "/feed/"
+		end
+	end
+
+	# Add tag/category pages and their feed (using an ugly loop)
+	["Category", "Tag"].zip([all_article_categories, all_article_tags]) do |i|
+		type = i[0]
+		i[1].each do |name|
+			escaped_name = name.gsub(/'/, "\\\\\'")
+			path = "/blog/#{type.downcase}/#{slugify(name)}"
+			articles = "articles_with_#{type.downcase}('#{escaped_name}')"
+			items << Nanoc::Item.new("<%= render 'include/posts', :posts => #{articles} %>", {
+				:title => "#{type}: #{escaped_name}",
+				:created_at => DateTime.now,
+				:feed => "#{path}/feed/"
+			}, "#{path}")
+			items << Nanoc::Item.new("<%= atom_feed :title => '#{@config[:site_title]} | #{escaped_name}', :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :limit => 10 %>", {}, "#{path}/feed")
+		end
+	end
+end
+
+
+################################################################################
+# Feeds
+################################################################################
+
+compile %r<.*/feed/> do
+	filter :erb
+end
+
+route %r<.*/feed/> do
+	item.identifier + 'index.xml'
+end
+
+
+################################################################################
+# Blog
+################################################################################
+
+# Excerpts with a "Read More ..." link
+compile '/blog/*', :rep => :linked_excerpt do
+	unless item.binary?
+		if item[:extension] == "md" or item[:extension] == "markdown"
+			filter :rdiscount, :extensions => [:smart]
+		end
+		filter :more_filter, :more_url => item.path
+	end
+end
+
+route '/blog/*', :rep => :linked_excerpt do
+end
+
+route '/blog/*' do
+	if item.binary? or item.identifier.end_with? "index"
+		item.identifier.chop + '.' + item[:extension]
+	else
+		item.identifier.gsub(/\d\d\d\d-\d\d-\d\d-/, '') + 'index.html'
+	end
+end
+
+
+################################################################################
+# Git
+################################################################################
+
+# Create a representation for only the top and only the bottom of a dummy page.
+# These will be included by CGit as header/footers.
+compile '/git', :rep => :top do
+	layout 'default'
+	filter :split_filter, :delimiter => "<!-- CONTENT -->", :keep => :top
+end
+
+compile '/git', :rep => :bottom do
+	layout 'default'
+	filter :split_filter, :delimiter => "<!-- CONTENT -->", :keep => :bottom
+end
+
+route '/git', :rep => :top do
+	item.identifier + 'top.html'
+end
+
+route '/git', :rep => :bottom do
+	item.identifier + 'bottom.html'
+end
+
+
+################################################################################
+# Files that need to be preserved as-is
+################################################################################
+
+compile '/blank' do
+end
+
+route '/blank' do
+	item.identifier.chop + '.' + item[:extension]
+end
+
+
+################################################################################
+# Default handling
+################################################################################
+
+compile '*' do
+	unless item.binary?
+		filter :erb
+		if item[:extension] == "md" or item[:extension] == "markdown"
+			filter :rdiscount, :extensions => [:smart]
+		end
+		snapshot :filtered_contents
+		filter :colorize_syntax, :coderay => { :tab_width => 2 }
+		if item[:layout] 
+			layout item[:layout]
+		end
+		layout 'default'
+	end
+end
+
+route '*' do
+	if item.binary? or item.identifier.end_with? "index"
+		item.identifier.chop + '.' + item[:extension]
+	else
+		# Write item with identifier /foo/ to /foo/index.html
+		item.identifier + 'index.html'
+	end
+end
+
+layout '*', :erb

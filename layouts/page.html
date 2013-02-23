@@ -1,0 +1,11 @@
+<div class="page hentry">
+  <h1 class="entry-title"><%= @item[:title] %></h1>
+  <div class=entry-content">
+		<%= yield %>
+  </div>
+</div>
+
+
+<% unless @item[:no_comments] %>
+<%= render "include/disqus" %>
+<% end %>

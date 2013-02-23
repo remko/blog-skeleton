@@ -1,0 +1,14 @@
+<div class="post hentry">
+  <h1 class="entry-title"><%= link_to post[:title], post.path %></h1>
+	<div class="entry-meta">
+    <span class="meta-prep meta-prep-author">Posted on</span> <a href="<%= post.path %>" rel="bookmark"><span class="entry-date"><%= Date.parse(post[:created_at]).strftime("%B %d, %Y") %></span></a> <span class="meta-sep">by</span> <span class="author vcard"><%= @config[:author_name] %></span>
+	</div>
+
+	<div class="entry-content">
+		<%= post.rep_named(:linked_excerpt).compiled_content %>
+	</div>
+
+	<div class="entry-utility">
+    Posted in <%= category_links(post) %> with tags <%= tag_links(post) %>
+	</div>
+</div>
