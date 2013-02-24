@@ -1,16 +1,34 @@
 include Nanoc::Helpers::LinkTo
+include Nanoc::Helpers::Tagging
 
 module TagsCategoriesHelper
-	def tag_links(item) 
-		links(item[:tags], "tag")
+	require 'nanoc/helpers/html_escape'
+	include Nanoc::Helpers::HTMLEscape
+
+	def slugify(text) 
+		text.downcase.gsub(" ", "-").gsub("'","-")
+	end
+
+	# Overriding the built-in tags_for
+	def tags_for(item, params = {}) 
+		links_for(item[:tags], params.update(:rel => "tag"))
+	end
+
+	# Overriding the built-in link_for_tag
+	def link_for_tag(tag, params = {}) 
+		link_for(tag, "tag", params)
+	end
+
+	def tag_links(item)
+		tags_for item, :base_url => "/blog/tag/", :rel => "tag"
 	end
 
 	def category_links(item) 
-		links(item[:categories], "category")
+		links_for(item[:categories], :base_url => "/blog/category/", :rel => "category")
 	end
 
 	def category_list
-		"<ul>" + all_article_categories.map{|i| "<li>" + link(i, "category") + "</li>"}.join("\n") + "</ul>"
+		"<ul>" + all_article_categories.map{|i| "<li>" + link_for(i, "category", "/blog/category/") + "</li>"}.join("\n") + "</ul>"
 	end
 
 	def all_article_categories
@@ -29,17 +47,18 @@ module TagsCategoriesHelper
 		sorted_articles.select{|i| i[:tags] and i[:tags].include?(tag)}
 	end
 
-	def slugify(text) 
-		text.downcase.gsub(" ", "-").gsub("'","-")
-	end
-
 	private
-		def links(items, prefix)
-			items.map{|x| link(x, prefix)}.join(", ")
+		def link_for(name, rel, base_url)
+			%[<a href="#{h base_url}#{h slugify(name)}" rel="#{rel}">#{h name}</a>]
 		end
 
-		def link(name, prefix)
-			link_to(name, "/blog/" + prefix + "/" + slugify(name))
+		def links_for(values, params = {})
+			if values.empty?
+				"(none)"
+			else
+				values.map {|v| link_for(v, params[:rel], params[:base_url]) }.join(", ")
+			end
 		end
+
 end
 

@@ -50,15 +50,14 @@ preprocess do
 	["Category", "Tag"].zip([all_article_categories, all_article_tags]) do |i|
 		type = i[0]
 		i[1].each do |name|
-			escaped_name = name.gsub(/'/, "\\\\\'")
 			path = "/blog/#{type.downcase}/#{slugify(name)}"
-			articles = "articles_with_#{type.downcase}('#{escaped_name}')"
+			articles = "articles_with_#{type.downcase}(\"#{name}\")"
 			items << Nanoc::Item.new("<%= render 'include/posts', :posts => #{articles} %>", {
-				:title => "#{type}: #{escaped_name}",
+				:title => "#{type}: #{name}",
 				:created_at => DateTime.now,
 				:feed => "#{path}/feed/"
 			}, "#{path}")
-			items << Nanoc::Item.new("<%= atom_feed :title => '#{@config[:site_title]} | #{escaped_name}', :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :limit => 10 %>", {}, "#{path}/feed")
+			items << Nanoc::Item.new("<%= atom_feed :title => \"#{@config[:site_title]} | #{name}\", :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :limit => 10 %>", {}, "#{path}/feed")
 		end
 	end
 end

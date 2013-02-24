@@ -47,6 +47,11 @@
 							</ul>
 						</li>
 						<%= render "include/book" %>
+
+						<li class="widget-container widget_categories">
+							<h3 class="widget-title">Tags</h3>
+							<%= tag_cloud "/blog/tag/", :link_for_tag => lambda {|x,y| link_for_tag(x,y) } %>
+						</li>
 					</ul>
 				</div>
 				<% end %>
