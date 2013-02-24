@@ -76,6 +76,10 @@ watcher:
   notify_on_compilation_success: true
   notify_on_compilation_failure: true
 
+checks:
+  internal_links:
+    exclude: ['^/postwic', '^/files']
+
 
 # Extra configuration
 base_url : "http://el-tramo.be"
@@ -86,6 +90,7 @@ author_name: "Remko Tronçon"
 author_uri: "http://el-tramo.be/about"
 author_twitter_id: "803083"
 disqus_shortname: "el-tramo"
+github_id: "remko"
 
 deploy:
   default:

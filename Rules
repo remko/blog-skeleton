@@ -69,6 +69,7 @@ end
 
 compile %r<.*/feed/> do
 	filter :erb
+	filter :git_link_filter
 end
 
 route %r<.*/feed/> do
@@ -87,6 +88,7 @@ compile '/blog/*', :rep => :linked_excerpt do
 			filter :rdiscount, :extensions => [:smart]
 		end
 		filter :more_filter, :more_url => item.path
+		filter :git_link_filter
 	end
 end
 
@@ -155,6 +157,7 @@ compile '*' do
 			layout item[:layout]
 		end
 		layout 'default'
+		filter :git_link_filter
 	end
 end
 
