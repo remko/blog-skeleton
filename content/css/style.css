@@ -39,3 +39,7 @@ code.c {
 	font-style: normal;
 	color: black;
 }
+
+#access li.menu-item-separator {
+	border-bottom: 1px solid gray;
+}

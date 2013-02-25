@@ -1,6 +1,6 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:creator:id" content="<%= @config[:author_twitter_id] %>"/>
-<% if item.identifier == "/" or @item[:archive] %>
+<% if @item[:kind] == "article_list" %>
 <meta name="twitter:title" content="<%= @config[:site_title] %>"/>
 <meta name="twitter:description" content="<%= @config[:site_subtitle] %>"/>
 <meta name="twitter:url" content="<%= @config[:base_url] %>"/>

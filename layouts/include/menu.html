@@ -1,7 +1,12 @@
 <div id="access">
 	<div class="menu-header">
 		<ul class="menu">
-			<li class="menu-item"><a href="/">Blog</a></li>
+			<li class="menu-item"><a href="/">Blog</a>
+				<ul class="sub-menu">
+					<li class="menu-item menu-item-separator"><a href="/">All Categories</a></li>
+					<%= category_menu %>
+				</ul>
+			</li>
 			<li class="menu-item"><a href="">Software</a>
 				<ul class="sub-menu">
 					<li class="menu-item"><a href="http://swift.im">Swift IM</a></li>

@@ -36,7 +36,7 @@ preprocess do
 				id = "/blog/page#{i+1}"
 			end
 			items << Nanoc::Item.new("<%= render 'include/blog_page', :item_id => #{i} %>", { 
-				:title => title, :created_at => DateTime.now, :archive => true }, id)
+				:title => title, :created_at => DateTime.now, :paged => true, :kind => "article_list" }, id)
 	end
 
 	# Add top feed to all items
@@ -46,16 +46,16 @@ preprocess do
 		end
 	end
 
-	# Add tag/category pages and their feed (using an ugly loop)
-	["Category", "Tag"].zip([all_article_categories, all_article_tags]) do |i|
-		type = i[0]
-		i[1].each do |name|
+	# Add tag/category pages and their feed
+	["Category", "Tag"].zip([all_article_categories, all_article_tags]) do |(type, names)|
+		names.each do |name|
 			path = "/blog/#{type.downcase}/#{slugify(name)}"
 			articles = "articles_with_#{type.downcase}(\"#{name}\")"
 			items << Nanoc::Item.new("<%= render 'include/posts', :posts => #{articles} %>", {
 				:title => "#{type}: #{name}",
 				:created_at => DateTime.now,
-				:feed => "#{path}/feed/"
+				:feed => "#{path}/feed/",
+				:kind => "article_list"
 			}, "#{path}")
 			items << Nanoc::Item.new("<%= atom_feed :title => \"#{@config[:site_title]} | #{name}\", :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :limit => 10 %>", {}, "#{path}/feed")
 		end

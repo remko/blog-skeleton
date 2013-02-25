@@ -1,1 +1,1 @@
-deploy_check :stale
+deploy_check :stale, :ilinks

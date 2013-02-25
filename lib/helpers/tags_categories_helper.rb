@@ -1,5 +1,6 @@
 include Nanoc::Helpers::LinkTo
 include Nanoc::Helpers::Tagging
+include Nanoc::Helpers::Blogging
 
 module TagsCategoriesHelper
 	require 'nanoc/helpers/html_escape'
@@ -27,16 +28,16 @@ module TagsCategoriesHelper
 		links_for(item[:categories], :base_url => "/blog/category/", :rel => "category")
 	end
 
-	def category_list
-		"<ul>" + all_article_categories.map{|i| "<li>" + link_for(i, "category", "/blog/category/") + "</li>"}.join("\n") + "</ul>"
+	def category_menu
+		all_article_categories.map{|i| "<li class=\"menu-item\">" + link_for(i, "category", "/blog/category/") + "</li>"}.join("\n")
 	end
 
 	def all_article_categories
-		@items.map{|i| i[:categories]}.flatten.uniq.compact.sort
+		articles.map{|i| i[:categories]}.flatten.uniq.compact.sort
 	end
 
 	def all_article_tags
-		@items.map{|i| i[:tags]}.flatten.uniq.compact.sort
+		articles.map{|i| i[:tags]}.flatten.uniq.compact.sort
 	end
 
 	def articles_with_category(category) 

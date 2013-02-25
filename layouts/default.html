@@ -17,7 +17,7 @@
 		<link rel="stylesheet" href="http://www.google.com/cse/style/look/default.css" type="text/css" />
 	</head>
 
-	<body class="home blog <%= @item[:no_sidebar] ? 'onecolumn ' : '' %> <%= @item[:archive] ? 'paged ' : '' %>">
+	<body class="home blog <%= @item[:no_sidebar] ? 'onecolumn ' : '' %> <%= @item[:paged] ? 'paged ' : '' %>">
 		<div id="wrapper" class="hfeed">
 			<div id="header">
 				<div id="masthead">
@@ -40,18 +40,18 @@
 				<% unless @item[:no_sidebar] %>
 				<div id="primary" class="widget-area">
 					<ul class="xoxo">
-						<li class="widget-container widget_categories">
-							<h3 class="widget-title">Categories</h3>
-							<ul>
-								<%= category_list %>
-							</ul>
-						</li>
-						<%= render "include/book" %>
-
+						<% if ["article_list", "article"].include? @item[:kind] %>
 						<li class="widget-container widget_categories">
 							<h3 class="widget-title">Tags</h3>
 							<%= tag_cloud "/blog/tag/", :link_for_tag => lambda {|x,y| link_for_tag(x,y) } %>
 						</li>
+						<% end %>
+
+						<%= render "include/book" %>
+
+						<% if @item.identifier == "/" %>
+						<%= render "include/twitter_timeline" %>
+						<% end %>
 					</ul>
 				</div>
 				<% end %>
