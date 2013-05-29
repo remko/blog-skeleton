@@ -1,11 +1,13 @@
-# My Nanoc Blog Skeleton
+# [My Nanoc Blog Skeleton](http://el-tramo.be/software/blog)
 
-This repository contains the skeleton and code for my [nanoc](http://nanoc.ws)-based blog,
+## About
+
+This is the skeleton and code for my [nanoc](http://nanoc.ws)-based blog,
 hosted at <http://el-tramo.be>. 
 More information about this code can be found in my [blog post](http://el-tramo.be/blog/wordpress-to-nanoc).
 
 
-## Dependencies
+## Requirements
 
 The following Ruby gems are required to compile the site:
 
