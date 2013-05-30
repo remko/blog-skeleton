@@ -11,6 +11,7 @@ preprocess do
 		if /\/blog\/[^\/]*\/$/.match(item.identifier)
 			item[:kind] = "article"
 			item[:layout] = "post"
+			item[:comments] = true
 			unless item[:created_at] 
 				if m = /blog\/(\d\d\d\d-\d\d-\d\d)/.match(item.identifier)
 					item[:created_at] = m[1]
@@ -73,7 +74,15 @@ compile %r<.*/feed/> do
 end
 
 route %r<.*/feed/> do
-	item.identifier + 'index.xml'
+	# Not right, because it won't be served with the correct MIME type.
+	# Better would be:
+	#   item.identifier + 'index.xml'
+	# but some webservers don't handle multiple index files. 
+	#
+	# Should replace this later with:
+	#   item.identifier.chop + '.xml'
+	# and set up redirects from the old feed URLs.
+	item.identifier + 'index.html'
 end
 
 
@@ -133,10 +142,12 @@ end
 # Files that need to be preserved as-is
 ################################################################################
 
-compile '/blank' do
+preserved = %r</(blank/.*)|(eclipse/.+)>
+
+compile preserved do
 end
 
-route '/blank' do
+route preserved do
 	item.identifier.chop + '.' + item[:extension]
 end
 
@@ -156,7 +167,7 @@ compile '*' do
 		if item[:layout] 
 			layout item[:layout]
 		end
-		layout 'default'
+		layout 'default' unless item[:no_default_layout] 
 		filter :git_link_filter
 	end
 end

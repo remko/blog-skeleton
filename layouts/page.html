@@ -6,6 +6,6 @@
 </div>
 
 
-<% unless @item[:no_comments] %>
+<% if @item[:comments] %>
 <%= render "include/disqus" %>
 <% end %>
