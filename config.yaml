@@ -78,7 +78,7 @@ watcher:
 
 checks:
   internal_links:
-    exclude: ['^/postwic', '^/files']
+    exclude: ['^/postwic']
 
 
 # Extra configuration
