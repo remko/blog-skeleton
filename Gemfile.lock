@@ -1,0 +1,32 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    adsf (1.1.1)
+      rack (>= 1.0.0)
+    builder (3.2.0)
+    coderay (1.0.9)
+    colored (1.2)
+    cri (2.3.0)
+      colored (>= 1.2)
+    htmlentities (4.3.1)
+    mime-types (1.23)
+    nanoc (3.6.3)
+      cri (~> 2.3)
+    nokogiri (1.5.9)
+    rack (1.5.2)
+    rdiscount (2.0.7.3)
+    systemu (2.5.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  adsf
+  builder
+  coderay
+  htmlentities
+  mime-types
+  nanoc
+  nokogiri
+  rdiscount
+  systemu
