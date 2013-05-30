@@ -43,3 +43,7 @@ code.c {
 #access li.menu-item-separator {
 	border-bottom: 1px solid gray;
 }
+
+.screenshots {
+	text-align: center;
+}
