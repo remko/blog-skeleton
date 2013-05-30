@@ -1,30 +1,30 @@
-# [My Nanoc Blog Skeleton](http://el-tramo.be/software/blog)
+# My Nanoc Blog Skeleton
 
-## About
-
-This is the skeleton and code for my [nanoc](http://nanoc.ws)-based blog,
+This repository contains the skeleton and code for my [nanoc](http://nanoc.ws)-based blog,
 hosted at <http://el-tramo.be>. 
 More information about this code can be found in my [blog post](http://el-tramo.be/blog/wordpress-to-nanoc).
 
 
-## Requirements
+## Dependencies
 
-The following Ruby gems are required to compile the site:
+The Ruby gem `bundler` is used to manage the dependencies of the
+site on other Gems. After installing the `bundler` gem, run
 
-- nanoc
-- rdiscount
-- builder
-- mime-types
-- nokogiri
-- htmlentities
-- systemu
-- coderay
-- adsf
+    bundle install
+
+To install all required gems.
 
 
 ## Usage
 
 - Compiling the site: `nanoc compile`
 - Viewing (start a local webserver): `nanoc view`
-- Checking: `nanoc check ilinks`
-- Deploying: `nanoc view`
+- Checking: `nanoc check --deploy`
+- Deploying: `nanoc deploy`
+
+Alternatively, you can use `rake` to perform these (and other)
+tasks. For a full list of tasks, run
+
+    rake --tasks
+
+
