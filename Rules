@@ -74,15 +74,7 @@ compile %r<.*/feed/> do
 end
 
 route %r<.*/feed/> do
-	# Not right, because it won't be served with the correct MIME type.
-	# Better would be:
-	#   item.identifier + 'index.xml'
-	# but some webservers don't handle multiple index files. 
-	#
-	# Should replace this later with:
-	#   item.identifier.chop + '.xml'
-	# and set up redirects from the old feed URLs.
-	item.identifier + 'index.html'
+	item.identifier.chop + '.xml'
 end
 
 
