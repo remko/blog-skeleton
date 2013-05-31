@@ -14,6 +14,8 @@ site on other Gems. After installing the `bundler` gem, run
 
 To install all required gems.
 
+If you want to deploy to Amazon S3 (using the `deploy_aws` task), you also 
+need [s3cmd] (http://s3tools.org/s3cmd).
 
 ## Usage
 
