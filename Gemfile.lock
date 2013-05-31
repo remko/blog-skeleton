@@ -14,7 +14,7 @@ GEM
       cri (~> 2.3)
     nokogiri (1.5.9)
     rack (1.5.2)
-    rdiscount (2.0.7.3)
+    rdiscount (2.1.6)
     systemu (2.5.2)
 
 PLATFORMS
