@@ -2,8 +2,11 @@
 # This is used by 'rake update_software' to generate
 # project pages.
 
-project 'retjilp', :add_download_section => false
-project 'blog'
+project 'retjilp', :extra_download_links => [
+	"[Ruby Gem](https://rubygems.org/gems/retjilp)"
+]
+project 'blog-skeleton'
+project 'jsnprsr'
 project 'atomail'
 project 'wigit'
 project 'docbook-kit'
@@ -11,8 +14,9 @@ project 'be-non-apple'
 project 'ecppunit', :extra_download_links => [
 	"[Eclipse Plugin Repository](/eclipse)"
 ]
+project 'scons2ninja'
 project 'lgmtray', :extra_download_links => [
-	"[Static Linux/i386 binary](/software/lgmtray/lgmtray-0.1.linux.i386.bz2)"
+	"[Static Linux/i386 binary](/lgmtray/lgmtray-0.1.linux.i386.bz2)"
 ]
 project 'fancy-dmg'
 project 'xmpp-tdg-examples', :add_download_section => false
@@ -24,3 +28,5 @@ project 'svnfeed'
 project 'identica-badge'
 project 'qttestutil'
 project 'twitcoop'
+project 'crystal-im'
+project 'toys'

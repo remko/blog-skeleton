@@ -12,10 +12,8 @@ preprocess do
 			item[:kind] = "article"
 			item[:layout] = "post"
 			item[:comments] = true
-			unless item[:created_at] 
-				if m = /blog\/(\d\d\d\d-\d\d-\d\d)/.match(item.identifier)
-					item[:created_at] = m[1]
-				end
+			if not item[:created_at] and m = /blog\/(\d{4}-\d{2}-\d{2})/.match(item.identifier)
+				item[:created_at] = m[1]
 			end
 		end
 	end
@@ -24,42 +22,48 @@ preprocess do
 	articles_to_paginate = sorted_articles
 	article_groups = []
 	until articles_to_paginate.empty?
-			article_groups << articles_to_paginate.slice!(0..@config[:page_size]-1)
+		article_groups << articles_to_paginate.slice!(0..@config[:page_size]-1)
 	end
 	article_groups.each_with_index do |subarticles, i|
-			first = i*config[:page_size] + 1
-			last	= (i+1)*config[:page_size]
-			if i == 0
-				title = "#{@config[:site_title]} | #{@config[:site_subtitle]}"
-				id = "/"
-			else
-				title = "Archive (posts #{first} to #{last})"
-				id = "/blog/page#{i+1}"
-			end
-			items << Nanoc::Item.new("<%= render 'include/blog_page', :item_id => #{i} %>", { 
-				:title => title, :created_at => DateTime.now, :paged => true, :kind => "article_list" }, id)
+		first = i*config[:page_size] + 1
+		last = (i+1)*config[:page_size]
+		if i == 0
+			title = "#{@config[:site_title]} | #{@config[:site_subtitle]}"
+			id = "/"
+		else
+			title = "Archive (posts #{first} to #{last})"
+			id = "/blog/page#{i+1}"
+		end
+		items << Nanoc::Item.new("<%= render 'include/blog_page', :item_id => #{i} %>", { 
+			:title => title, :created_at => DateTime.now, :paged => true, :kind => "article_list" }, id)
 	end
 
 	# Add top feed to all items
-	@items.each do |item|
-		unless item[:feed]
-			item[:feed] = "/feed/"
-		end
-	end
+	@items.each { |item| item[:feed] = (item[:feed] || "/feed.xml") }
 
-	# Add tag/category pages and their feed
+	# Add tag/category pages (and their feed)
 	["Category", "Tag"].zip([all_article_categories, all_article_tags]) do |(type, names)|
 		names.each do |name|
 			path = "/blog/#{type.downcase}/#{slugify(name)}"
 			articles = "articles_with_#{type.downcase}(\"#{name}\")"
-			items << Nanoc::Item.new("<%= render 'include/posts', :posts => #{articles} %>", {
+			attributes = {
 				:title => "#{type}: #{name}",
 				:created_at => DateTime.now,
-				:feed => "#{path}/feed/",
-				:kind => "article_list"
-			}, "#{path}")
-			items << Nanoc::Item.new("<%= atom_feed :title => \"#{@config[:site_title]} | #{name}\", :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :limit => 10 %>", {}, "#{path}/feed")
+				:kind => "article_list",
+				:feed => "/feed.xml",
+			}
+
+			# Add feed for specific topics
+			if %w(xmpp jabber).include?(name.downcase)
+				attributes[:feed] = "#{path}/feed.xml"
+				items << Nanoc::Item.new("<%= atom_feed :title => \"#{@config[:site_title]} | #{name}\", :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :limit => 10 %>", {:kind => "feed"}, "#{path}/feed")
+			end
+
+			items << Nanoc::Item.new("<%= render 'include/posts', :posts => #{articles} %>", attributes, "#{path}")
 		end
+
+		# Hide some items
+		@items.each { |item| item[:is_hidden] = true if %r<^/google\w{16}/>.match(item.identifier) }
 	end
 end
 
@@ -134,7 +138,7 @@ end
 # Files that need to be preserved as-is
 ################################################################################
 
-preserved = %r</(blank/.*)|(eclipse/.+)>
+preserved = %r</(blank/.*)|(eclipse/.+)|^/google\w{16}/>
 
 compile preserved do
 end
@@ -155,7 +159,7 @@ compile '*' do
 			filter :rdiscount, :extensions => [:smart]
 		end
 		snapshot :filtered_contents
-		filter :colorize_syntax, :coderay => { :tab_width => 2 }
+		filter :colorize_syntax, :coderay => { :tab_width => 2 }, :syntax => :html
 		if item[:layout] 
 			layout item[:layout]
 		end

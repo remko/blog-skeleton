@@ -11,29 +11,29 @@
 require 'net/http'
 
 GIT_URL_PREFIX = "https://raw.github.com/remko"
-PROJECT_PAGE_PREFIX = "content/software"
-PROJECT_INDEX = "content/software/index.md"
+PROJECT_PAGE_PREFIX = "content"
+PROJECT_INDEX = "content/software.md"
 
 # Helper for creating & tracking projects
 $projects = []
 def project(id, opts = {})
 	$projects << {
 		:id => id, 
-		:url => "/software/#{id}", 
+		:url => "/#{id}", 
 		:generate_page => true,
 		:add_download_section => true,
 		:extra_download_links => [] }.merge(opts)
 end
 
 # Read all projects
-eval File.open('software_projects').read
+eval File.open('software_projects.rb').read
 
 # Download the README.md file for the given project from 
 # the Git repo
 def get_readme(project)
 	url = "#{GIT_URL_PREFIX}/#{project}/master/README.md"
 	response = Net::HTTP.get_response(URI.parse(url))
-	response.class == Net::HTTPOK ? response.body : nil
+	response.class == Net::HTTPOK ? response.body.force_encoding("UTF-8") : nil
 end
 
 # Parse a README.md, and return a hash with information 
@@ -60,13 +60,13 @@ def add_screenshots_section(project)
 	section << "<div class='screenshots'>\n"
 	if screenshot_thumbs.empty?
 		screenshots.each do |img|
-			section << "<img src='/software/#{project[:id]}/#{File.basename(img)}'/> "
+			section << "<img src='/#{project[:id]}/#{File.basename(img)}'/> "
 		end
 	else
 		screenshot_thumbs.each do |img|
 			section \
-				<< "<a href='/software/#{project[:id]}/#{File.basename(img).gsub(/\.thumb/, '')}'>" \
-				<< "<img src='/software/#{project[:id]}/#{File.basename(img)}'/>" \
+				<< "<a href='/#{project[:id]}/#{File.basename(img).gsub(/\.thumb/, '')}'>" \
+				<< "<img src='/#{project[:id]}/#{File.basename(img)}'/>" \
 				<< "</a> "
 		end
 	end
@@ -85,7 +85,7 @@ def add_download_section(project)
 	index = contents.index(/^## Requirements/)
 	index = contents.index(/^## Prerequisites/) unless index
 	index = contents.index(/^## About/) unless index
-	index = contents.index(/^## /, index + 1)
+	index = contents.index(/^## /, index + 1) if index
 	if index
 		contents.insert(index, section)
 	else
@@ -99,6 +99,7 @@ task :update_software do
 ---
 title: Software
 layout: page
+generated: true
 ---
 This is a list of all my software projects:
 
@@ -114,15 +115,16 @@ EOS
 ---
 title: "#{project[:title].gsub(/"/,"\\\"")}"
 layout: page
+generated: true
 ---
 EOS
 			add_download_section(project)
 			add_screenshots_section(project)
 			project_page << project[:body]
-			File.open("#{PROJECT_PAGE_PREFIX}/#{project[:id]}.md", "w") do
-				|f| f.write project_page
-			end
+			project_prefix = "#{PROJECT_PAGE_PREFIX}/#{project[:id]}"
+			project_page_file = Dir.exists?("#{project_prefix}") ? "#{project_prefix}/index.md" : "#{project_prefix}.md"
+			File.open("#{project_page_file}", "w:UTF-8") { |f| f.write project_page }
 		end
 	end
-	File.open("#{PROJECT_INDEX}", "w") { |f| f.write(project_index) }
+	File.open("#{PROJECT_INDEX}", "w:UTF-8") { |f| f.write(project_index) }
 end

@@ -76,11 +76,6 @@ watcher:
   notify_on_compilation_success: false
   notify_on_compilation_failure: false
 
-checks:
-  internal_links:
-    exclude: ['^/postwic']
-
-
 # Extra configuration
 base_url : "http://el-tramo.be"
 page_size : 10

@@ -12,24 +12,24 @@ module TagsCategoriesHelper
 
 	# Overriding the built-in tags_for
 	def tags_for(item, params = {}) 
-		links_for(item[:tags], params.update(:rel => "tag"))
+		links_for(item[:tags], params)
 	end
 
 	# Overriding the built-in link_for_tag
 	def link_for_tag(tag, params = {}) 
-		link_for(tag, "tag", params)
+		link_for(tag, params)
 	end
 
 	def tag_links(item)
-		tags_for item, :base_url => "/blog/tag/", :rel => "tag"
+		tags_for item, :base_url => "/blog/tag/"
 	end
 
 	def category_links(item) 
-		links_for(item[:categories], :base_url => "/blog/category/", :rel => "category")
+		links_for(item[:categories], :base_url => "/blog/category/")
 	end
 
 	def category_menu
-		all_article_categories.map{|i| "<li class=\"menu-item\">" + link_for(i, "category", "/blog/category/") + "</li>"}.join("\n")
+		all_article_categories.map{|i| "<li class=\"menu-item\">#{link_for(i, '/blog/category/')}</li>"}.join("\n")
 	end
 
 	def all_article_categories
@@ -49,15 +49,15 @@ module TagsCategoriesHelper
 	end
 
 	private
-		def link_for(name, rel, base_url)
-			%[<a href="#{h base_url}#{h slugify(name)}" rel="#{rel}">#{h name}</a>]
+		def link_for(name, base_url)
+			%[<a href="#{h base_url}#{h slugify(name)}">#{h name}</a>]
 		end
 
 		def links_for(values, params = {})
 			if values.empty?
 				"(none)"
 			else
-				values.map {|v| link_for(v, params[:rel], params[:base_url]) }.join(", ")
+				values.map {|v| link_for(v, params[:base_url]) }.join(", ")
 			end
 		end
 
