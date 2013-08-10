@@ -1,0 +1,1 @@
+<%= xml_sitemap :items => @items.reject{ |i| ['article_list', 'feed'].include?(i[:kind]) || i.binary? || i[:is_hidden] } %>

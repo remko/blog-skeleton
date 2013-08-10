@@ -69,15 +69,17 @@ end
 
 
 ################################################################################
-# Feeds
+# XML files (Feeds, Sitemap)
 ################################################################################
 
-compile %r<.*/feed/> do
+xml = %r</(feed/.*)|^/sitemap/>
+
+compile xml do
 	filter :erb
 	filter :git_link_filter
 end
 
-route %r<.*/feed/> do
+route xml do
 	item.identifier.chop + '.xml'
 end
 
