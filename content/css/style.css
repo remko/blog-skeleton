@@ -47,3 +47,5 @@ code.c {
 .screenshots {
 	text-align: center;
 }
+
+#search input { width: 100%; }

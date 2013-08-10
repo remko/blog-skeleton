@@ -1,0 +1,12 @@
+%meta{name: "twitter:card", content: "summary"}
+%meta{name: "twitter:creator:id", content: @config[:author_twitter_id]}
+- if @item[:kind] == "article_list"
+	%meta{name: "twitter:title", content: @config[:site_title]}
+	%meta{name: "twitter:description", content: @config[:site_subtitle]}
+	%meta{name: "twitter:url", content: @config[:base_url]}
+- else
+	%meta{name: "twitter:title", content: @item[:title]}
+	%meta{name: "twitter:url", content: "#{@config[:base_url]}#{@item.path}"}
+	%meta{name: "twitter:description", content: excerptize(decode_html_entities(strip_html(strip_more(@item.compiled_content(snapshot: :filtered_contents))).gsub(/\n/, ' ')), length: 200)}
+- if @item[:images]
+	%meta{name: "twitter:image", content: "#{@config[:base_url]}#{@item[:images][0]}"}

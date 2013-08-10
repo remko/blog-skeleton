@@ -32,3 +32,9 @@ tasks. For a full list of tasks, run
     rake --tasks
 
 
+## Notes
+
+- The layouts are written in HAML, which is a bit harder to understand at first. If you
+  want to see how the site looked like using ERB, there is a Git tag 'erb' with an (earlier) 
+  ERB version of the site.
+

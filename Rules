@@ -179,4 +179,5 @@ route '*' do
 	end
 end
 
-layout '*', :erb
+layout 'include/disqus', :erb
+layout '*', :haml

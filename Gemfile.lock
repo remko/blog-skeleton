@@ -8,22 +8,28 @@ GEM
     colored (1.2)
     cri (2.3.0)
       colored (>= 1.2)
+    haml (4.0.3)
+      tilt
     htmlentities (4.3.1)
     mime-types (1.23)
     nanoc (3.6.3)
       cri (~> 2.3)
     nokogiri (1.5.9)
+    nokogiri (1.5.9-x86-mingw32)
     rack (1.5.2)
     rdiscount (2.1.6)
     systemu (2.5.2)
+    tilt (1.4.1)
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   adsf
   builder
   coderay
+  haml
   htmlentities
   mime-types
   nanoc

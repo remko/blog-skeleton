@@ -1,0 +1,4 @@
+%h1.page-title= @item[:title]
+
+- posts.each do |post|
+	= render 'include/post_excerpt', post: post

@@ -1,0 +1,52 @@
+!!! 5
+%html
+	%head
+		%meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
+		- if item.identifier == "/"
+			%title= @item[:title]
+			%link(rel="openid2.provider" href="https://www.google.com/accounts/o8/ud")
+		- else
+			%title= "#{@item[:title]} | #{@config[:site_title]}"
+		%meta{name: "author", content: @config[:author_name]}
+		= render "include/opengraph"
+		= render "include/twitter_card"
+		%link{rel: "alternate", type: "application/atom+xml", href: @item[:feed]}
+		%link(rel="stylesheet" type="text/css" href="/css/twentyten.css")
+		%link(rel="stylesheet" type="text/css" href="/css/style.css")
+		%link(rel="stylesheet" type="text/css" href="/css/code.css")
+		%link(rel="stylesheet" type="text/css" href="/css/custom.css")
+		%link(rel="stylesheet" href="http://www.google.com/cse/style/look/default.css" type="text/css")
+	
+	%body{class: ["home", "blog", [@item[:no_sidebar] && 'onecolumn'], [@item[:paged] && 'paged']]}
+		%script<
+		#wrapper.hfeed
+			#header
+				#masthead
+					#branding
+						%h1#site-title
+							%span
+								%a(href="/")= @config[:site_title]
+						#site-description= @config[:site_subtitle]
+						%img(src="/img/header.jpg" width="940" height="198" alt="Banner")
+					= render "include/menu"
+
+			#main
+				#container
+					#content
+						= yield
+
+				- unless @item[:no_sidebar]
+					#primary.widget-area
+						%ul.xoxo
+							- if @item[:kind] == 'article_list'
+								%li.widget-container.widget_categories
+									%h3.widget-title
+										Tags
+									= tag_cloud "/blog/tag/", link_for_tag: lambda {|x,y| link_for_tag(x,y) }
+
+							= render "include/book"
+
+							- if @item.identifier == '/'
+								= render "include/twitter_timeline"
+
+			#footer

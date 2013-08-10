@@ -1,0 +1,23 @@
+.single
+	.post.hentry
+		%h1.entry-title= @item[:title]
+		.entry-meta
+			.entry-meta
+				%span.meta-prep.meta-prep-author<
+					Posted on
+				%a{href: @item.path, rel: "bookmark"}<
+					%span.entry-date= Date.parse(@item[:created_at]).strftime("%B %d, %Y")
+				%span.meta-sep<
+					by
+				%span.author.vcard= @config[:author_name]
+		.entry-content
+			:preserve
+				#{yield}
+		.entry-utility
+			This page was posted in
+			= category_links(@item)
+			with tags
+			= tag_links(@item)
+			\.
+
+= render "include/disqus"

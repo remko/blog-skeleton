@@ -1,0 +1,16 @@
+.post.hentry
+	%h1.entry-title= link_to post[:title], post.path
+	.entry-meta
+		%span.meta-prep.meta-prep-author<
+			Posted on
+		%a{href: post.path, rel: "bookmark"}<
+			%span.entry-date= Date.parse(post[:created_at]).strftime("%B %d, %Y")
+		%span.meta-sep<
+			by
+		%span.author.vcard= @config[:author_name]
+	.entry-content= post.rep_named(:linked_excerpt).compiled_content
+	.entry-utility
+		Posted in 
+		= category_links(post)
+		with tags
+		= tag_links(post)

@@ -1,0 +1,42 @@
+- if @item_id > 0
+	#nav-above.navigation
+		.nav-previous
+			- if @item_id < sorted_articles.size / @config[:page_size] 
+				%a{href: "/blog/page#{@item_id + 2}", rel: "prev"}<
+					%span.meta-nav><
+						&larr;
+					Older posts
+		.nav-next
+			- if @item_id > 1 
+				%a{href: "/blog/page#{@item_id}", rel: "next"}<
+					Newer posts
+					%span.meta-nav><
+						&rarr;
+			- elsif @item_id == 1
+				%a(href="/" rel="next")<
+					Newer posts
+					%span.meta-nav><
+						&rarr;
+
+- pages = sorted_articles.slice(@item_id*@config[:page_size], @config[:page_size])
+- pages.each do |post| 
+	= render 'include/post_excerpt', post: post
+
+#nav-below.navigation
+	.nav-previous
+		- if @item_id < sorted_articles.size / @config[:page_size] 
+			%a{href: "/blog/page#{@item_id + 2}", rel: "prev"}<
+				%span.meta-nav><
+					&larr;
+				Older posts
+	.nav-next
+		- if @item_id > 1 
+			%a{href: "/blog/page#{@item_id}", rel: "next"}<
+				Newer posts
+				%span.meta-nav><
+					&rarr;
+		- elsif @item_id == 1
+			%a(href="/" rel="next")<
+				Newer posts
+				%span.meta-nav><
+					&rarr;

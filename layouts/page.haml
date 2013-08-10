@@ -1,0 +1,7 @@
+.page.hentry
+	%h1.entry-title= @item[:title]
+	.entry-content
+		:preserve
+			#{yield}
+- if @item[:comments]
+	= render "include/disqus"
