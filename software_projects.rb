@@ -11,6 +11,8 @@ project 'atomail'
 project 'wigit'
 project 'docbook-kit'
 project 'be-non-apple'
+project 'dicewords'
+project 'qr.cgi'
 project 'ecppunit', :extra_download_links => [
 	"[Eclipse Plugin Repository](/eclipse)"
 ]

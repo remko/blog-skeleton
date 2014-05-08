@@ -9,10 +9,15 @@
 #
 
 require 'net/http'
+require 'json'
 
-GIT_URL_PREFIX = "https://raw.github.com/remko"
+GIT_URL_PREFIX = "https://raw.githubusercontent.com/remko"
+TRAVIS_INFO_URL_PREFIX = "https://api.travis-ci.org/repositories/remko"
+TRAVIS_IMG_URL_PREFIX = "https://api.travis-ci.org/remko"
+TRAVIS_PAGE_URL_PREFIX = "https://travis-ci.org/remko"
 PROJECT_PAGE_PREFIX = "content"
 PROJECT_INDEX = "content/software.md"
+CI_PAGE = "content/ci.md"
 
 # Helper for creating & tracking projects
 $projects = []
@@ -34,6 +39,17 @@ def get_readme(project)
 	url = "#{GIT_URL_PREFIX}/#{project}/master/README.md"
 	response = Net::HTTP.get_response(URI.parse(url))
 	response.class == Net::HTTPOK ? response.body.force_encoding("UTF-8") : nil
+end
+
+# Check whether we have a Travis build
+def get_travis_image_url(project)
+	travis_url = "#{TRAVIS_INFO_URL_PREFIX}/#{project}.json"
+	response = Net::HTTP.get_response(URI.parse(travis_url))
+	return nil if response.class != Net::HTTPOK
+	build_info = JSON.parse(response.body)
+	return nil unless build_info["last_build_id"]
+
+	return "#{TRAVIS_IMG_URL_PREFIX}/#{project}.svg"
 end
 
 # Parse a README.md, and return a hash with information 
@@ -106,10 +122,23 @@ This is a list of all my software projects:
 - [Swift IM Project](http://swift.im)
 EOS
 
+	ci_page = <<-EOS
+---
+title: Software Build Status
+layout: page
+generated: true
+---
+EOS
+
 	$projects.each do |project|
 		puts "Processing #{project[:id]} ..."
 		project.merge!(parse_readme(get_readme(project[:id])))
 		project_index << "- [#{project[:title]}](#{project[:url]})\n"
+
+		if travis_url = get_travis_image_url(project[:id])
+			ci_page << "- #{project[:title]} [![Build Status](#{travis_url})](#{TRAVIS_PAGE_URL_PREFIX}/#{project[:id]})\n"
+		end
+
 		if project[:generate_page]
 			project_page = <<-EOS
 ---
@@ -127,4 +156,5 @@ EOS
 		end
 	end
 	File.open("#{PROJECT_INDEX}", "w:UTF-8") { |f| f.write(project_index) }
+	File.open("#{CI_PAGE}", "w:UTF-8") { |f| f.write(ci_page) }
 end
