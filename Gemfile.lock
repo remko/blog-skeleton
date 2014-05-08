@@ -17,6 +17,7 @@ GEM
     nokogiri (1.5.9)
     nokogiri (1.5.9-x86-mingw32)
     rack (1.5.2)
+    rake (10.1.1)
     rdiscount (2.1.6)
     systemu (2.5.2)
     tilt (1.4.1)
@@ -34,5 +35,6 @@ DEPENDENCIES
   mime-types
   nanoc
   nokogiri
+  rake
   rdiscount
   systemu
