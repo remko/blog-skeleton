@@ -15,10 +15,8 @@
 		%link(rel="stylesheet" type="text/css" href="/css/style.css")
 		%link(rel="stylesheet" type="text/css" href="/css/code.css")
 		%link(rel="stylesheet" type="text/css" href="/css/custom.css")
-		%link(rel="stylesheet" href="http://www.google.com/cse/style/look/default.css" type="text/css")
 	
 	%body{class: ["home", "blog", [@item[:no_sidebar] && 'onecolumn'], [@item[:paged] && 'paged']]}
-		%script<
 		#wrapper.hfeed
 			#header
 				#masthead
@@ -46,7 +44,7 @@
 
 							= render "include/book"
 
-							- if @item.identifier == '/'
+							-# if @item.identifier == '/'
 								= render "include/twitter_timeline"
 
 			#footer
