@@ -15,6 +15,8 @@ GIT_URL_PREFIX = "https://raw.githubusercontent.com/remko"
 TRAVIS_INFO_URL_PREFIX = "https://api.travis-ci.org/repositories/remko"
 TRAVIS_IMG_URL_PREFIX = "https://api.travis-ci.org/remko"
 TRAVIS_PAGE_URL_PREFIX = "https://travis-ci.org/remko"
+COVERALLS_IMG_URL_PREFIX = "https://coveralls.io/repos/remko"
+COVERALLS_PAGE_URL_PREFIX = "https://coveralls.io/r/remko"
 PROJECT_PAGE_PREFIX = "content"
 PROJECT_INDEX = "content/software.md"
 CI_PAGE = "content/ci.md"
@@ -50,6 +52,14 @@ def get_travis_image_url(project)
 	return nil unless build_info["last_build_id"]
 
 	return "#{TRAVIS_IMG_URL_PREFIX}/#{project}.svg"
+end
+
+# Check whether we have a Coveralls build
+def get_coveralls_image_url(project)
+	travis_url = "#{COVERALLS_PAGE_URL_PREFIX}/#{project}"
+	response = Net::HTTP.get_response(URI.parse(travis_url))
+	return nil if response.class != Net::HTTPOK
+	return "#{COVERALLS_IMG_URL_PREFIX}/#{project}/badge.png?branch=master"
 end
 
 # Parse a README.md, and return a hash with information 
@@ -136,7 +146,12 @@ EOS
 		project_index << "- [#{project[:title]}](#{project[:url]})\n"
 
 		if travis_url = get_travis_image_url(project[:id])
-			ci_page << "- #{project[:title]} [![Build Status](#{travis_url})](#{TRAVIS_PAGE_URL_PREFIX}/#{project[:id]})\n"
+			ci_line = "- #{project[:title]} [![Build Status](#{travis_url})](#{TRAVIS_PAGE_URL_PREFIX}/#{project[:id]})"
+			if coveralls_url = get_coveralls_image_url(project[:id])
+				ci_line << " [![Coverage](#{coveralls_url})](#{COVERALLS_PAGE_URL_PREFIX}/#{project[:id]}?branch=master)"
+			end
+			ci_line << "\n"
+			ci_page << ci_line
 		end
 
 		if project[:generate_page]
