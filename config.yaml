@@ -87,6 +87,9 @@ author_twitter_id: "803083"
 author_facebook_id: "672523803"
 disqus_shortname: "el-tramo"
 github_id: "remko"
+avatars:
+  email: ['remko@el-tramo.be', 'git@el-tramo.be', 'r@mko.re']
+  openid: ['https://el-tramo.be/']
 
 deploy:
   default:

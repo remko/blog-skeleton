@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'digest'
+
 ################################################################################
 # Preprocessing
 ################################################################################
@@ -133,6 +135,34 @@ end
 
 route '/git', :rep => :bottom do
 	item.identifier + 'bottom.html'
+end
+
+
+################################################################################
+# Avatar
+################################################################################
+
+@config[:avatars][:email].each do |avatar|
+	compile "/avatar", :rep => avatar + "_sha256" do end
+	route "/avatar", :rep => avatar + "_sha256" do
+		"/avatar/" + Digest::SHA256.hexdigest(avatar.strip.downcase)
+	end
+
+	compile "/avatar", :rep => avatar + "_md5" do end
+	route "/avatar", :rep => avatar + "_md5" do
+		"/avatar/" + Digest::MD5.hexdigest(avatar.strip.downcase)
+	end
+end
+
+@config[:avatars][:openid].each do |avatar|
+	compile "/avatar", :rep => avatar do end
+	route "/avatar", :rep => avatar do
+		"/avatar/" + Digest::SHA256.hexdigest(avatar.strip.downcase)
+	end
+end
+
+route "/avatar" do 
+	"/avatar/avatar.jpg"
 end
 
 
