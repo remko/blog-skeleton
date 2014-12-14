@@ -179,6 +179,9 @@ route preserved do
 	item.identifier.chop + '.' + item[:extension]
 end
 
+route '/css/font-awesome/*' do
+	item.identifier[0..-2]
+end
 
 ################################################################################
 # Default handling

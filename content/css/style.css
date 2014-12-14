@@ -49,3 +49,7 @@ code.c {
 }
 
 #search input { width: 100%; }
+
+.fa { 
+	color: rgb(51, 51, 51);
+}

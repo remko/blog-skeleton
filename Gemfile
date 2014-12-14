@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'aws'
 gem 'rake'
 gem 'nanoc'
 gem 'rdiscount'
@@ -11,3 +12,5 @@ gem 'systemu'
 gem 'coderay'
 gem 'adsf'
 gem 'haml'
+gem 'simpleidn'
+gem 'guard-nanoc'
