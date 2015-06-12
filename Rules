@@ -37,10 +37,10 @@ preprocess do
 			title = "Archive (posts #{first} to #{last})"
 			id = "/blog/page#{i+1}.html"
 		end
-		@items.create("<%= render '/blog_page.*', item_id: #{i} %>", { 
-			title: title, 
-			created_at: DateTime.now, 
-			paged: true, 
+		@items.create("<%= render '/blog_page.*', item_id: #{i} %>", {
+			title: title,
+			created_at: DateTime.now,
+			paged: true,
 			kind: "article_list",
 			body_classes: ["blog"]
 		}, id)
@@ -72,7 +72,7 @@ preprocess do
 	end
 
 	# Hide some items
-	@items.each do |item| 
+	@items.each do |item|
 		item[:is_hidden] = true if %r<^/static/google\w{16}>.match(item.identifier.to_s) || item[:link]
 	end
 end
@@ -159,15 +159,17 @@ end
 	end
 end
 
-@config[:avatars][:openid].each do |avatar|
-	compile "/avatar.*", rep: avatar do end
-	route "/avatar.*", rep: avatar do
-		"/avatar/" + Digest::SHA256.hexdigest(avatar.strip.downcase)
+if @config[:avatars] && @config[:avatars][:openid]
+	@config[:avatars][:openid].each do |avatar|
+		compile "/avatar.*", rep: avatar do end
+		route "/avatar.*", rep: avatar do
+			"/avatar/" + Digest::SHA256.hexdigest(avatar.strip.downcase)
+		end
 	end
 end
 
 # Simple avatar
-route "/avatar.*" do 
+route "/avatar.*" do
 	"/avatar/avatar.jpg"
 end
 
@@ -198,10 +200,10 @@ compile '/**/*.{md,html}' do
 	end
 	snapshot :filtered_contents
 	filter :colorize_syntax, coderay: { tab_width: 2 }, syntax: :html
-	if item[:layout] 
+	if item[:layout]
 		layout "/#{item[:layout]}.*"
 	end
-	layout '/default.*' unless item[:no_default_layout] 
+	layout '/default.*' unless item[:no_default_layout]
 	filter :more_filter, mode: :replace
 	filter :git_link_filter
 	filter :image_size, paths: ["content", "static" ]
