@@ -6,17 +6,17 @@ module TagsCategoriesHelper
 	require 'nanoc/helpers/html_escape'
 	include Nanoc::Helpers::HTMLEscape
 
-	def slugify(text) 
+	def slugify(text)
 		text.downcase.gsub(" ", "-").gsub("'","-")
 	end
 
 	# Overriding the built-in tags_for
-	def tags_for(item, params = {}) 
+	def tags_for(item, params = {})
 		links_for(item[:tags], params)
 	end
 
 	# Overriding the built-in link_for_tag
-	def link_for_tag(tag, params = {}) 
+	def link_for_tag(tag, params = {})
 		link_for(tag, params)
 	end
 
@@ -24,7 +24,7 @@ module TagsCategoriesHelper
 		tags_for item, :base_url => "/blog/tag/"
 	end
 
-	def category_links(item) 
+	def category_links(item)
 		links_for(item[:categories], :base_url => "/blog/category/")
 	end
 
@@ -40,11 +40,11 @@ module TagsCategoriesHelper
 		articles.map{|i| i[:tags]}.flatten.uniq.compact.sort
 	end
 
-	def articles_with_category(category) 
+	def articles_with_category(category)
 		sorted_articles.select{|i| i[:categories] and i[:categories].include?(category)}
 	end
 
-	def articles_with_tag(tag) 
+	def articles_with_tag(tag)
 		sorted_articles.select{|i| i[:tags] and i[:tags].include?(tag)}
 	end
 
@@ -54,7 +54,7 @@ module TagsCategoriesHelper
 		end
 
 		def links_for(values, params = {})
-			if values.empty?
+			if values.nil? || values.empty?
 				"(none)"
 			else
 				values.map {|v| link_for(v, params[:base_url]) }.join(", ")
@@ -62,4 +62,3 @@ module TagsCategoriesHelper
 		end
 
 end
-

@@ -25,7 +25,7 @@
 			%span.screen-reader-text<
 				Posted on
 			%a{href: link, rel: "bookmark"}
-				- created_at = Date.parse(post[:created_at])
+				- created_at = post[:created_at].is_a?(String) ? Date.parse(post[:created_at]) : post[:created_at]
 				%time.entry-date.published{datetime: created_at.strftime("%FT%T%:z")}= created_at.strftime("%B %d, %Y")
 				-# %time.entry-date.updated(datetime="2005-01-01T12:59:06+00:00")= Date.parse(post[:created_at]).strftime("%B %d, %Y")
 		-# %span.cat-links

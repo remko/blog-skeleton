@@ -22,7 +22,7 @@
 			%span.screen-reader-text<
 				Posted on
 			%a{href: @item.path, rel: "bookmark"}
-				- created_at = Date.parse(@item[:created_at])
+				- created_at = @item[:created_at].is_a?(String) ? Date.parse(@item[:created_at]) : @item[:created_at]
 				%time.entry-date.published{datetime: created_at.strftime("%FT%T%:z")}= created_at.strftime("%B %d, %Y")
 		-#%span.byline
 			%span.author.vcard

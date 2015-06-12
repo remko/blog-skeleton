@@ -3,11 +3,11 @@
 	%meta{property: "og:title", content: @config[:site_title]}
 	%meta{property: "og:description", content: @config[:site_subtitle]}
 	%meta{property: "og:url", content: @config[:base_url]}
-- elsif @item[:kind] == "article" 
+- elsif @item[:kind] == "article"
 	%meta{property: "og:type", content: "article"}
 	%meta{property: "article:author", content: @config[:author_facebook_id]}
 	%meta{property: "og:title", content: @item[:title]}
-	%meta{property: "og:published_time", content: DateTime.parse(@item[:created_at]).iso8601}
+	%meta{property: "og:published_time", content: (@item[:created_at].is_a?(String) ? DateTime.parse(@item[:created_at]) : @item[:created_at]).iso8601}
 	%meta{property: "og:description", content: excerptize(decode_html_entities(strip_html(strip_more(@item.compiled_content(snapshot: :filtered_contents))).gsub(/\n/, ' ')), length: 200)}
 	%meta{property: "og:url", content: "#{@config[:base_url]}#{@item.path}"}
 - else
@@ -18,7 +18,7 @@
 
 %meta{property: "fb:admins", content: @config[:author_facebook_id]}
 %meta{property: "og:site_name", content: @config[:site_title]}
-- (@item[:images] or []).each do |image| 
+- (@item[:images] or []).each do |image|
 	%meta{property: "og:image", content: "#{@config[:base_url]}#{image}"}
 - if @item[:header_image]
 	%meta{property: "og:image", content: "#{@config[:base_url]}#{@item[:header_image]}"}

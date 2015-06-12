@@ -2,7 +2,7 @@ include Nanoc::Helpers::Tagging
 include Nanoc::Helpers::Blogging
 
 module TagCloudHelper
-	
+
 	# Generates a tag cloud for all tags used in articles.
 	#
 	# @option params [String] :current_tag nil: The name of the current tag. This is used to highlight a tag.
@@ -13,8 +13,8 @@ module TagCloudHelper
 	# @option params [Number] :maximumm_size (180) The font size (in %) of the most occurring tag
 	#
 	# @return The HTML content of the tag cloud
-	#		
-	def tag_cloud(base_url, params = {}) 
+	#
+	def tag_cloud(base_url, params = {})
 		threshold = (params[:threshold] or 1)
 		minimum_font_size = (params[:minimum_size] or 80)
 		maximum_font_size = (params[:maximum_size] or 180)
@@ -23,16 +23,16 @@ module TagCloudHelper
 		# Count tags
 		tag_counts = Hash.new(0)
 		articles.each do |item|
-			item[:tags].each { |tag| tag_counts[tag] += 1 }
+			item[:tags].each { |tag| tag_counts[tag] += 1 } unless item[:tags].nil?
 		end
 		tag_counts.delete_if { |_, v| v <= threshold }
 
 		# Generate tag list
 		(_, min_count), (_, max_count) = tag_counts.minmax_by { |k, v| v }
 		tag_counts.sort_by {|tag, count| tag}.reduce "" do |result, (tag, count)|
-			if max_count == min_count 
+			if max_count == min_count
 				factor = 0.5
-			else 
+			else
 				factor = (Math.log(count) - Math.log(min_count)) / (Math.log(max_count) - Math.log(min_count))
 			end
 			tag_size = minimum_font_size + (factor*(maximum_font_size - minimum_font_size))
