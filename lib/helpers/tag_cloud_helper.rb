@@ -5,6 +5,7 @@ module TagCloudHelper
 	
 	# Generates a tag cloud for all tags used in articles.
 	#
+	# @option params [String] :current_tag nil: The name of the current tag. This is used to highlight a tag.
 	# @option params [Number] :threshold (1) The minimum number of posts for a tag to include
 	#
 	# @option params [Number] :minimum_size (80) The font size (in %) of the least occurring tag
@@ -17,7 +18,7 @@ module TagCloudHelper
 		threshold = (params[:threshold] or 1)
 		minimum_font_size = (params[:minimum_size] or 80)
 		maximum_font_size = (params[:maximum_size] or 180)
-		link_for_tag = (params[:link_for_tag] or (lambda { |x,y| Nanoc::Helpers::Tagging::link_for_tag}))
+		link_for_tag = (params[:link_for_tag] or (lambda { |x,y| Nanoc::Helpers::Tagging::link_for_tag(x, y)}))
 
 		# Count tags
 		tag_counts = Hash.new(0)
@@ -35,7 +36,8 @@ module TagCloudHelper
 				factor = (Math.log(count) - Math.log(min_count)) / (Math.log(max_count) - Math.log(min_count))
 			end
 			tag_size = minimum_font_size + (factor*(maximum_font_size - minimum_font_size))
-			result << "<span style='font-size: #{tag_size.round}%'>#{link_for_tag.call(tag, base_url)}</span>\n"
+			class_attr = tag == params[:current_tag] ? "class='current-tag'" : "";
+			result << "<span style='font-size: #{tag_size.round}%' #{class_attr}>#{link_for_tag.call(tag, base_url)}</span>\n"
 		end
 	end
 end

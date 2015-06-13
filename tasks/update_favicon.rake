@@ -4,26 +4,36 @@ task :update_favicon do
 	require 'base64'
 	require 'json'
 	require 'uri'
+	require 'nokogiri'
 
 	API_KEY = "<KEY>"
 	API_URL = 'https://realfavicongenerator.net/api/favicon'
 
 	FAVICON_HTML_FILE = 'layouts/include/favicon.html'
 
+	FAVICON = File.read('favicon.svg')
+
+	IOS_ICON = Nokogiri::XML(FAVICON)
+	IOS_ICON.at_css("#path1")['fill'] = '#FFFFFF'
+
 	data = {
 		"favicon_generation" => {
 			"api_key" => API_KEY,
 			"master_picture" => {
 				"type" => "inline",
-				"content" => Base64.encode64(File.read('favicon.svg'))
+				"content" => Base64.encode64(FAVICON)
 			},
 			"files_location" => { "type" => "root" },
 			"favicon_design" => {
 				"desktop_browser" => {},
 				"ios" => {
+					"master_picture" => {
+						"type" => "inline",
+						"content" => Base64.encode64(IOS_ICON.to_xml)
+					},
 					"picture_aspect" => "background_and_margin",
 					"margin" => "4",
-					"background_color" => "#F7EFDB",
+					"background_color" => "#4c4c4b"
 					# "startup_image" => {
 					# 	"master_picture" => {
 								# "type" => "inline",
@@ -83,7 +93,10 @@ task :update_favicon do
 				"scaling_algorithm" => "Mitchell",
 				"error_on_image_too_small" => true
 			},
-			"versioning" => false
+			"versioning" => {
+				"param_name" => "v",
+				"param_value" => "#{Time.now.to_i}"
+			}
 		}
 	}
 

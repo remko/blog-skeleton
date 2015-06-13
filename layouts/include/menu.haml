@@ -1,18 +1,20 @@
 %div
 	%ul.nav-menu
 
-		%li.menu-item.menu-item-has-children{class: [@item.identifier == "/" && "current-menu-item"]}
+		%li.menu-item.menu-item-has-children{class: [@item.identifier == "/" && "current-menu-item", @item.identifier.start_with?("/blog/tag/") && "current-menu-ancestor"]}
 			%a(href="/") Blog
 			%ul.sub-menu
 				%li
-					.tag-cloud= tag_cloud "/blog/tag/", link_for_tag: lambda {|x,y| link_for_tag(x,y) }
+					- current_tag = @item[:kind] == "article_list" ? @item[:tag] : nil
+					.tag-cloud= tag_cloud "/blog/tag/", current_tag: current_tag, link_for_tag: lambda {|x,y| link_for_tag(x,y) }
 
-		%li.menu-item.menu-item-has-children{class: [@item.identifier == "/software/" && "current-menu-item"]}
+		%li.menu-item.menu-item-has-children{class: [ @item.identifier == "/software/" && "current-menu-item", ["/retjilp/", "/wigit/", "/atomail/", "/docbook-kit/"].include?(@item.identifier) && "current-menu-ancestor" ]}
 			%a(href="/software") Software
 			%ul.sub-menu
 				%li.menu-item<
 					%a(href="https://swift.im")<
-						Swift IM
+						Swift IM 
+						%span.genericon.genericon-external
 						.menu-item-description XMPP Messaging Software
 				%li.menu-item{class: [@item.identifier == "/retjilp/" && "current-menu-item"]}<
 					%a(href="/retjilp")<
@@ -30,25 +32,26 @@
 					%a(href="/docbook-kit")<
 						DocBook Kit
 						.menu-item-description A Collection of DocBook Utilities
-				%li.menu-item.menu-item-separator<
-					%a(href="http://postwic.el-tramo.be/")<
-						Postwic
-						.menu-item-description Post Pictures to Twitter
 				%li.menu-item{class: [@item.identifier == "/software/" && "current-menu-item"]}<
 					%a(href="/software")<
 						All Software
 
-		%li.menu-item.menu-item-has-children
+		%li.menu-item.menu-item-has-children{class: [["/documents/beautiful-xmpp-testing/", "/guides/fancy-dmg/", "/guides/darcs-static-osx/", "/guides/linux-lt9399/", "/publications/"].include?(@item.identifier) && "current-menu-ancestor"]}
 			%a Writings
 			%ul.sub-menu
 				%li.menu-item<
 					%a(href="https://oreilly.com/catalog/9780596521271")<
 						XMPP: The Definitive Guide
+						%span.genericon.genericon-external
 				%li.menu-item{class: [@item.identifier == "/documents/beautiful-xmpp-testing/" && "current-menu-item"]}<
 					%a(href="/documents/beautiful-xmpp-testing")<
 						Beautiful XMPP Testing
+				%li.menu-item<
+					%a(href="https://dtai.cs.kuleuven.be/ppcbook/")<
+						The First 10 Prolog Programming Contests
+						%span.genericon.genericon-external
 
-				%li.menu-item.menu-item-has-children
+				%li.menu-item.menu-item-has-children{class: [["/guides/fancy-dmg/", "/guides/darcs-static-osx/", "/guides/linux-lt9399/"].include?(@item.identifier) && "current-menu-ancestor"]}
 					%a Guides
 					%ul.sub-menu
 						%li.menu-item{class: [@item.identifier == "/guides/fancy-dmg/" && "current-menu-item"]}<
@@ -66,13 +69,19 @@
 					%ul.sub-menu
 						%li.menu-item<
 							%a(href="http://www.xmpp.org/extensions/xep-0115.html")<
-								XEP-0115: Entity Capabilities
+								XEP-0115
+								%span.genericon.genericon-external
+								.menu-item-description Entity Capabilities
 						%li.menu-item<
 							%a(href="http://www.xmpp.org/extensions/xep-0146.html")<
-								XEP-0146: Remote Controlling Clients
+								XEP-0146
+								%span.genericon.genericon-external
+								.menu-item-description Remote Controlling Clients
 						%li.menu-item<
 							%a(href="http://www.xmpp.org/extensions/xep-0209.html")<
-								XEP-0209: Metacontacts
+								XEP-0209
+								%span.genericon.genericon-external
+								.menu-item-description Metacontacts
 				%li.menu-item{class: [@item.identifier == "/publications/" && "current-menu-item"]}<
 					%a(href="/publications")<
 						Academic Publications

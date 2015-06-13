@@ -73,6 +73,10 @@ article.format-link blockquote {
 	font-size: 100%;
 }
 
+.sub-menu .genericon {
+	line-height: 21px;
+}
+
 /* I have 5 icons */
 .social-navigation li {
 	width: 20%;
@@ -85,6 +89,10 @@ article.format-link blockquote {
 
 .tag-cloud a {
 	display: inline;
+}
+
+.tag-cloud .current-tag {
+	font-weight: bold;
 }
 
 /*******************************************************************************

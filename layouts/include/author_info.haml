@@ -2,7 +2,7 @@
 	%h2.author-heading Published by
 	.author-avatar
 		%a(href="/")
-			%img.avatar{alt: "", src: @config[:author_avatar], height: 228, width: 288}
+			%img.avatar{alt: @config[:author_name], src: @config[:author_avatar], height: 228, width: 288}
 	.author-description
 		%h3.author-title= @config[:author_name]
 		%p.author-bio= @config[:author_bio]

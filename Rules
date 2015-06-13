@@ -58,6 +58,7 @@ preprocess do
 			:created_at => DateTime.now,
 			:kind => "article_list",
 			:feed => "/feed.xml",
+			:tag => "#{name}",
 			:body_classes => ["archive", "tag"]
 		}
 
