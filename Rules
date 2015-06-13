@@ -37,7 +37,7 @@ preprocess do
 			title = "Archive (posts #{first} to #{last})"
 			id = "/blog/page#{i+1}"
 		end
-		items << Nanoc::Item.new("<%= render 'include/blog_page', :item_id => #{i} %>", { 
+		items << Nanoc::Item.new("<%= render 'blog_page', :item_id => #{i} %>", { 
 			:title => title, 
 			:created_at => DateTime.now, 
 			:paged => true, 
@@ -49,31 +49,29 @@ preprocess do
 	# Add top feed to all items
 	@items.each { |item| item[:feed] = (item[:feed] || "/feed.xml") }
 
-	# Add tag/category pages (and their feed)
-	["Category", "Tag"].zip([all_article_categories, all_article_tags]) do |(type, names)|
-		names.each do |name|
-			path = "/blog/#{type.downcase}/#{slugify(name)}"
-			articles = "articles_with_#{type.downcase}(\"#{name}\")"
-			attributes = {
-				:title => "#{type}: #{name}",
-				:created_at => DateTime.now,
-				:kind => "article_list",
-				:feed => "/feed.xml",
-				:body_classes => ["archive", type.downcase]
-			}
+	# Add tag pages (and their feed)
+	all_article_tags.each do |name|
+		path = "/blog/tag/#{slugify(name)}"
+		articles = "articles_with_tag(\"#{name}\")"
+		attributes = {
+			:title => "Tag: #{name}",
+			:created_at => DateTime.now,
+			:kind => "article_list",
+			:feed => "/feed.xml",
+			:body_classes => ["archive", "tag"]
+		}
 
-			# Add feed for specific topics
-			if %w(xmpp jabber).include?(name.downcase)
-				attributes[:feed] = "#{path}/feed.xml"
-				items << Nanoc::Item.new("<%= atom_feed :title => \"#{@config[:site_title]} | #{name}\", :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :content_proc => lambda { |a| a.rep_named(:linked_excerpt).compiled_content }, :limit => 10 %>", {:kind => "feed"}, "#{path}/feed")
-			end
-
-			items << Nanoc::Item.new("<%= render 'include/posts', :posts => #{articles} %>", attributes, "#{path}")
+		# Add feed for specific topics
+		if %w(xmpp jabber).include?(name.downcase)
+			attributes[:feed] = "#{path}/feed.xml"
+			items << Nanoc::Item.new("<%= atom_feed :title => \"#{@config[:site_title]} | #{name}\", :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :content_proc => lambda { |a| a.rep_named(:linked_excerpt).compiled_content }, :limit => 10 %>", {:kind => "feed"}, "#{path}/feed")
 		end
 
-		# Hide some items
-		@items.each { |item| item[:is_hidden] = true if %r<^/google\w{16}/>.match(item.identifier) }
+		items << Nanoc::Item.new("<%= render 'archive_page', :posts => #{articles} %>", attributes, "#{path}")
 	end
+
+	# Hide some items
+	@items.each { |item| item[:is_hidden] = true if %r<^/google\w{16}/>.match(item.identifier) }
 end
 
 

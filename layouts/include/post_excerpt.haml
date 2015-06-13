@@ -26,7 +26,7 @@
 				- created_at = Date.parse(post[:created_at])
 				%time.entry-date.published{datetime: created_at.strftime("%FT%T%:z")}= created_at.strftime("%B %d, %Y")
 				-# %time.entry-date.updated(datetime="2005-01-01T12:59:06+00:00")= Date.parse(post[:created_at]).strftime("%B %d, %Y")
-		%span.cat-links
+		-# %span.cat-links
 			%span.screen-reader-text Categories
 			= category_links(post)
 		%span.tags-links
