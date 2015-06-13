@@ -4,7 +4,8 @@
 		%li.menu-item.menu-item-has-children{class: [@item.identifier == "/" && "current-menu-item"]}
 			%a(href="/") Blog
 			%ul.sub-menu
-				= category_menu
+				%li
+					.tag-cloud= tag_cloud "/blog/tag/", link_for_tag: lambda {|x,y| link_for_tag(x,y) }
 
 		%li.menu-item.menu-item-has-children{class: [@item.identifier == "/software/" && "current-menu-item"]}
 			%a(href="/software") Software

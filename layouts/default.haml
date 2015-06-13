@@ -46,11 +46,6 @@
 									%li.menu-item
 										%a{href: link[:url], class: [link[:class]]}
 
-					#widget-area.widget-area(role="complementary")
-						%aside.widget
-							%h2.widget-title Tags
-							= tag_cloud "/blog/tag/", link_for_tag: lambda {|x,y| link_for_tag(x,y) }
-
 			#content.site-content
 				#primary.content-area
 					%main#main.site-main(role="main")

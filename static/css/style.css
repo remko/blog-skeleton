@@ -78,6 +78,14 @@ article.format-link blockquote {
 	width: 20%;
 }
 
+.tag-cloud {
+	margin-top: .5em;
+	margin-bottom: .5em;
+}
+
+.tag-cloud a {
+	display: inline;
+}
 
 /*******************************************************************************
  * Twitter widget overrides
