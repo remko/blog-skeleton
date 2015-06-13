@@ -31,6 +31,7 @@ GEM
     hitimes (1.2.2)
     htmlentities (4.3.1)
     http_connection (1.4.4)
+    httpclient (2.6.0.1)
     listen (2.8.3)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -80,6 +81,7 @@ DEPENDENCIES
   guard-nanoc
   haml
   htmlentities
+  httpclient
   mime-types
   nanoc
   nokogiri
