@@ -1,7 +1,18 @@
-.page.hentry
-	%h1.entry-title= @item[:title]
+%article{class: ["page", "hentry", [@item[:header_image] && "has-post-thumbnail"]]}
+	-if @item[:header_image]
+		.post-thumbnail
+			%img.attachment-post-thumbnail{src: @item[:header_image]}
+
+	%header.entry-header
+		%h1.entry-title= @item[:title]
+
 	.entry-content
 		:preserve
 			#{yield}
+	
+	- if @item[:author_info]
+		= render "include/author_info"
+
 - if @item[:comments]
-	= render "include/disqus"
+	#comments.comments-area
+		= render "include/disqus"

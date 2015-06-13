@@ -1,16 +1,34 @@
-.post.hentry
-	%h1.entry-title= link_to post[:title], post.path
-	.entry-meta
-		%span.meta-prep.meta-prep-author<
-			Posted on
-		%a{href: post.path, rel: "bookmark"}<
-			%span.entry-date= Date.parse(post[:created_at]).strftime("%B %d, %Y")
-		%span.meta-sep<
-			by
-		%span.author.vcard= @config[:author_name]
-	.entry-content= post.rep_named(:linked_excerpt).compiled_content
-	.entry-utility
-		Posted in 
-		= category_links(post)
-		with tags
-		= tag_links(post)
+- format = post[:link] ? "link" : "standard"
+- link = post[:link] ? post[:link] : post.path
+- link_uri = URI.parse(link)
+- link_site = (link_uri && link_uri.host ? link_uri.host.downcase : link).gsub(/^www\./, '')
+
+%article{class: ["post", "hentry", "format-#{format}", [post[:header_image] && "has-post-thumbnail"]]}
+	-if post[:header_image]
+		.post-thumbnail
+			%img.attachment-post-thumbnail{src: post[:header_image]}
+
+	%header.entry-header
+		%h2.entry-title(rel="bookmark")= link_to post[:title], link
+
+	.entry-content
+		= post.rep_named(:linked_excerpt).compiled_content
+		-if post[:link]
+			%p
+				%a.more-link{href: link}
+					Continue reading on #{link_site}
+
+	%footer.entry-footer
+		%span.posted-on
+			%span.screen-reader-text<
+				Posted on
+			%a{href: post.path, rel: "bookmark"}
+				- created_at = Date.parse(post[:created_at])
+				%time.entry-date.published{datetime: created_at.strftime("%FT%T%:z")}= created_at.strftime("%B %d, %Y")
+				-# %time.entry-date.updated(datetime="2005-01-01T12:59:06+00:00")= Date.parse(post[:created_at]).strftime("%B %d, %Y")
+		%span.cat-links
+			%span.screen-reader-text Categories
+			= category_links(post)
+		%span.tags-links
+			%span.screen-reader-text Tags
+			= tag_links(post)

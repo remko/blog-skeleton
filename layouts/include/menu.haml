@@ -1,78 +1,80 @@
-#access
-	.menu-header
-		%ul.menu(data-swiftype-index='false')
-			%li.menu-item<
-				%a(href="/")<
-					Blog
-				%ul.sub-menu
-					%li.menu-item.menu-item-separator<
-						%a(href="/")<
-							All Categories
-					= category_menu
-			%li.menu-item<
-				%a(href="/software")<
-					Software
-				%ul.sub-menu
-					%li.menu-item<
-						%a(href="https://swift.im")<
-							Swift IM
-					%li.menu-item<
-						%a(href="/retjilp")<
-							Retjilp: Native Auto-retweet bot
-					%li.menu-item<
-						%a(href="/wigit")<
-							WiGit: A Simple Git-based Wiki
-					%li.menu-item<
-						%a(href="/atomail")<
-							AtoMail
-					%li.menu-item<
-						%a(href="/docbook-kit")<
-							DocBook Kit
-					%li.menu-item.menu-item-separator<
-						%a(href="http://postwic.el-tramo.be/")<
-							Postwic: Post Pictures to Twitter
-					%li.menu-item<
-						%a(href="/software")<
-							All Projects
-			%li.menu-item<
-				%a<
-					Writings
-				%ul.sub-menu
-					%li.menu-item<
-						%a(href="https://oreilly.com/catalog/9780596521271")<
-							XMPP: The Definitive Guide
-					%li.menu-item<
-						%a(href="/documents/beautiful-xmpp-testing")<
-							Beautiful XMPP Testing
-					%li.menu-item<
-						%a<
-							Guides
-						%ul.sub-menu
-							%li.menu-item<
-								%a(href="/guides/fancy-dmg")<
-									Building Fancy DMG Images on Mac OS X
-							%li.menu-item<
-								%a(href="/guides/darcs-static-osx")<
-									Creating Darcs Mac OS X static builds
-							%li.menu-item<
-								%a(href="/guides/linux-lt9399")<
-									Running Linux 2.6 on LT9399 (or MD9399) Laptops
-					%li.menu-item<
-						%a<
-							XMPP Extension Protocols
-						%ul.sub-menu
-							%li.menu-item<
-								%a(href="http://www.xmpp.org/extensions/xep-0115.html")<
-									XEP-0115: Entity Capabilities
-							%li.menu-item<
-								%a(href="http://www.xmpp.org/extensions/xep-0146.html")<
-									XEP-0146: Remote Controlling Clients
-							%li.menu-item<
-								%a(href="http://www.xmpp.org/extensions/xep-0209.html")<
-									XEP-0209: Metacontacts
-					%li.menu-item<
-						%a(href="/publications")<
-							Academic Publications
-			%li.menu-item<
-				%a(href="/about")<
-					About Me
+%div
+	%ul.nav-menu
+
+		%li.menu-item.menu-item-has-children{class: [@item.identifier == "/" && "current-menu-item"]}
+			%a(href="/") Blog
+			%ul.sub-menu
+				= category_menu
+
+		%li.menu-item.menu-item-has-children{class: [@item.identifier == "/software/" && "current-menu-item"]}
+			%a(href="/software") Software
+			%ul.sub-menu
+				%li.menu-item<
+					%a(href="https://swift.im")<
+						Swift IM
+						.menu-item-description XMPP Messaging Software
+				%li.menu-item{class: [@item.identifier == "/retjilp/" && "current-menu-item"]}<
+					%a(href="/retjilp")<
+						Retjilp
+						.menu-item-description Native Auto-retweet bot
+				%li.menu-item{class: [@item.identifier == "/wigit/" && "current-menu-item"]}<
+					%a(href="/wigit")<
+						WiGit
+						.menu-item-description A Simple Git-based Wiki
+				%li.menu-item{class: [@item.identifier == "/atomail/" && "current-menu-item"]}<
+					%a(href="/atomail")<
+						AtoMail
+						.menu-item-description Convert E-Mail into RSS
+				%li.menu-item{class: [@item.identifier == "/docbook-kit/" && "current-menu-item"]}<
+					%a(href="/docbook-kit")<
+						DocBook Kit
+						.menu-item-description A Collection of DocBook Utilities
+				%li.menu-item.menu-item-separator<
+					%a(href="http://postwic.el-tramo.be/")<
+						Postwic
+						.menu-item-description Post Pictures to Twitter
+				%li.menu-item{class: [@item.identifier == "/software/" && "current-menu-item"]}<
+					%a(href="/software")<
+						All Software
+
+		%li.menu-item.menu-item-has-children
+			%a Writings
+			%ul.sub-menu
+				%li.menu-item<
+					%a(href="https://oreilly.com/catalog/9780596521271")<
+						XMPP: The Definitive Guide
+				%li.menu-item{class: [@item.identifier == "/documents/beautiful-xmpp-testing/" && "current-menu-item"]}<
+					%a(href="/documents/beautiful-xmpp-testing")<
+						Beautiful XMPP Testing
+
+				%li.menu-item.menu-item-has-children
+					%a Guides
+					%ul.sub-menu
+						%li.menu-item{class: [@item.identifier == "/guides/fancy-dmg/" && "current-menu-item"]}<
+							%a(href="/guides/fancy-dmg")<
+								Building Fancy DMG Images on Mac OS X
+						%li.menu-item{class: [@item.identifier == "/guides/darcs-static-osx/" && "current-menu-item"]}<
+							%a(href="/guides/darcs-static-osx")<
+								Creating Darcs Mac OS X static builds
+						%li.menu-item{class: [@item.identifier == "/guides/linux-lt9399/" && "current-menu-item"]}<
+							%a(href="/guides/linux-lt9399")<
+								Running Linux 2.6 on LT9399 (or MD9399) Laptops
+
+				%li.menu-item.menu-item-has-children
+					%a XMPP Extension Protocols
+					%ul.sub-menu
+						%li.menu-item<
+							%a(href="http://www.xmpp.org/extensions/xep-0115.html")<
+								XEP-0115: Entity Capabilities
+						%li.menu-item<
+							%a(href="http://www.xmpp.org/extensions/xep-0146.html")<
+								XEP-0146: Remote Controlling Clients
+						%li.menu-item<
+							%a(href="http://www.xmpp.org/extensions/xep-0209.html")<
+								XEP-0209: Metacontacts
+				%li.menu-item{class: [@item.identifier == "/publications/" && "current-menu-item"]}<
+					%a(href="/publications")<
+						Academic Publications
+
+		%li.menu-item{class: [@item.identifier == "/about/" && "current-menu-item"]}
+			%a(href="/about") About Me

@@ -20,5 +20,7 @@
 %meta{property: "og:site_name", content: @config[:site_title]}
 - (@item[:images] or []).each do |image| 
 	%meta{property: "og:image", content: "#{@config[:base_url]}#{image}"}
+- if @item[:header_image]
+	%meta{property: "og:image", content: "#{@config[:base_url]}#{@item[:header_image]}"}
 - (@item[:tags] or []).each do |tag|
 	%meta{property: "og:tag", content: tag}

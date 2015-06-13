@@ -10,11 +10,15 @@ module MoreHelper
 		return content
 	end
 
-  def more_url(url) 
-    if url
-      return "<p> <a href=\"" + url + "\">Continue reading &rarr;</a></p>"
-    else
-      return ""
-    end
-  end
+	def replace_more(content, params = {})
+		content.gsub(/<!--\s*more\s*-->/, '<a name="more"></a>')
+	end
+
+	def more_url(url) 
+		if url
+			return "<p> <a href=\"" + url + "#more\" class=\"more-link\">Continue reading <span class='screen-reader-text'>post</span></a></p>"
+		else
+			return ""
+		end
+	end
 end

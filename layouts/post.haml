@@ -1,23 +1,34 @@
-.single
-	.post.hentry
-		%h1.entry-title= @item[:title]
-		.entry-meta
-			.entry-meta
-				%span.meta-prep.meta-prep-author<
-					Posted on
-				%a{href: @item.path, rel: "bookmark"}<
-					%span.entry-date= Date.parse(@item[:created_at]).strftime("%B %d, %Y")
-				%span.meta-sep<
-					by
-				%span.author.vcard= @config[:author_name]
-		.entry-content
-			:preserve
-				#{yield}
-		.entry-utility
-			This page was posted in
-			= category_links(@item)
-			with tags
-			= tag_links(@item)
-			\.
+%article{class: ["post", "hentry", "format-standard", [@item[:header_image] && "has-post-thumbnail"]]}
+	-if @item[:header_image]
+		.post-thumbnail
+			%img.attachment-post-thumbnail{src: @item[:header_image]}
 
-= render "include/disqus"
+	%header.entry-header
+		%h1.entry-title= @item[:title]
+
+	.entry-content
+		:preserve
+			#{yield}
+
+	= render "include/author_info"
+
+	%footer.entry-footer
+		%span.posted-on
+			%span.screen-reader-text<
+				Posted on
+			%a{href: @item.path, rel: "bookmark"}
+				- created_at = Date.parse(@item[:created_at])
+				%time.entry-date.published{datetime: created_at.strftime("%FT%T%:z")}= created_at.strftime("%B %d, %Y")
+		-#%span.byline
+			%span.author.vcard
+				%span.screen-reader-text Author
+				%a.url.fn.n(href="/")= @config[:author_name]
+		%span.cat-links
+			%span.screen-reader-text Categories
+			= category_links(@item)
+		%span.tags-links
+			%span.screen-reader-text Tags
+			= tag_links(@item)
+
+#comments.comments-area
+	= render "include/disqus"

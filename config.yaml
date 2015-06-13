@@ -85,6 +85,8 @@ site_title: "El Tramo"
 site_subtitle: "Remko Tronçon's Homepage"
 author_name: "Remko Tronçon"
 author_uri: "https://el-tramo.be/about"
+author_bio: "Software Engineer. Hobby musician. BookWidgets."
+author_avatar: "/avatar/avatar.jpg"
 author_twitter_id: "803083"
 author_facebook_id: "672523803"
 disqus_shortname: "el-tramo"
@@ -92,9 +94,16 @@ github_id: "remko"
 avatars:
   email: ['remko@el-tramo.be', 'git@el-tramo.be', 'r@mko.re']
   openid: ['https://el-tramo.be/']
+social_links:
+- url: 'mailto:remko@el-tramo.be'
+- url: 'https://twitter.com/remko'
+- url: 'https://github.com/remko'
+- url: 'https://be.linkedin.com/in/remko'
+- url: '/remko.gpg.asc'
+  class: 'openpgp'
 
 deploy:
   default:
     kind: rsync
-    dst: "el-tramo.be:www/output"
+    dst: "el-tramo.be:www/html/output"
     options: [ '-aP', '--delete-after' ] # delete existing files on server

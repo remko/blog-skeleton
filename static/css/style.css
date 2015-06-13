@@ -1,0 +1,137 @@
+/*******************************************************************************
+ * Twentyfifteen overrides
+ *******************************************************************************/
+
+body {
+	background: #B7B1A2;
+}
+
+a, body {
+	color: #1C1B19;
+}
+
+.entry-footer {
+	background: #E3DCC9;
+}
+
+.hentry, .comments-area {
+	background: #FFF7E2;
+}
+
+
+.site-footer, .secondary, .page-header, .navigation {
+	background-color: #F7EFDB;
+}
+
+@media screen and (min-width: 59.6875em) {
+	.site-header,
+	.secondary {
+		background-color: transparent;
+	}
+}
+
+/* 
+ * Header customization.
+ * See custom-header.php:twentyfifteen_header_style() 
+ */
+
+.site-header {
+	background: url("/css/background.png") no-repeat 50% 50%;
+	-webkit-background-size: cover;
+	-moz-background-size:    cover;
+	-o-background-size:      cover;
+	background-size:         cover;
+}
+
+@media screen and (min-width: 59.6875em) {
+	body:before {
+		background: url("/css/background.png") no-repeat 100% 50%;
+		-webkit-background-size: cover;
+		-moz-background-size:    cover;
+		-o-background-size:      cover;
+		background-size:         cover;
+		border-right: 0;
+	}
+
+	.site-header {
+		background: transparent;
+	}
+}
+
+/*
+ * OpenPGP social item
+ */
+.social-navigation a.openpgp:before {
+	content: "\f427";
+}
+
+/*
+ * Misc tweaks
+ */
+article.format-link blockquote {
+	line-height: 1.6842;
+	font-size: 100%;
+}
+
+/* I have 5 icons */
+.social-navigation li {
+	width: 20%;
+}
+
+
+/*******************************************************************************
+ * Twitter widget overrides
+ *******************************************************************************/
+
+.twtr-widget h3, h4 {
+		clear: none;
+}
+
+.twtr-ft span { visibility: hidden; display: none; }
+
+
+/*******************************************************************************
+ * Disqus overrides
+ *******************************************************************************/
+
+#dsq-content h3 { visibility: hidden; display: none; }
+#dsq-subscribe { visibility: hidden; display: none; }
+#dsq-sort-by { visibility: hidden; display: none; }
+#dsq-like-tooltip { visibility: hidden; display: none; }
+.dsq-like-thread { visibility: hidden; display: none; }
+.dsq-dislike-thread { visibility: hidden; display: none; }
+.dsq-trackback-url { visibility: hidden; display: none; }
+
+
+/*******************************************************************************
+ * Code style
+ *******************************************************************************/
+
+code.c {
+	font-style: normal;
+	color: black;
+}
+
+code .comment { color: #408080; font-style: italic }
+code .keyword { color: #008000; font-weight: bold }
+code .string { color: #BA2121 }
+code .integer { color: #666666 }
+code .predefined-type { color: #B00040 }
+code .directive { color: #008000; font-weight: bold }
+code .preprocessor { color: #A0A0A0; font-weight: bold }
+code .include { color: #A0A0A0; font-weight: bold }
+
+
+/*******************************************************************************
+ * Custom overrides for specific elements in posts
+ *******************************************************************************/
+
+.id-blog--jsnprsr img[alt="Timing Benchmarks"] { 
+	width: 100%; 
+}
+
+.screenshots {
+	text-align: center;
+}
+
+

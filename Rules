@@ -14,6 +14,7 @@ preprocess do
 			item[:kind] = "article"
 			item[:layout] = "post"
 			item[:comments] = true
+			item[:custom_url_in_feed] = item[:link] if item[:link]
 			if not item[:created_at] and m = /blog\/(\d{4}-\d{2}-\d{2})/.match(item.identifier)
 				item[:created_at] = m[1]
 			end
@@ -37,7 +38,12 @@ preprocess do
 			id = "/blog/page#{i+1}"
 		end
 		items << Nanoc::Item.new("<%= render 'include/blog_page', :item_id => #{i} %>", { 
-			:title => title, :created_at => DateTime.now, :paged => true, :kind => "article_list" }, id)
+			:title => title, 
+			:created_at => DateTime.now, 
+			:paged => true, 
+			:kind => "article_list",
+			:body_classes => ["blog"]
+		}, id)
 	end
 
 	# Add top feed to all items
@@ -53,12 +59,13 @@ preprocess do
 				:created_at => DateTime.now,
 				:kind => "article_list",
 				:feed => "/feed.xml",
+				:body_classes => ["archive", type.downcase]
 			}
 
 			# Add feed for specific topics
 			if %w(xmpp jabber).include?(name.downcase)
 				attributes[:feed] = "#{path}/feed.xml"
-				items << Nanoc::Item.new("<%= atom_feed :title => \"#{@config[:site_title]} | #{name}\", :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :limit => 10 %>", {:kind => "feed"}, "#{path}/feed")
+				items << Nanoc::Item.new("<%= atom_feed :title => \"#{@config[:site_title]} | #{name}\", :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :content_proc => lambda { |a| a.rep_named(:linked_excerpt).compiled_content }, :limit => 10 %>", {:kind => "feed"}, "#{path}/feed")
 			end
 
 			items << Nanoc::Item.new("<%= render 'include/posts', :posts => #{articles} %>", attributes, "#{path}")
@@ -105,7 +112,9 @@ route '/blog/*', :rep => :linked_excerpt do
 end
 
 route '/blog/*' do
-	if item.binary? or item.identifier.end_with? "index"
+	if item[:link]
+		nil
+	elsif item.binary? or item.identifier.end_with? "index"
 		item.identifier.chop + '.' + item[:extension]
 	else
 		item.identifier.gsub(/\d\d\d\d-\d\d-\d\d-/, '') + 'index.html'
@@ -179,7 +188,11 @@ route preserved do
 	item.identifier.chop + '.' + item[:extension]
 end
 
-route '/css/font-awesome/*' do
+route '/css/*' do
+	item.identifier[0..-2]
+end
+
+route '/js/*' do
 	item.identifier[0..-2]
 end
 
@@ -188,7 +201,7 @@ end
 ################################################################################
 
 compile '*' do
-	unless item.binary?
+	unless item.binary? or item[:link]
 		filter :erb
 		if item[:extension] == "md" or item[:extension] == "markdown"
 			filter :rdiscount, :extensions => [:smart]
@@ -199,6 +212,7 @@ compile '*' do
 			layout item[:layout]
 		end
 		layout 'default' unless item[:no_default_layout] 
+		filter :more_filter, :mode => :replace
 		filter :git_link_filter
 	end
 end

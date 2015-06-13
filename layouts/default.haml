@@ -1,7 +1,8 @@
 !!! 5
-%html
+%html.no-js
 	%head
 		%meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
+		%meta(name="viewport" content="width=device-width")
 		- if item.identifier == "/"
 			%title= @item[:title]
 			%link(rel="openid2.provider" href="https://www.google.com/accounts/o8/ud")
@@ -11,41 +12,55 @@
 		= render "include/opengraph"
 		= render "include/twitter_card"
 		%link{rel: "alternate", type: "application/atom+xml", href: @item[:feed]}
-		%link(rel="stylesheet" type="text/css" href="/css/font-awesome/css/font-awesome.min.css")
-		%link(rel="stylesheet" type="text/css" href="/css/twentyten.css")
+		%link(rel="stylesheet" type="text/css" href="/css/twentyfifteen/style.css")
 		%link(rel="stylesheet" type="text/css" href="/css/style.css")
-		%link(rel="stylesheet" type="text/css" href="/css/code.css")
-		%link(rel="stylesheet" type="text/css" href="/css/custom.css")
+		/[if lt IE 9]> <script src="/css/twentyfifteen/js/html5.js"></script>
+		/[if lt IE 9]> <link rel="stylesheet" type="text/css" href="/css/twentyfifteen/css/ie.css">
+		:javascript
+			(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);
+		
+		%link(rel='stylesheet' href='//fonts.googleapis.com/css?family=Noto+Sans%3A400italic%2C700italic%2C400%2C700%7CNoto+Serif%3A400italic%2C700italic%2C400%2C700%7CInconsolata%3A400%2C700&#038;subset=latin%2Clatin-ext' type='text/css' media='all')
+		%link(rel='stylesheet' href='/css/twentyfifteen/genericons/genericons.css' type='text/css' media='all')
+		%script(type='text/javascript' src='/js/jquery-1.11.3.min.js')
 	
-	%body{class: ["home", "blog", [@item[:no_sidebar] && 'onecolumn'], [@item[:paged] && 'paged']]}
-		#wrapper.hfeed
-			#header
-				#masthead
-					#branding
-						%h1#site-title
-							%span
-								%a(href="/")= @config[:site_title]
-						#site-description= @config[:site_subtitle]
-						%img(src="/img/header.jpg" width="940" height="198" alt="Banner")
-					= render "include/menu"
+	- id = @item.identifier[1..-2].gsub('/', '--')
+	%body{class: [@item[:body_classes], "id-#{id}"]}
+		#page.site
+			#sidebar.sidebar
+				%header#masthead.site-header(role="banner")
+					.site-branding
+						%h1.site-title
+							%a(href="/" rel="home")= @config[:site_title]
+						%p.site-description= @config[:site_subtitle]
+						%button.secondary-toggle Menu
 
-			#main
-				#container
-					#content
+				#secondary.secondary
+					%nav#site-navigation.main-navigation(role="navigation")
+						= render "include/menu"
+										
+					%nav#social-navigation.social-navigation(role="navigation")
+						%div
+							%ul.menu
+								- @config[:social_links].each do |link|
+									%li.menu-item
+										%a{href: link[:url], class: [link[:class]]}
+
+					#widget-area.widget-area(role="complementary")
+						%aside.widget
+							%h2.widget-title Tags
+							= tag_cloud "/blog/tag/", link_for_tag: lambda {|x,y| link_for_tag(x,y) }
+
+			#content.site-content
+				#primary.content-area
+					%main#main.site-main(role="main")
 						= yield
 
-				- unless @item[:no_sidebar]
-					#primary.widget-area
-						%ul.xoxo
-							- if @item[:kind] == 'article_list'
-								%li.widget-container.widget_categories
-									%h3.widget-title
-										Tags
-									= tag_cloud "/blog/tag/", link_for_tag: lambda {|x,y| link_for_tag(x,y) }
+			%footer#colophon.site-footer(role="contentinfo")
 
-							= render "include/book"
-
-							-# if @item.identifier == '/'
-								= render "include/twitter_timeline"
-
-			#footer
+		:javascript
+			var screenReaderText = {
+				"expand":"<span class=\"screen-reader-text\">Expand all<\/span>",
+				"collapse":"<span class=\"screen-reader-text\">Collapse all<\/span>"
+			};
+		%script(type='text/javascript' src='/css/twentyfifteen/js/functions.js')
+		%script(type='text/javascript' src='/js/blog.js')

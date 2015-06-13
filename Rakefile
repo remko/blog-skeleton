@@ -18,6 +18,7 @@ end
 
 desc "Run sanity checks"
 task :check do
+	sh "eslint ."
 	sh "nanoc check --deploy"
 end
 
@@ -31,5 +32,6 @@ task :deploy => :deploy_vps
 
 desc "Deploy the website to the VPS"
 task :deploy_vps do
+	sh "eslint ."
 	sh "nanoc deploy"
 end
