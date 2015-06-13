@@ -3,7 +3,7 @@
 - link_uri = URI.parse(link)
 - link_site = (link_uri && link_uri.host ? link_uri.host.downcase : link).gsub(/^www\./, '')
 
-%article{class: ["post", "hentry", "format-#{format}", [post[:header_image] && "has-post-thumbnail"]]}
+%article{class: ["post", "hentry", "format-#{format}", [post[:header_image] && "has-post-thumbnail"], [post[:sticky] && "sticky"]]}
 	-if post[:header_image]
 		.post-thumbnail
 			%img.attachment-post-thumbnail{src: post[:header_image]}
@@ -19,10 +19,12 @@
 					Continue reading on #{link_site}
 
 	%footer.entry-footer
+		-if post[:sticky]
+			%span.sticky-post Featured
 		%span.posted-on
 			%span.screen-reader-text<
 				Posted on
-			%a{href: post.path, rel: "bookmark"}
+			%a{href: link, rel: "bookmark"}
 				- created_at = Date.parse(post[:created_at])
 				%time.entry-date.published{datetime: created_at.strftime("%FT%T%:z")}= created_at.strftime("%B %d, %Y")
 				-# %time.entry-date.updated(datetime="2005-01-01T12:59:06+00:00")= Date.parse(post[:created_at]).strftime("%B %d, %Y")

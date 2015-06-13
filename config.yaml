@@ -59,6 +59,7 @@ data_sources:
     allow_periods_in_identifiers: true
   -
     type: static
+    items_root: /static
 
 # Configuration for the “watch” command, which watches a site for changes and
 # recompiles if necessary.
@@ -96,10 +97,15 @@ avatars:
   openid: ['https://el-tramo.be/']
 social_links:
 - url: 'mailto:remko@el-tramo.be'
+  alt: 'Mail'
 - url: 'https://twitter.com/remko'
+  alt: 'Twitter'
 - url: 'https://github.com/remko'
+  alt: 'GitHub'
 - url: 'https://be.linkedin.com/in/remko'
+  alt: 'LinkedIn'
 - url: '/remko.gpg.asc'
+  alt: 'OpenPGP Key'
   class: 'openpgp'
 
 deploy:

@@ -45,6 +45,7 @@
 								- @config[:social_links].each do |link|
 									%li.menu-item
 										%a{href: link[:url], class: [link[:class]]}
+											%span.screen-reader-text= link[:alt]
 
 			#content.site-content
 				#primary.content-area

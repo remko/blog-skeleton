@@ -149,6 +149,7 @@ end
 # Avatar
 ################################################################################
 
+# Libravatar avatars
 @config[:avatars][:email].each do |avatar|
 	compile "/avatar", :rep => avatar + "_sha256" do end
 	route "/avatar", :rep => avatar + "_sha256" do
@@ -168,34 +169,25 @@ end
 	end
 end
 
+# Simple avatar
 route "/avatar" do 
 	"/avatar/avatar.jpg"
 end
 
 
 ################################################################################
-# Files that need to be preserved as-is
+# Files that don't need processing
 ################################################################################
 
-preserved = %r</(blank/.*)|(eclipse/.+)|^/google\w{16}/>
-
-compile preserved do
+route '/static/favicon/*' do
+	item.identifier[(7+8)..-2]
 end
 
-route preserved do
-	item.identifier.chop + '.' + item[:extension]
+route '/static/*' do
+	item.identifier[7..-2]
 end
 
-route '/css/*' do
-	item.identifier[0..-2]
-end
-
-route '/js/*' do
-	item.identifier[0..-2]
-end
-
-route '/favicon/*' do
-	item.identifier[8..-2]
+compile '/static/*' do
 end
 
 ################################################################################
