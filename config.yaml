@@ -84,6 +84,7 @@ base_url : "https://el-tramo.be"
 page_size : 10
 site_title: "El Tramo"
 site_subtitle: "Remko Tronçon's Homepage"
+ga_tracking_id: "UA-41394304-1"
 author_name: "Remko Tronçon"
 author_uri: "https://el-tramo.be/about"
 author_bio: "Software Engineer. Hobby musician. BookWidgets."

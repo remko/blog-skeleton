@@ -22,11 +22,11 @@
 		
 		%link(rel='stylesheet' href='//fonts.googleapis.com/css?family=Noto+Sans%3A400italic%2C700italic%2C400%2C700%7CNoto+Serif%3A400italic%2C700italic%2C400%2C700%7CInconsolata%3A400%2C700&#038;subset=latin%2Clatin-ext' type='text/css' media='all')
 		%link(rel='stylesheet' href='/css/twentyfifteen/genericons/genericons.css' type='text/css' media='all')
-		%script(type='text/javascript' src='/js/jquery-1.11.3.min.js')
 	
 	- id = @item.identifier[1..-2].gsub('/', '--')
 	%body{class: [@item[:body_classes], "id-#{id}"]}
 		#page.site
+			%a.skip-link.screen-reader-text(href="#content") Skip to content
 			#sidebar.sidebar
 				%header#masthead.site-header(role="banner")
 					.site-branding
@@ -54,10 +54,12 @@
 
 			%footer#colophon.site-footer(role="contentinfo")
 
+		= render "include/ga"
 		:javascript
 			var screenReaderText = {
 				"expand":"<span class=\"screen-reader-text\">Expand all<\/span>",
 				"collapse":"<span class=\"screen-reader-text\">Collapse all<\/span>"
 			};
+		%script(type='text/javascript' src='/js/jquery-1.11.3.min.js')
 		%script(type='text/javascript' src='/css/twentyfifteen/js/functions.js')
 		%script(type='text/javascript' src='/js/blog.js')
