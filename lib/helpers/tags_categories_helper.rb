@@ -50,7 +50,7 @@ module TagsCategoriesHelper
 
 	private
 		def link_for(name, base_url)
-			%[<a href="#{h base_url}#{h slugify(name)}">#{h name}</a>]
+			%[<a href="#{h base_url}#{h slugify(name)}/">#{h name}</a>]
 		end
 
 		def links_for(values, params = {})
