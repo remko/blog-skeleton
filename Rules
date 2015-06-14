@@ -10,7 +10,7 @@ preprocess do
 	# Everything in my blog/ dir is an article.
 	# Derive the date from the filename (for Jekyll-style post naming)
 	@items.each do |item|
-		if /\/blog\/[^\/]*\/$/.match(item.identifier)
+		if /\/blog\/[^\/]*\/$/.match(item.identifier) && !item.binary?
 			item[:kind] = "article"
 			item[:layout] = "post"
 			item[:comments] = true

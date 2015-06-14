@@ -1,6 +1,7 @@
 --- 
 title: Example Post
 created_at: "2013-02-01"
+header_image: /blog/new-post-header.jpg
 tags: 
 - Tag1
 - Tag3

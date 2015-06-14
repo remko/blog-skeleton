@@ -129,7 +129,7 @@ generated: true
 ---
 This is a list of all my software projects:
 
-- [Swift IM Project](http://swift.im)
+- [Swift IM Project](http://swift.im) <span class="genericon genericon-external"></span>
 EOS
 
 	ci_page = <<-EOS

@@ -95,6 +95,10 @@ article.format-link blockquote {
 	font-weight: bold;
 }
 
+.page .genericon {
+	font-size: 24px;
+}
+
 /*******************************************************************************
  * Twitter widget overrides
  *******************************************************************************/
