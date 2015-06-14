@@ -3,7 +3,7 @@
 ## About
 
 This repository contains the skeleton and code for my [nanoc](http://nanoc.ws)-based blog,
-hosted at <http://el-tramo.be>. 
+hosted at <https://el-tramo.be>. 
 More information about this code can be found in my [blog post](https://el-tramo.be/blog/wordpress-to-nanoc).
 
 
