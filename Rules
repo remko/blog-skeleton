@@ -10,7 +10,7 @@ preprocess do
 	# Everything in my blog/ dir is an article.
 	# Derive the date from the filename (for Jekyll-style post naming)
 	@items.each do |item|
-		if /\/blog\/[^\/]*\/$/.match(item.identifier) && !item.binary?
+		if /\/blog\/[^\/]*/.match(item.identifier) && !item.binary? && item[:title]
 			item[:kind] = "article"
 			item[:layout] = "post"
 			item[:comments] = true
@@ -32,17 +32,17 @@ preprocess do
 		last = (i+1)*config[:page_size]
 		if i == 0
 			title = "#{@config[:site_title]} | #{@config[:site_subtitle]}"
-			id = "/"
+			id = "/index.html"
 		else
 			title = "Archive (posts #{first} to #{last})"
-			id = "/blog/page#{i+1}"
+			id = "/blog/page#{i+1}.html"
 		end
-		items << Nanoc::Item.new("<%= render 'blog_page', :item_id => #{i} %>", { 
-			:title => title, 
-			:created_at => DateTime.now, 
-			:paged => true, 
-			:kind => "article_list",
-			:body_classes => ["blog"]
+		@items.create("<%= render '/blog_page.*', item_id: #{i} %>", { 
+			title: title, 
+			created_at: DateTime.now, 
+			paged: true, 
+			kind: "article_list",
+			body_classes: ["blog"]
 		}, id)
 	end
 
@@ -54,25 +54,27 @@ preprocess do
 		path = "/blog/tag/#{slugify(name)}"
 		articles = "articles_with_tag(\"#{name}\")"
 		attributes = {
-			:title => "Tag: #{name}",
-			:created_at => DateTime.now,
-			:kind => "article_list",
-			:feed => "/feed.xml",
-			:tag => "#{name}",
-			:body_classes => ["archive", "tag"]
+			title: "Tag: #{name}",
+			created_at: DateTime.now,
+			kind: "article_list",
+			feed: "/feed.xml",
+			tag: "#{name}",
+			body_classes: ["archive", "tag"]
 		}
 
 		# Add feed for specific topics
 		if %w(xmpp jabber).include?(name.downcase)
 			attributes[:feed] = "#{path}/feed.xml"
-			items << Nanoc::Item.new("<%= atom_feed :title => \"#{@config[:site_title]} | #{name}\", :author_name => @config[:author_name], :author_uri => @config[:author_uri], :articles => #{articles}, :content_proc => lambda { |a| a.rep_named(:linked_excerpt).compiled_content }, :limit => 10 %>", {:kind => "feed"}, "#{path}/feed")
+			@items.create("<%= atom_feed title: \"#{@config[:site_title]} | #{name}\", author_name: @config[:author_name], author_uri: @config[:author_uri], articles: #{articles}, content_proc: lambda { |a| a.compiled_content(rep: :linked_excerpt) }, limit: 10 %>", {kind: "feed"}, "#{path}/feed.xml")
 		end
 
-		items << Nanoc::Item.new("<%= render 'archive_page', :posts => #{articles} %>", attributes, "#{path}")
+		@items.create("<%= render '/archive_page.*', posts: #{articles} %>", attributes, "#{path}.html")
 	end
 
 	# Hide some items
-	@items.each { |item| item[:is_hidden] = true if %r<^/google\w{16}/>.match(item.identifier) }
+	@items.each do |item| 
+		item[:is_hidden] = true if %r<^/static/google\w{16}>.match(item.identifier.to_s) || item[:link]
+	end
 end
 
 
@@ -80,15 +82,13 @@ end
 # XML files (Feeds, Sitemap)
 ################################################################################
 
-xml = %r</(feed/.*)|^/sitemap/>
-
-compile xml do
+compile '/**/{feed,sitemap}.xml' do
 	filter :erb
 	filter :git_link_filter
 end
 
-route xml do
-	item.identifier.chop + '.xml'
+route '/**/{feed,sitemap}.xml' do
+	item.identifier.to_s
 end
 
 
@@ -97,26 +97,22 @@ end
 ################################################################################
 
 # Excerpts with a "Read More ..." link
-compile '/blog/*', :rep => :linked_excerpt do
-	unless item.binary?
-		if item[:extension] == "md" or item[:extension] == "markdown"
-			filter :rdiscount, :extensions => [:smart]
-		end
-		filter :more_filter, :more_url => item.path
-		filter :git_link_filter
-	end
+compile '/blog/**/*.md', rep: :linked_excerpt do
+	filter :rdiscount, extensions: [:smart]
+	filter :more_filter, more_url: item.path
+	filter :git_link_filter
 end
 
-route '/blog/*', :rep => :linked_excerpt do
+route '/blog/**/*', rep: :linked_excerpt do
 end
 
-route '/blog/*' do
-	if item[:link]
-		nil
-	elsif item.binary? or item.identifier.end_with? "index"
-		item.identifier.chop + '.' + item[:extension]
+route '/blog/**/*' do
+	if item.binary? or !item[:title]
+		item.identifier.to_s
+	elsif item.identifier.without_ext.end_with?('index')
+		item.identifier.without_ext.gsub(/\d\d\d\d-\d\d-\d\d-/, '') + '.html'
 	else
-		item.identifier.gsub(/\d\d\d\d-\d\d-\d\d-/, '') + 'index.html'
+		item.identifier.without_ext.gsub(/\d\d\d\d-\d\d-\d\d-/, '') + '/index.html'
 	end
 end
 
@@ -127,23 +123,23 @@ end
 
 # Create a representation for only the top and only the bottom of a dummy page.
 # These will be included by CGit as header/footers.
-compile '/git', :rep => :top do
-	layout 'default'
-	filter :split_filter, :delimiter => "<!-- CONTENT -->", :keep => :top
-end
-
-compile '/git', :rep => :bottom do
-	layout 'default'
-	filter :split_filter, :delimiter => "<!-- CONTENT -->", :keep => :bottom
-end
-
-route '/git', :rep => :top do
-	item.identifier + 'top.html'
-end
-
-route '/git', :rep => :bottom do
-	item.identifier + 'bottom.html'
-end
+# compile '/git/', rep: :top do
+# 	layout 'default'
+# 	filter :split_filter, delimiter: "<!-- CONTENT -->", keep: :top
+# end
+#
+# compile '/git/', rep: :bottom do
+# 	layout 'default'
+# 	filter :split_filter, delimiter: "<!-- CONTENT -->", keep: :bottom
+# end
+#
+# route '/git/', rep: :top do
+# 	item.identifier + 'top.html'
+# end
+#
+# route '/git/', rep: :bottom do
+# 	item.identifier + 'bottom.html'
+# end
 
 
 ################################################################################
@@ -152,26 +148,26 @@ end
 
 # Libravatar avatars
 @config[:avatars][:email].each do |avatar|
-	compile "/avatar", :rep => avatar + "_sha256" do end
-	route "/avatar", :rep => avatar + "_sha256" do
+	compile "/avatar.*", rep: avatar + "_sha256" do end
+	route "/avatar.*", rep: avatar + "_sha256" do
 		"/avatar/" + Digest::SHA256.hexdigest(avatar.strip.downcase)
 	end
 
-	compile "/avatar", :rep => avatar + "_md5" do end
-	route "/avatar", :rep => avatar + "_md5" do
+	compile "/avatar.*", rep: avatar + "_md5" do end
+	route "/avatar.*", rep: avatar + "_md5" do
 		"/avatar/" + Digest::MD5.hexdigest(avatar.strip.downcase)
 	end
 end
 
 @config[:avatars][:openid].each do |avatar|
-	compile "/avatar", :rep => avatar do end
-	route "/avatar", :rep => avatar do
+	compile "/avatar.*", rep: avatar do end
+	route "/avatar.*", rep: avatar do
 		"/avatar/" + Digest::SHA256.hexdigest(avatar.strip.downcase)
 	end
 end
 
 # Simple avatar
-route "/avatar" do 
+route "/avatar.*" do 
 	"/avatar/avatar.jpg"
 end
 
@@ -180,46 +176,51 @@ end
 # Files that don't need processing
 ################################################################################
 
-route '/static/favicon/*' do
-	item.identifier[(7+8)..-2]
+route '/static/favicon/**' do
+  item.identifier.to_s.sub(/\A\/static\/favicon/, '')
 end
 
-route '/static/*' do
-	item.identifier[7..-2]
+compile '/static/**/*' do
 end
 
-compile '/static/*' do
+route '/static/**/*' do
+  item.identifier.to_s.sub(/\A\/static/, '')
 end
 
 ################################################################################
 # Default handling
 ################################################################################
 
-compile '*' do
-	unless item.binary? or item[:link]
-		filter :erb
-		if item[:extension] == "md" or item[:extension] == "markdown"
-			filter :rdiscount, :extensions => [:smart]
-		end
-		snapshot :filtered_contents
-		filter :colorize_syntax, :coderay => { :tab_width => 2 }, :syntax => :html
-		if item[:layout] 
-			layout item[:layout]
-		end
-		layout 'default' unless item[:no_default_layout] 
-		filter :more_filter, :mode => :replace
-		filter :git_link_filter
+compile '/**/*.{md,html}' do
+	filter :erb
+	if item.identifier.to_s.end_with?(".md")
+		filter :rdiscount, extensions: [:smart]
 	end
+	snapshot :filtered_contents
+	filter :colorize_syntax, coderay: { tab_width: 2 }, syntax: :html
+	if item[:layout] 
+		layout "/#{item[:layout]}.*"
+	end
+	layout '/default.*' unless item[:no_default_layout] 
+	filter :more_filter, mode: :replace
+	filter :git_link_filter
+	filter :image_size, paths: ["content", "static" ]
 end
 
-route '*' do
-	if item.binary? or item.identifier.end_with? "index"
-		item.identifier.chop + '.' + item[:extension]
-	else
-		# Write item with identifier /foo/ to /foo/index.html
-		item.identifier + 'index.html'
-	end
+compile '/**/*' do
 end
 
-layout 'include/disqus', :erb
-layout '*', :haml
+route '/**/index.*' do
+	item.identifier.without_ext + '.html'
+end
+
+route '/**/*.{html,md}' do
+  item.identifier.without_ext + '/index.html'
+end
+
+route '/**/*' do
+	item.identifier.to_s
+end
+
+layout '/**/*.haml', :haml
+layout '/**/*.html', :erb

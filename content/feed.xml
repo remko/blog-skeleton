@@ -5,5 +5,5 @@ kind: feed
 	:title => @config[:site_title], \
 	:author_name => @config[:author_name], \
 	:author_uri => @config[:author_uri], \
-	:content_proc => lambda { |a| a.rep_named(:linked_excerpt).compiled_content }, \
+	:content_proc => lambda { |a| a.compiled_content(rep: :linked_excerpt) }, \
 	:limit => 10 %>

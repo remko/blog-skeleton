@@ -11,8 +11,8 @@
 			#{yield}
 	
 	- if @item[:author_info]
-		= render "include/author_info"
+		= render "/include/author_info.*"
 
 - if @item[:comments]
 	#comments.comments-area
-		= render "include/disqus"
+		= render "/include/disqus.*"

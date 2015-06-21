@@ -1,14 +1,14 @@
 %div
 	%ul.nav-menu
 
-		%li.menu-item.menu-item-has-children{class: [@item.identifier == "/" && "current-menu-item", @item.identifier.start_with?("/blog/tag/") && "current-menu-ancestor"]}
+		%li.menu-item.menu-item-has-children{class: [@item.path == "/" && "current-menu-item", @item.path.start_with?("/blog/tag/") && "current-menu-ancestor"]}
 			%a(href="/") Blog
 			%ul.sub-menu
 				%li
 					- current_tag = @item[:kind] == "article_list" ? @item[:tag] : nil
 					.tag-cloud= tag_cloud "/blog/tag/", current_tag: current_tag, link_for_tag: lambda {|x,y| link_for_tag(x,y) }
 
-		%li.menu-item.menu-item-has-children{class: [ @item.identifier == "/software/" && "current-menu-item", ["/retjilp/", "/wigit/", "/atomail/", "/docbook-kit/"].include?(@item.identifier) && "current-menu-ancestor" ]}
+		%li.menu-item.menu-item-has-children{class: [ @item.path == "/software/" && "current-menu-item", ["/retjilp/", "/wigit/", "/atomail/", "/docbook-kit/"].include?(@item.path) && "current-menu-ancestor" ]}
 			%a(href="/software") Software
 			%ul.sub-menu
 				%li.menu-item<
@@ -16,34 +16,34 @@
 						Swift IM 
 						%span.genericon.genericon-external
 						.menu-item-description XMPP Messaging Software
-				%li.menu-item{class: [@item.identifier == "/retjilp/" && "current-menu-item"]}<
+				%li.menu-item{class: [@item.path == "/retjilp/" && "current-menu-item"]}<
 					%a(href="/retjilp")<
 						Retjilp
 						.menu-item-description Native Auto-retweet bot
-				%li.menu-item{class: [@item.identifier == "/wigit/" && "current-menu-item"]}<
+				%li.menu-item{class: [@item.path == "/wigit/" && "current-menu-item"]}<
 					%a(href="/wigit")<
 						WiGit
 						.menu-item-description A Simple Git-based Wiki
-				%li.menu-item{class: [@item.identifier == "/atomail/" && "current-menu-item"]}<
+				%li.menu-item{class: [@item.path == "/atomail/" && "current-menu-item"]}<
 					%a(href="/atomail")<
 						AtoMail
 						.menu-item-description Convert E-Mail into RSS
-				%li.menu-item{class: [@item.identifier == "/docbook-kit/" && "current-menu-item"]}<
+				%li.menu-item{class: [@item.path == "/docbook-kit/" && "current-menu-item"]}<
 					%a(href="/docbook-kit")<
 						DocBook Kit
 						.menu-item-description A Collection of DocBook Utilities
-				%li.menu-item{class: [@item.identifier == "/software/" && "current-menu-item"]}<
+				%li.menu-item{class: [@item.path == "/software/" && "current-menu-item"]}<
 					%a(href="/software")<
 						All Software
 
-		%li.menu-item.menu-item-has-children{class: [["/documents/beautiful-xmpp-testing/", "/guides/fancy-dmg/", "/guides/darcs-static-osx/", "/guides/linux-lt9399/", "/publications/"].include?(@item.identifier) && "current-menu-ancestor"]}
+		%li.menu-item.menu-item-has-children{class: [["/documents/beautiful-xmpp-testing/", "/guides/fancy-dmg/", "/guides/darcs-static-osx/", "/guides/linux-lt9399/", "/publications/"].include?(@item.path) && "current-menu-ancestor"]}
 			%a Writings
 			%ul.sub-menu
 				%li.menu-item<
 					%a(href="https://oreilly.com/catalog/9780596521271")<
 						XMPP: The Definitive Guide
 						%span.genericon.genericon-external
-				%li.menu-item{class: [@item.identifier == "/documents/beautiful-xmpp-testing/" && "current-menu-item"]}<
+				%li.menu-item{class: [@item.path == "/documents/beautiful-xmpp-testing/" && "current-menu-item"]}<
 					%a(href="/documents/beautiful-xmpp-testing")<
 						Beautiful XMPP Testing
 				%li.menu-item<
@@ -51,16 +51,16 @@
 						The First 10 Prolog Programming Contests
 						%span.genericon.genericon-external
 
-				%li.menu-item.menu-item-has-children{class: [["/guides/fancy-dmg/", "/guides/darcs-static-osx/", "/guides/linux-lt9399/"].include?(@item.identifier) && "current-menu-ancestor"]}
+				%li.menu-item.menu-item-has-children{class: [["/guides/fancy-dmg/", "/guides/darcs-static-osx/", "/guides/linux-lt9399/"].include?(@item.path) && "current-menu-ancestor"]}
 					%a Guides
 					%ul.sub-menu
-						%li.menu-item{class: [@item.identifier == "/guides/fancy-dmg/" && "current-menu-item"]}<
+						%li.menu-item{class: [@item.path == "/guides/fancy-dmg/" && "current-menu-item"]}<
 							%a(href="/guides/fancy-dmg")<
 								Building Fancy DMG Images on Mac OS X
-						%li.menu-item{class: [@item.identifier == "/guides/darcs-static-osx/" && "current-menu-item"]}<
+						%li.menu-item{class: [@item.path == "/guides/darcs-static-osx/" && "current-menu-item"]}<
 							%a(href="/guides/darcs-static-osx")<
 								Creating Darcs Mac OS X static builds
-						%li.menu-item{class: [@item.identifier == "/guides/linux-lt9399/" && "current-menu-item"]}<
+						%li.menu-item{class: [@item.path == "/guides/linux-lt9399/" && "current-menu-item"]}<
 							%a(href="/guides/linux-lt9399")<
 								Running Linux 2.6 on LT9399 (or MD9399) Laptops
 
@@ -82,9 +82,9 @@
 								XEP-0209
 								%span.genericon.genericon-external
 								.menu-item-description Metacontacts
-				%li.menu-item{class: [@item.identifier == "/publications/" && "current-menu-item"]}<
+				%li.menu-item{class: [@item.path == "/publications/" && "current-menu-item"]}<
 					%a(href="/publications")<
 						Academic Publications
 
-		%li.menu-item{class: [@item.identifier == "/about/" && "current-menu-item"]}
+		%li.menu-item{class: [@item.path == "/about/" && "current-menu-item"]}
 			%a(href="/about") About Me

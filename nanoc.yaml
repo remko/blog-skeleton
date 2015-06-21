@@ -1,0 +1,60 @@
+# Standard Nanoc configuration
+string_pattern_type: glob
+text_extensions: [ 'html', 'htm', 'md', 'markdown', 'xml', 'haml' ]
+output_dir: output
+index_filenames: [ 'index.html' ]
+enable_output_diff: false
+
+prune:
+  auto_prune: true
+  exclude: [ '.git', '.hg', '.svn', 'CVS' ]
+
+data_sources:
+  -
+    type: filesystem
+    items_root: /
+    layouts_root: /
+    encoding: utf-8
+    identifier_type: full
+  -
+    type: filesystem
+    items_root: /static
+    content_dir: 'static'
+    layouts_dir: null
+    identifier_type: full
+
+deploy:
+  default:
+    kind: rsync
+    dst: "el-tramo.be:www/html/output"
+    options: [ '-aP', '--delete-after' ] # delete existing files on server
+
+# Extra configuration
+base_url : "https://el-tramo.be"
+page_size : 10
+site_title: "El Tramo"
+site_subtitle: "Remko Tronçon's Homepage"
+ga_tracking_id: "UA-41394304-1"
+author_name: "Remko Tronçon"
+author_uri: "https://el-tramo.be/about"
+author_bio: "Software Engineer. Hobby musician. BookWidgets."
+author_avatar: "/avatar/avatar.jpg"
+author_twitter_id: "803083"
+author_facebook_id: "672523803"
+disqus_shortname: "el-tramo"
+github_id: "remko"
+avatars:
+  email: ['remko@el-tramo.be', 'git@el-tramo.be', 'r@mko.re']
+  openid: ['https://el-tramo.be/']
+social_links:
+- url: 'mailto:remko@el-tramo.be'
+  alt: 'Mail'
+- url: 'https://twitter.com/remko'
+  alt: 'Twitter'
+- url: 'https://github.com/remko'
+  alt: 'GitHub'
+- url: 'https://be.linkedin.com/in/remko'
+  alt: 'LinkedIn'
+- url: '/remko.gpg.asc'
+  alt: 'OpenPGP Key'
+  class: 'openpgp'

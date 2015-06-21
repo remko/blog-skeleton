@@ -1,16 +1,21 @@
-%article{class: ["post", "hentry", "format-standard", [@item[:header_image] && "has-post-thumbnail"]]}
+- format = @item[:link] ? "format-link" : "format-standard"
+%article{class: ["post", "hentry", format, [@item[:header_image] && "has-post-thumbnail"]]}
 	-if @item[:header_image]
 		.post-thumbnail
 			%img.attachment-post-thumbnail{src: @item[:header_image]}
 
 	%header.entry-header
-		%h1.entry-title= @item[:title]
+		%h1.entry-title
+			-if @item[:link]
+				%a{href: @item[:link]}= @item[:title]
+			-else
+				= @item[:title]
 
 	.entry-content
 		:preserve
 			#{yield}
 
-	= render "include/author_info"
+	= render "/include/author_info.*"
 
 	%footer.entry-footer
 		%span.posted-on
@@ -31,4 +36,4 @@
 			= tag_links(@item)
 
 #comments.comments-area
-	= render "include/disqus"
+	= render "/include/disqus.*"

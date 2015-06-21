@@ -1,7 +1,7 @@
 - pages_count = (sorted_articles.size - 1) / @config[:page_size] + 1
 - posts = sorted_articles.slice(@item_id*@config[:page_size], @config[:page_size])
 - posts.each do |post| 
-	= render 'include/post_excerpt', post: post
+	= render '/include/post_excerpt.*', post: post
 
 %nav.navigation.pagination
 	%h2.screen-reader-text Navigation

@@ -12,7 +12,7 @@
 		%h2.entry-title(rel="bookmark")= link_to post[:title], link
 
 	.entry-content
-		= post.rep_named(:linked_excerpt).compiled_content
+		= post.compiled_content(rep: :linked_excerpt)
 		-if post[:link]
 			%p
 				%a.more-link{href: link}
