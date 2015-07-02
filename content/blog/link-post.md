@@ -1,6 +1,6 @@
 --- 
 title: Example Link Post
-created_at: "2013-01-31"
+created_at: 2013-01-31
 link: https://el-tramo.be/blog-skeleton
 tags: 
 - Tag1
