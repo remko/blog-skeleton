@@ -70,6 +70,7 @@ GEM
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     rdiscount (2.1.8)
+    rouge (1.9.0)
     shellany (0.0.1)
     simpleidn (0.0.5)
     slop (3.6.0)
@@ -101,6 +102,7 @@ DEPENDENCIES
   nokogiri
   rake
   rdiscount
+  rouge
   simpleidn
   systemu
 

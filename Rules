@@ -199,8 +199,8 @@ compile '/**/*.{md,html}' do
 		filter :rdiscount, extensions: [:smart]
 	end
 	snapshot :filtered_contents
-	filter :colorize_syntax, coderay: { tab_width: 2 }, syntax: :html
-	if item[:layout]
+	filter :colorize_syntax, coderay: { tab_width: 2 }, syntax: :html, default_colorizer: :rouge
+	if item[:layout] 
 		layout "/#{item[:layout]}.*"
 	end
 	layout '/default.*' unless item[:no_default_layout]
