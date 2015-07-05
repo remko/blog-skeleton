@@ -127,7 +127,7 @@ title: Software
 layout: page
 generated: true
 ---
-This is a list of all my software projects:
+This is a list of all my public software projects:
 
 - [Swift IM Project](http://swift.im) <span class="genericon genericon-external"></span>
 EOS
