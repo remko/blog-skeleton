@@ -7,7 +7,7 @@ module TagsCategoriesHelper
 	include Nanoc::Helpers::HTMLEscape
 
 	def slugify(text)
-		text.downcase.gsub(" ", "-").gsub("'","-")
+		text.downcase.gsub(" ", "-").gsub("'","-").gsub("#", "-sharp")
 	end
 
 	# Overriding the built-in tags_for
