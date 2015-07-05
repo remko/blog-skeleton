@@ -15,8 +15,16 @@ preprocess do
 			item[:layout] = "post"
 			item[:comments] = true
 			item[:custom_url_in_feed] = item[:link] if item[:link]
-			if not item[:created_at] and m = /blog\/(\d{4}-\d{2}-\d{2})/.match(item.identifier)
+			if !item[:created_at] && m = /blog\/(\d{4}-\d{2}-\d{2})/.match(item.identifier)
 				item[:created_at] = m[1]
+			end
+
+			# Explicitly put author tags on blog posts.
+			# This is so the feed generator generates author information for each entry,
+			# because not all RSS readers show global author names.
+			if !item[:author_name] && !item[:author_uri]
+				item[:author_name] = @config[:author_name]
+				item[:author_uri] = @config[:author_uri]
 			end
 		end
 	end
