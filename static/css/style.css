@@ -198,6 +198,32 @@ pre {
 .highlight .gi { color: #a6e22e; } /* Generic.Inserted & Diff Inserted */
 
 /*******************************************************************************
+ * Spinner
+ * Source: http://codepen.io/bernethe/pen/dorozd
+ *******************************************************************************/
+
+.spinner {
+	width: 32px;
+	height: 32px;
+	margin: 20px auto;
+  border: 4px rgba(0, 0, 0, 0.25) solid;
+  border-top: 4px black solid;
+  border-radius: 50%;
+  -webkit-animation: rotateSpinner .6s infinite linear;
+  animation: rotateSpinner .6s infinite linear;
+}
+
+@-webkit-keyframes rotateSpinner {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(359deg); }
+}
+
+@keyframes rotateSpinner {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(359deg); }
+}
+
+/*******************************************************************************
  * Custom overrides for specific elements in posts
  *******************************************************************************/
 
