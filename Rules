@@ -57,7 +57,7 @@ preprocess do
 			created_at: DateTime.now,
 			paged: true,
 			kind: "article_list",
-			body_classes: ["blog"]
+			body_classes: ["blog"] + (i == 0 ? ["infinite-scroll"] : [])
 		}, id)
 	end
 
