@@ -5,5 +5,12 @@ kind: feed
 	:title => @config[:site_title], \
 	:author_name => @config[:author_name], \
 	:author_uri => @config[:author_uri], \
-	:content_proc => ->(a) { a.compiled_content(rep: :linked_excerpt) }, \
+	:content_proc => ->(a) { 
+			content = a.compiled_content(rep: :linked_excerpt) 
+			if a[:header_image] 
+				"<img src=\"#{@config[:base_url]}#{a[:header_image]}\">#{content}" 
+			else
+				content
+			end
+	}, \
 	:limit => 10 %>
