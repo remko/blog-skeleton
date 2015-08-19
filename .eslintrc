@@ -1,1 +1,3 @@
 extends: eslint-config-remko
+rules:
+	no-var: 0
