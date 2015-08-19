@@ -11,6 +11,10 @@
 require 'net/http'
 require 'json'
 
+# require 'openssl'
+# OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
+
 GIT_URL_PREFIX = "https://raw.githubusercontent.com/remko"
 TRAVIS_INFO_URL_PREFIX = "https://api.travis-ci.org/repositories/remko"
 TRAVIS_IMG_URL_PREFIX = "https://api.travis-ci.org/remko"
@@ -58,7 +62,7 @@ end
 def get_coveralls_image_url(project)
 	travis_url = "#{COVERALLS_PAGE_URL_PREFIX}/#{project}"
 	response = Net::HTTP.get_response(URI.parse(travis_url))
-	return nil if response.class != Net::HTTPOK
+	return nil if response.class != Net::HTTPOK and response.class != Net::HTTPMovedPermanently
 	return "#{COVERALLS_IMG_URL_PREFIX}/#{project}/badge.png?branch=master"
 end
 
