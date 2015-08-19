@@ -121,6 +121,16 @@ end
 route '/blog/**/*', rep: :linked_excerpt do
 end
 
+compile '/blog/**/*.md', rep: :feed_excerpt do
+	filter :rdiscount, extensions: [:smart]
+	filter :more_filter, more_url: item.path
+	filter :git_link_filter
+	filter :absolutify_urls, base: @config[:base_url]
+end
+
+route '/blog/**/*', rep: :feed_excerpt do
+end
+
 route '/blog/**/*' do
 	if item.binary? or !item[:title]
 		item.identifier.to_s
