@@ -7,11 +7,11 @@
 	%h2.screen-reader-text Navigation
 	.nav-links
 		- if @item_id >= 1
-			- prev_link = @item_id > 1 ? "/blog/page#{@item_id}" : "/"
+			- prev_link = @item_id > 1 ? "/blog/page#{@item_id}/" : "/"
 			%a.prev.page-numbers{href: prev_link} Previous page
 
 		-(0..pages_count-1).each_with_index do |page_index|
-			-page_link = page_index > 0 ? "/blog/page#{page_index+1}" : "/"
+			-page_link = page_index > 0 ? "/blog/page#{page_index+1}/" : "/"
 			-if page_index == @item_id
 				%span.page-numbers.current
 					%span.meta-nav.screen-reader-text Page
@@ -22,5 +22,5 @@
 					= page_index + 1
 
 		- if @item_id < pages_count - 1
-			%a.next.page-numbers{href: "/blog/page#{@item_id + 2}"} Next page
+			%a.next.page-numbers{href: "/blog/page#{@item_id + 2}/"} Next page
 
