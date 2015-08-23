@@ -1,0 +1,7 @@
+%meta{name: "author", content: @config[:author_name]}
+- if @item[:kind] == "article_list"
+	%meta{name: "description", content: @config[:site_subtitle]}
+- elsif @item[:kind] == "article"
+	%meta{name: "description", content: excerptize(decode_html_entities(strip_html(strip_more(@item.compiled_content(snapshot: :filtered_contents))).gsub(/\n/, ' ')), length: 200)}
+- else
+	%meta{name: "description", content: excerptize(decode_html_entities(strip_html(strip_more(@item.compiled_content(snapshot: :filtered_contents))).gsub(/\n/, ' ')), length: 200)}
