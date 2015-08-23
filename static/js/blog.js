@@ -37,18 +37,25 @@
 			}
 		}
 
+		// Visibility toggling
+		$.fn.setVisible = function() {
+			return this.css('visibility', 'visible');
+		};
+
+		$.fn.setInvisible = function() {
+			return this.css('visibility', 'hidden');
+		};
+
 		// Extracts the URL of the next page from the navigation bar
-		var getNextPageURL = function ($navContainer) {
-			return $navContainer.find('nav .current').next('a').attr('href');
+		var getNextPageURL = function () {
+			return $('main nav').find('.current').next('a').attr('href');
 		}
 
-		// Initialize the 'next page' URL
-		var nextPageURL = getNextPageURL($('main'));
+		// Hide the navigation bar
+		var $nav = $('main nav').setInvisible();
 
-		// Replace navigation by a spinner
-		var $nav = $('main nav')
-			.html('<div class=\'nav-links\'><div class=\'spinner\'/></div>');
-		var $spinner = $nav.find('.spinner').hide();
+		// Initialize the 'next page' URL
+		var nextPageURL = getNextPageURL();
 
 		// Checks if we need to fetch the next page, and fetch if so
 		var fetchNextPageIfNecessary = throttle(function() {
@@ -60,25 +67,29 @@
 		// Fetches the page at the given URL, and append its articles
 		var fetchPage = function (url) {
 			$(window).off('scroll', fetchNextPageIfNecessary);
-			$spinner.show();
-			$.ajax(url).then(function (response) {
+			$nav
+				.html('<div class=\'nav-links\'><div class=\'spinner\'/></div>')
+				.setVisible();
+			$.ajax(url, { cache: false }).then(function (response) {
 				$.each($.parseHTML(response), function (i, el) {
 					var $main = $(el).find('main');
 					if ($main.length) {
-						$spinner.hide();
-
 						// Append all the `article` elements.
 						$main.find('article')
 							.fadeIn(300)
 							.insertAfter($('main article').last());
 
+						// Update navbar
+						$nav.replaceWith($main.find('nav'))
+						$nav = $('main nav').setInvisible();
+
 						// Get the URL for the next page to be fetched.
-						nextPageURL = getNextPageURL($main);
+						nextPageURL = getNextPageURL();
 						if (nextPageURL) {
 							$(window).on('scroll', fetchNextPageIfNecessary);
 						}
 						else {
-							// We loaded the last page. Hide the navbar.
+							// We loaded the last page. Hide the navbar completely.
 							$nav.hide();
 						}
 					}
