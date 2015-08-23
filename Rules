@@ -19,13 +19,6 @@ preprocess do
 				item[:created_at] = m[1]
 			end
 
-			if item.identifier.without_ext.end_with?('index') && !item[:header_image]
-				# FIXME: Hard coding content is probably ugly
-				item[:header_image] = %w(jpg png)
-					.map { |ext| Pathname.new(item.identifier).parent / "header.#{ext}"}
-					.find { |p| File.exist?(File.join("content", p)) }
-			end
-
 			# Explicitly put author tags on blog posts.
 			# This is so the feed generator generates author information for each entry,
 			# because not all RSS readers show global author names.
@@ -33,6 +26,18 @@ preprocess do
 				item[:author_name] = @config[:author_name]
 				item[:author_uri] = @config[:author_uri]
 			end
+		end
+
+		unless item.binary? || item[:header_image]
+			if item.identifier.without_ext.end_with?('index')
+				parent_path = Pathname.new(item.identifier).parent 
+			else
+				parent_path = Pathname.new(item.identifier.without_ext)
+			end
+			# FIXME: Hard coding content is probably ugly
+			item[:header_image] = %w(jpg png)
+				.map { |ext| parent_path / "header.#{ext}"}
+				.find { |p| File.exist?(File.join("content", p)) }
 		end
 	end
 
