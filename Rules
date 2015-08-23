@@ -78,7 +78,7 @@ preprocess do
 		}
 
 		# Add feed for specific topics
-		if %w(xmpp jabber).include?(name.downcase)
+		if %w(jabber).include?(name.downcase)
 			attributes[:feed] = "#{path}/feed.xml"
 			@items.create("<%= atom_feed title: \"#{@config[:site_title]} | #{name}\", author_name: @config[:author_name], author_uri: @config[:author_uri], articles: #{articles}, content_proc: lambda { |a| a.compiled_content(rep: :linked_excerpt) }, limit: 10 %>", {kind: "feed"}, "#{path}/feed.xml")
 		end
@@ -116,6 +116,7 @@ compile '/blog/**/*.md', rep: :linked_excerpt do
 	filter :rdiscount, extensions: [:smart]
 	filter :more_filter, more_url: item.path
 	filter :git_link_filter
+	filter :cachebust, type: :html_fragment
 end
 
 route '/blog/**/*', rep: :linked_excerpt do
@@ -126,6 +127,8 @@ compile '/blog/**/*.md', rep: :feed_excerpt do
 	filter :more_filter, more_url: item.path
 	filter :git_link_filter
 	filter :absolutify_urls, base: @config[:base_url]
+	# Not applying cachebusting to avoid feed reader caches becoming
+	# outdated.
 end
 
 route '/blog/**/*', rep: :feed_excerpt do
@@ -200,11 +203,15 @@ end
 
 
 ################################################################################
-# Files that don't need processing
+# Files that don't need processing (except cachebusting)
 ################################################################################
 
 route '/static/favicon/**' do
   item.identifier.to_s.sub(/\A\/static\/favicon/, '')
+end
+
+compile '/static/**/*.css' do
+	filter :cachebust, type: :css
 end
 
 compile '/static/**/*' do
@@ -212,6 +219,21 @@ end
 
 route '/static/**/*' do
   item.identifier.to_s.sub(/\A\/static/, '')
+end
+
+################################################################################
+# Cache busting
+################################################################################
+
+# Not cache busting CSS files, because they can reference fingerprinted files,
+# and I haven't figured out yet how to include those into the CSS fingerprint
+CACHE_BUSTED='/**/*.{jpg,png,jpeg,gif,js}'
+
+route CACHE_BUSTED, rep: :cache_busted do
+	item.identifier.without_ext.sub(/\A\/static/, '') + "-cb-" + fingerprint(item[:filename]) + "." + item.identifier.ext
+end
+
+compile CACHE_BUSTED, rep: :cache_busted do
 end
 
 ################################################################################
@@ -232,6 +254,7 @@ compile '/**/*.{md,html}' do
 	filter :more_filter, mode: :replace
 	filter :git_link_filter
 	filter :image_size, paths: ["content", "static" ]
+	filter :cachebust, type: :html
 end
 
 compile '/**/*' do
