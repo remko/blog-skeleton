@@ -115,8 +115,6 @@ end
 compile '/blog/**/*.md', rep: :linked_excerpt do
 	filter :rdiscount, extensions: [:smart]
 	filter :more_filter, more_url: item.path
-	filter :git_link_filter
-	filter :cachebust, type: :html_fragment
 end
 
 route '/blog/**/*', rep: :linked_excerpt do
@@ -253,7 +251,7 @@ compile '/**/*.{md,html}' do
 	layout '/default.*' unless item[:no_default_layout]
 	filter :more_filter, mode: :replace
 	filter :git_link_filter
-	filter :image_size, paths: ["content", "static" ]
+	filter :image_size
 	filter :cachebust, type: :html
 end
 
