@@ -1,6 +1,8 @@
 /* global jQuery */
 
-(function ($) {
+(function ($, lunr) {
+	var searching = false;
+
 	// Clicking menus without a link but with children expands
 	$('.main-navigation .menu-item-has-children > a:not([href])')
 		.attr('href', 'javascript:void(0)') // eslint-disable-line no-script-url
@@ -20,9 +22,9 @@
 			var windowBottom = windowTop + windowHeight;
 			var elTop = $el.offset().top;
 			var elBottom = elTop + $el.height();
-			return (elTop >= windowTop && elTop <= windowBottom + windowHeight) 
-				|| (elBottom >= windowTop - windowHeight && elBottom <= windowBottom);
-		}
+			return elTop >= windowTop && elTop <= windowBottom + windowHeight 
+				|| elBottom >= windowTop - windowHeight && elBottom <= windowBottom;
+		};
 
 		// Simple implementation of throttle. Only works once.
 		var throttled;
@@ -34,8 +36,8 @@
 						throttled = undefined;
 					}, timeout);
 				}
-			}
-		}
+			};
+		};
 
 		// Visibility toggling
 		$.fn.setVisible = function() {
@@ -49,7 +51,7 @@
 		// Extracts the URL of the next page from the navigation bar
 		var getNextPageURL = function () {
 			return $('main nav').find('.current').next('a').attr('href');
-		}
+		};
 
 		// Hide the navigation bar
 		var $nav = $('main nav').setInvisible();
@@ -59,7 +61,7 @@
 
 		// Checks if we need to fetch the next page, and fetch if so
 		var fetchNextPageIfNecessary = throttle(function() {
-			if (isAlmostVisible($nav) && nextPageURL) {
+			if (isAlmostVisible($nav) && nextPageURL && !searching) {
 				fetchPage(nextPageURL);
 			}
 		}, 300);
@@ -80,7 +82,7 @@
 							.insertAfter($('main article').last());
 
 						// Update navbar
-						$nav.replaceWith($main.find('nav'))
+						$nav.replaceWith($main.find('nav'));
 						$nav = $('main nav').setInvisible();
 
 						// Get the URL for the next page to be fetched.
@@ -95,7 +97,7 @@
 					}
 				});
 			});
-		}
+		};
 
 		if (nextPageURL) {
 			$(window).on('scroll', fetchNextPageIfNecessary);
@@ -104,4 +106,69 @@
 			$nav.hide();
 		}
 	}
-})(jQuery);
+
+	////////////////////////////////////////////////////////////////////////////////	
+	// Search
+	////////////////////////////////////////////////////////////////////////////////	
+	
+	lunr.stopWordFilter.stopWords = {};
+
+	var index = lunr(function () {
+		this.field('title', { boost: 10 });
+		this.field('tags', { boost: 5 });
+		this.field('body');
+		this.ref('id');
+	});
+	var searchForm = document.getElementById("search-form");
+	var searchInput = searchForm.querySelector("input.search-field");
+	var searchChanged = function (ev) {
+		var value = ev.target.value;
+
+		// Set up the view if necessary
+		if (!searching && value) {
+			$("#main").hide();
+			$("#main").parent().append(
+				"<main id='search-results' class='site-main' role='main'>" +
+					"<header class='page-header'>" +
+						"<h1 class='page-title'>Search results for: <span id='search-query'/></h1>" +
+					"</header>" +
+					"<article class='page hentry'>" +
+						"<div class='entry-content' id='search-results-content'>" +
+						"</div>" +
+					"</article>");
+		}
+		else if (searching && !value) {
+			$("#main").show();
+			$("#search-results").remove();
+		}
+		searching = !!value;
+
+		$("#search-query").html(value);
+		if (value) {
+			var results = index.search(value);
+			if (results.length) {
+				var data = window.searchData;
+				$("#search-results-content").html("<ul>" + results.map(function (result) {
+					var entry = data[result.ref];
+					return "<li><a href='" + entry.id + "'>" + entry.title + "</a></li>";
+				}).join("") + "</ul>");
+			}
+			else {
+				$("#search-results-content").html("<p>No results found</p>");
+			}
+		}
+	};
+
+	searchInput.addEventListener("input", searchChanged);
+	searchInput.addEventListener("paste", searchChanged);
+	searchForm.addEventListener("submit", function (ev) {
+		ev.preventDefault();
+	});
+
+	$(function () {
+		var data = window.searchData;
+		Object.keys(data).forEach(function(k) { 
+			index.add(data[k]); 
+		});
+	});
+})(jQuery, window.lunr);

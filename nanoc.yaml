@@ -1,6 +1,6 @@
 # Standard Nanoc configuration
 string_pattern_type: glob
-text_extensions: [ 'html', 'htm', 'md', 'markdown', 'xml', 'haml', 'css' ]
+text_extensions: [ 'html', 'htm', 'md', 'markdown', 'xml', 'haml', 'css', 'js' ]
 output_dir: output
 index_filenames: [ 'index.html' ]
 enable_output_diff: false

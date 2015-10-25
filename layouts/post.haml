@@ -2,7 +2,7 @@
 %article{class: ["post", "hentry", format, [@item[:header_image] && "has-post-thumbnail"]]}
 	-if @item[:header_image]
 		.post-thumbnail
-			%img.attachment-post-thumbnail{src: @item[:header_image]}
+			%img.attachment-post-thumbnail{src: @item[:header_image], alt: "header"}
 
 	%header.entry-header
 		%h1.entry-title

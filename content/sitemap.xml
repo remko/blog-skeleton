@@ -1,1 +1,1 @@
-<%= xml_sitemap :items => @items.reject{ |i| ['article_list', 'feed'].include?(i[:kind]) || i.binary? || i[:is_hidden] || i.identifier.ext == "css" } %>
+<%= xml_sitemap :items => @items.select{ |i| is_content?(i) } %>

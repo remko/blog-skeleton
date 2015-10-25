@@ -28,7 +28,38 @@ a, body {
 	.secondary {
 		background-color: transparent;
 	}
+
+	.site-main {
+		padding: 3% 0;
+	}
 }
+
+input, textarea {
+	background-color: rgba(255, 247, 226, 0.3);
+}
+
+/* Smaller sidebar */
+/* FIXME: Problems at higher screen width. Look into this. */
+/*
+@media screen and (min-width: 59.6875em) {
+	body:before, .sidebar {
+		width: 24.4118%;
+	}
+
+	.site-header {
+		padding: 0 13%;
+	}
+
+	.main-navigation, .social-navigation {
+		margin: 0 13% 13%;
+	}
+	.site-content {
+		margin-left: 26.9118%;
+	}
+}
+*/
+
+
 
 /* 
  * Header customization.

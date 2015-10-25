@@ -1,4 +1,6 @@
 static/css/twentyfifteen/**
 static/js/jquery*
+static/js/lunr*
+content/js/search.js
 output/**
 blog-skeleton/**

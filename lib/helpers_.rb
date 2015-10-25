@@ -8,3 +8,9 @@ include MoreHelper
 include FingerprintHelper
 include TextHelper
 include TagCloudHelper
+include SearchHelper
+
+def is_content?(i)
+	!['article_list', 'feed'].include?(i[:kind]) && !i.binary? && !i[:is_hidden] && !["css", "js", "xml"].include?(i.identifier.ext)
+end
+

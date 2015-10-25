@@ -1,5 +1,5 @@
 !!! 5
-%html.no-js
+%html.no-js(lang="en")
 	%head
 		%meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
 		%meta(name="viewport" content="width=device-width")
@@ -47,6 +47,14 @@
 										%a{href: link[:url], class: [link[:class]]}
 											%span.screen-reader-text= link[:alt]
 
+					.widget-area(role="complementary")
+						%aside.widget
+							%form.search-form#search-form(role="search" method="get")
+								%label
+									%span.screen-reader-text Search for:
+									%input.search-field(type="search" placeholder="Search …" value="" name="s" title="Search for:")
+								%input.search-submit.screen-reader-text(type="submit" value="Search")
+
 			#content.site-content
 				#primary.content-area
 					%main#main.site-main(role="main")
@@ -62,4 +70,6 @@
 			};
 		%script(type='text/javascript' src='/js/jquery-1.11.3.min.js')
 		%script(type='text/javascript' src='/css/twentyfifteen/js/functions.js')
+		%script(type='text/javascript' src='/js/lunr.min.js')
 		%script(type='text/javascript' src='/js/blog.js')
+		%script(type='text/javascript' src='/js/search.js')

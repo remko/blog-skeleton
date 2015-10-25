@@ -230,13 +230,17 @@ end
 
 # Not cache busting CSS files, because they can reference fingerprinted files,
 # and I haven't figured out yet how to include those into the CSS fingerprint
-CACHE_BUSTED='/**/*.{jpg,png,jpeg,gif,js}'
+CACHE_BUSTED='/**/*.{jpg,png,jpeg,gif,svg,js,ttf,eot}'
 
 route CACHE_BUSTED, rep: :cache_busted do
 	item.identifier.without_ext.sub(/\A\/static/, '') + "-cb-" + fingerprint(item[:filename]) + "." + item.identifier.ext
 end
 
 compile CACHE_BUSTED, rep: :cache_busted do
+	# Hack because i don't know how to inherit compile rules
+	if item.identifier == "/js/search.js"
+		filter :erb
+	end
 end
 
 ################################################################################
@@ -258,6 +262,10 @@ compile '/**/*.{md,html}' do
 	filter :git_link_filter
 	filter :image_size
 	filter :cachebust, type: :html
+end
+
+compile '/**/*.js' do
+	filter :erb
 end
 
 compile '/**/*' do
