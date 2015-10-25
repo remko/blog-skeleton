@@ -6,7 +6,7 @@
 %article{class: ["post", "hentry", "format-#{format}", [post[:header_image] && "has-post-thumbnail"], [post[:sticky] && "sticky"]]}
 	-if post[:header_image]
 		.post-thumbnail
-			%img.attachment-post-thumbnail{src: post[:header_image]}
+			%img.attachment-post-thumbnail{src: post[:header_image], alt: "header"}
 
 	%header.entry-header
 		%h2.entry-title(rel="bookmark")= link_to post[:title], link
