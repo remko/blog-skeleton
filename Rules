@@ -130,8 +130,6 @@ compile '/blog/**/*.md', rep: :feed_excerpt do
 	filter :more_filter, more_url: item.path
 	filter :git_link_filter
 	filter :absolutify_urls, base: @config[:base_url]
-	# Not applying cachebusting to avoid feed reader caches becoming
-	# outdated.
 end
 
 route '/blog/**/*', rep: :feed_excerpt do
@@ -206,15 +204,11 @@ end
 
 
 ################################################################################
-# Files that don't need processing (except cachebusting)
+# Files that don't need processing
 ################################################################################
 
 route '/static/favicon/**' do
   item.identifier.to_s.sub(/\A\/static\/favicon/, '')
-end
-
-compile '/static/**/*.css' do
-	filter :cachebust, type: :css
 end
 
 compile '/static/**/*' do
@@ -225,24 +219,6 @@ route '/static/**/*' do
 end
 
 ################################################################################
-# Cache busting
-################################################################################
-
-# Not cache busting CSS files, because they can reference fingerprinted files,
-# and I haven't figured out yet how to include those into the CSS fingerprint
-CACHE_BUSTED='/**/*.{jpg,png,jpeg,gif,svg,js,ttf,eot}'
-
-route CACHE_BUSTED, rep: :cache_busted do
-	item.identifier.without_ext.sub(/\A\/static/, '') + "-cb-" + fingerprint(item[:filename]) + "." + item.identifier.ext
-end
-
-compile CACHE_BUSTED, rep: :cache_busted do
-	# Hack because i don't know how to inherit compile rules
-	if item.identifier == "/js/search.js"
-		filter :erb
-	end
-end
-
 ################################################################################
 # Default handling
 ################################################################################
@@ -261,10 +237,9 @@ compile '/**/*.{md,html}' do
 	filter :more_filter, mode: :replace
 	filter :git_link_filter
 	filter :image_size
-	filter :cachebust, type: :html
 end
 
-compile '/**/*.js' do
+compile '/**/*.{js,css}' do
 	filter :erb
 end
 

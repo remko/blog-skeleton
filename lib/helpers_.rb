@@ -5,7 +5,6 @@ include Nanoc::Helpers::Text
 include Nanoc::Helpers::XMLSitemap
 include TagsCategoriesHelper
 include MoreHelper
-include FingerprintHelper
 include TextHelper
 include TagCloudHelper
 include SearchHelper

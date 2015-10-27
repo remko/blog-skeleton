@@ -30,8 +30,8 @@ deploy:
     options: [ '-aP', '--delete-after' ] # delete existing files on server
 
 # Extra configuration
-base_url : "https://el-tramo.be"
-page_size : 10
+base_url: "https://el-tramo.be"
+page_size: 10
 site_title: "El Tramo"
 site_subtitle: "Remko Tronçon's Homepage"
 ga_tracking_id: "UA-41394304-1"
