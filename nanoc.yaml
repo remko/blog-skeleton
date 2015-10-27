@@ -25,7 +25,7 @@ data_sources:
 
 deploy:
   default:
-    kind: rsync
+    kind: optrsync
     dst: "el-tramo.be:www/html/output"
     options: [ '-aP', '--delete-after' ] # delete existing files on server
 
