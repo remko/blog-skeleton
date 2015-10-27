@@ -150,7 +150,8 @@
 				var data = window.searchData;
 				$("#search-results-content").html("<ul>" + results.map(function (result) {
 					var entry = data[result.ref];
-					return "<li><a href='" + entry.id + "'>" + entry.title + "</a></li>";
+					var title = (entry.id.indexOf("/blog") === 0 ? "Blog: " : "") + entry.title;
+					return "<li><a href='" + entry.id + "'>" + title + "</a></li>";
 				}).join("") + "</ul>");
 			}
 			else {
