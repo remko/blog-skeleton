@@ -28,10 +28,4 @@ task :view do
 end
 
 desc "Deploy the website"
-task :deploy => :deploy_vps
-
-desc "Deploy the website to the VPS"
-task :deploy_vps do
-	sh "eslint ."
-	sh "nanoc deploy"
-end
+task :deploy => [:check, :dist, :deploy_vps]

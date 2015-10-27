@@ -2,5 +2,7 @@ static/css/twentyfifteen/**
 static/js/jquery*
 static/js/lunr*
 content/js/search.js
+content/js/all.js
 output/**
+dist/**
 blog-skeleton/**
