@@ -1,7 +1,11 @@
-require 'w3c_validators'
+usage "validate"
 
-desc "Validate HTML, feeds, and CSS"
-task :validate do
+summary "Validate HTML, feeds, and CSS"
+description "Validate HTML, feeds, and CSS"
+
+run do |opts, args, cmd|
+	require 'w3c_validators'
+
 	validator = ::W3CValidators::MarkupValidator.new
 	results = validator.validate_file("output/index.html")
 	results.errors.each { |err| puts "Error: #{err}" }
@@ -20,4 +24,5 @@ task :validate do
 	results.errors.each { |err| puts "Error: #{err}" }
 	results.warnings.each { |err| puts "Warning: #{err}" }
 end
+
 

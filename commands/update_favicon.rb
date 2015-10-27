@@ -1,5 +1,9 @@
-desc "Update favicon from favicon.svg"
-task :update_favicon do
+usage "update_favicon"
+
+summary "Update favicon from favicon.svg"
+description "Update favicon from favicon.svg"
+
+run do |opts, args, cmd|
 	require 'httpclient'
 	require 'base64'
 	require 'json'
@@ -116,3 +120,4 @@ task :update_favicon do
 
 	puts "Done"
 end
+

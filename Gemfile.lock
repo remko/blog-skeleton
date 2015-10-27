@@ -64,7 +64,6 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rack (1.6.4)
-    rake (10.4.2)
     rb-fsevent (0.9.6)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
@@ -106,7 +105,6 @@ DEPENDENCIES
   mime-types
   nanoc (~> 4.0.0rc1)
   nokogiri
-  rake
   rdiscount
   rouge
   simpleidn

@@ -26,12 +26,6 @@ need [s3cmd](http://s3tools.org/s3cmd).
 - Checking: `nanoc check --deploy`
 - Deploying: `nanoc deploy`
 
-Alternatively, you can use `rake` to perform these (and other)
-tasks. For a full list of tasks, run
-
-    rake --tasks
-
-
 ## Notes
 
 - The layouts are written in HAML, which is a bit harder to understand at first. If you

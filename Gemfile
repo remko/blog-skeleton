@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'aws'
-gem 'rake'
 gem 'nanoc', '~> 4.0.0rc1'
 gem 'rdiscount'
 gem 'httpclient'
