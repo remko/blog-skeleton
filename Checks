@@ -1,1 +1,5 @@
-deploy_check :stale, :ilinks
+check :eslint do
+	self.add_issue("Error") unless system "eslint ."
+end
+
+deploy_check :stale, :mixed_content, :eslint, :ilinks

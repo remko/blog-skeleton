@@ -18,7 +18,6 @@ end
 
 desc "Run sanity checks"
 task :check do
-	sh "eslint ."
 	sh "nanoc check --deploy"
 end
 
