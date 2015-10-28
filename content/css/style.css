@@ -130,6 +130,11 @@ article.format-link blockquote {
 	font-size: 24px;
 }
 
+/* Displayed by JS when search data has loaded */
+.search-form {
+	display: none;
+}
+
 /*******************************************************************************
  * Twitter widget overrides
  *******************************************************************************/

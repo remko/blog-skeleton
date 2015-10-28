@@ -1,0 +1,9 @@
+---
+---
+<%=
+	%w(
+		/css/twentyfifteen/style.css
+		/css/style.css
+		/css/twentyfifteen/genericons/genericons.css
+	).map { |i| @items[i].compiled_content }.join("\n\n") 
+%>

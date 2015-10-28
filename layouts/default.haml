@@ -10,15 +10,13 @@
 		= render "/include/opengraph.*"
 		= render "/include/twitter_card.*"
 		%link{rel: "alternate", type: "application/atom+xml", href: @item[:feed]}
-		%link(rel="stylesheet" type="text/css" href="/css/twentyfifteen/style.css")
-		%link(rel="stylesheet" type="text/css" href="/css/style.css")
+		%link(rel="stylesheet" type="text/css" href="/css/all.css")
 		/[if lt IE 9]> <script src="/css/twentyfifteen/js/html5.js"></script>
 		/[if lt IE 9]> <link rel="stylesheet" type="text/css" href="/css/twentyfifteen/css/ie.css">
 		:javascript
 			(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);
 		
 		%link(rel='stylesheet' href='//fonts.googleapis.com/css?family=Noto+Sans%3A400italic%2C700italic%2C400%2C700%7CNoto+Serif%3A400italic%2C700italic%2C400%2C700%7CInconsolata%3A400%2C700&#038;subset=latin%2Clatin-ext' type='text/css' media='all')
-		%link(rel='stylesheet' href='/css/twentyfifteen/genericons/genericons.css' type='text/css' media='all')
 	
 	- id = @item.path[1..-2].gsub('/', '--')
 	%body{class: [@item[:body_classes], "id-#{id}"]}

@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'digest'
-
 ################################################################################
 # Preprocessing
 ################################################################################
@@ -202,14 +200,18 @@ route "/avatar.*" do
 	"/avatar/avatar.jpg"
 end
 
+################################################################################
+# Favicon
+################################################################################
+
+route '/favicon/**' do
+  item.identifier.to_s.sub(/\A\/favicon/, '')
+end
+
 
 ################################################################################
 # Files that don't need processing
 ################################################################################
-
-route '/static/favicon/**' do
-  item.identifier.to_s.sub(/\A\/static\/favicon/, '')
-end
 
 compile '/static/**/*' do
 end
@@ -239,8 +241,19 @@ compile '/**/*.{md,html}' do
 	filter :image_size
 end
 
-compile '/**/*.{js,css}' do
+compile '/**/*.css' do
 	filter :erb
+	filter :absolutify_css_urls
+	filter :minify_css
+end
+
+compile '/**/*.js' do
+	filter :erb
+	filter :minify_js
+end
+
+compile '/**/*.{png,jpg}' do
+	filter :compress_image
 end
 
 compile '/**/*' do

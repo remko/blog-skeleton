@@ -2,8 +2,6 @@ require 'digest/sha1'
 require 'fileutils'
 require 'pathname'
 require 'nokogiri'
-require 'cssminify'
-require 'uglifier'
 
 class Optimizer
 	attr_reader :source, :target
@@ -22,27 +20,13 @@ class Optimizer
 		puts "Copying output ..."
 		sh "rsync -a --delete-after #{source}/ #{target}/"
 
-		puts "Optimizing PNGs ..."
-		Dir.glob("#{target}/**/*.png").each do |png|
-			sh "optipng -quiet #{png}"
-		end
-
-		puts "Optimizing JPGs ..."
-		Dir.glob("#{target}/**/*.jpg").each do |jpg|
-			sh "jpegtran -copy none -optimize -progressive -outfile #{jpg} #{jpg}"
-		end
-		
 		puts "Cachebusting ..."
 		mapping = {}
 
 		# Cachebust images
 		mapping = Dir.glob("#{target}/**/*.{png,jpg,svg,eot,ttf,ico}").inject(mapping) { |acc, f| cachebust(f, acc) }
 
-		# Process & cachebust JavaScript
-		Dir.glob("#{target}/**/*.js").each do |js_file|
-			js = Uglifier.compile(File.read(js_file))
-			File.open(js_file, 'w') { |f| f.write(js) }
-		end
+		# Cachebust JavaScript
 		mapping = Dir.glob("#{target}/**/*.{js}").inject(mapping) { |acc, f| cachebust(f, acc) }
 
 		# Process & cachebust CSS
@@ -50,7 +34,6 @@ class Optimizer
 			css = File.read(css_file)
 			css.gsub!(/url\("([^"#]*)([^"]*)"\)/) { |match| css_replace_match(match, $1, $2, css_file, mapping) }
 			css.gsub!(/url\('([^'#]*)([^']*)'\)/) { |match| css_replace_match(match, $1, $2, css_file, mapping) }
-			css = CSSminify.compress(css)
 			File.open(css_file, 'w') { |f| f.write(css) }
 		end
 		mapping = Dir.glob("#{target}/**/*.css").inject(mapping) { |acc, f| cachebust(f, acc) }
