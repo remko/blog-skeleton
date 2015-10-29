@@ -14,7 +14,8 @@ run do |opts, args, cmd|
 
 	require 'net/http'
 	require 'json'
-
+	require 'rdiscount'
+	
 	# require 'openssl'
 	# OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
@@ -73,21 +74,39 @@ run do |opts, args, cmd|
 	# Parse a README.md, and return a hash with information 
 	# about the project
 	def parse_readme(contents)
+		title = nil
+		body = nil
+		sections = {}
+		current_section_title = ""
+		current_section_index = 0
 		contents.lines.each_with_index do |line, index|
-			if md = /^#\s+(.*)/.match(line)
+			if !title && md = /^#\s+(.*)/.match(line)
 				title = md[1]
 				title = md[1] if md = /\[([^\]]+)\](.*)/.match(title)
-				return {
-					:title => title,
-					:body=> contents.lines[index+1..-1].join.lstrip.gsub(/(\]\s*\()http:\/\/el-tramo\.be\//, "\\1/")
-				}
+				body = contents.lines[index+1..-1].join.lstrip.gsub(/(\]\s*\()http:\/\/el-tramo\.be\//, "\\1/")
+				current_section_index = index + 1
+			elsif md = /^##\s+(.*)/.match(line)
+				if current_section_title
+					sections[current_section_title] = contents.lines[current_section_index+1..index-1].join("")
+				end
+				current_section_title = md[1]
+				current_section_index = index + 1
 			end
 		end
-		raise RuntimeError
+		if current_section_title
+			sections[current_section_title] = contents.lines[current_section_index+1..-1].join("")
+		end
+		raise RuntimeError if !title || !body
+		return {
+			title: title,
+			body: body,
+			sections: sections
+		}
+		
 	end
 
 	def add_screenshots_section(project)
-		screenshots = Dir.glob("#{PROJECT_PAGE_PREFIX}/#{project[:id]}/*.png")
+		screenshots = Dir.glob("#{PROJECT_PAGE_PREFIX}/#{project[:id]}/*.png").select { |s| !s.end_with?("header.png") && !s.end_with?("header@2x.png") }
 		screenshot_thumbs = Dir.glob("#{PROJECT_PAGE_PREFIX}/#{project[:id]}/*.thumb.png")
 		return if screenshots.empty? and screenshot_thumbs.empty?
 		section = "\n\n## Screenshots\n\n"
@@ -136,6 +155,7 @@ generated: true
 ---
 This is a list of all my public software projects:
 
+- [BookWidgets](https://www.bookwidgets.com) <span class="genericon genericon-external"></span>
 - [Swift IM Project](http://swift.im) <span class="genericon genericon-external"></span>
 EOS
 
@@ -150,7 +170,16 @@ EOS
 	$projects.each do |project|
 		puts "Processing #{project[:id]} ..."
 		project.merge!(parse_readme(get_readme(project[:id])))
-		project_index << "- [#{project[:title]}](#{project[:url]})\n"
+		title = project[:title].split(":", 2)
+		description = project[:sections]["About"] || project[:sections][""]
+		description = description.split("\n\n")[0].sub(/\s+\Z/, "")
+		description = RDiscount.new(description).to_html.gsub(/<[^>]*(>+|\s*\z)/m, '').strip
+		description_yaml = "  " + description.split("\n").join("\n  ")
+		project_index << "- [#{title[0]}](#{project[:url]})"
+		if title.length > 1
+			project_index << ":#{title[1]}"
+		end
+		project_index << "\n"
 
 		if travis_url = get_travis_image_url(project[:id])
 			ci_line = "- #{project[:title]} [![Build Status](#{travis_url})](#{TRAVIS_PAGE_URL_PREFIX}/#{project[:id]})"
@@ -165,6 +194,8 @@ EOS
 			project_page = <<-EOS
 ---
 title: "#{project[:title].gsub(/"/,"\\\"")}"
+description: |
+#{description_yaml}
 layout: page
 generated: true
 ---

@@ -4,4 +4,4 @@
 - elsif @item[:kind] == "article"
 	%meta{name: "description", content: excerptize(decode_html_entities(strip_html(strip_more(@item.compiled_content(snapshot: :filtered_contents))).gsub(/\n/, ' ')), length: 200)}
 - else
-	%meta{name: "description", content: excerptize(decode_html_entities(strip_html(strip_more(@item.compiled_content(snapshot: :filtered_contents))).gsub(/\n/, ' ')), length: 200)}
+	%meta{name: "description", content: @item[:description] || excerptize(decode_html_entities(strip_html(strip_more(@item.compiled_content(snapshot: :filtered_contents))).gsub(/\n/, ' ')), length: 200)}
