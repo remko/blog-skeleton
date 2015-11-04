@@ -27,6 +27,7 @@ deploy:
   default:
     kind: optrsync
     dst: "el-tramo.be:www/html/output"
+    assets_prefix: "//d18sc3w29ndn46.cloudfront.net"
     options: [ '-aP', '--delete-after' ] # delete existing files on server
 
 # Extra configuration

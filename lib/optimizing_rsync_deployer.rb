@@ -5,7 +5,9 @@ class OptimizingRSyncDeployer < ::Nanoc::Extra::Deployers::Rsync
 	end
 
 	def run
-		Optimizer.new(@old_source_path, source_path, lambda { |x| run_shell_cmd(x) }).run
+		Optimizer.new(@old_source_path, source_path, 
+									sh: lambda { |x| run_shell_cmd(x) },
+									assets_prefix: @config[:assets_prefix]).run
 		super
 	end
 end

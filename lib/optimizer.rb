@@ -10,10 +10,11 @@ class Optimizer
 		@sh.call(args)
 	end
 
-	def initialize(source, target, sh = nil)
+	def initialize(source, target, options = {})
 		@source = source
 		@target = Pathname(target)
-		@sh = sh || lambda { |args| system args }
+		@sh = options[:sh] || lambda { |args| system args }
+		@assets_prefix = options[:assets_prefix] || ""
 	end
 
 	def run
@@ -25,6 +26,9 @@ class Optimizer
 
 		# Cachebust images
 		mapping = Dir.glob("#{target}/**/*.{png,jpg,svg,eot,ttf,ico}").inject(mapping) { |acc, f| cachebust(f, acc) }
+
+		# Cachebust other static files
+		mapping = Dir.glob("#{target}/**/*.{pdf,bz2}").inject(mapping) { |acc, f| cachebust(f, acc) }
 
 		# Cachebust JavaScript
 		mapping = Dir.glob("#{target}/**/*.{js}").inject(mapping) { |acc, f| cachebust(f, acc) }
@@ -61,7 +65,7 @@ class Optimizer
 			dir = Pathname("/" + Pathname(file).parent.relative_path_from(target).to_s)
 			m = url.match(/([^\?#]*)(.*)/)
 			path = "#{dir + m[1]}"
-			mapping[path] ? "#{mapping[path]}#{m[2]}" : url
+			mapping[path] ? "#{@assets_prefix}#{mapping[path]}#{m[2]}" : url
 		end
 	end
 
@@ -73,7 +77,7 @@ class Optimizer
 			STDERR.puts "Unable to find #{path}"
 			match
 		else
-			"url(\"#{mapped}#{suffix}\")"
+			"url(\"#{@assets_prefix}#{mapped}#{suffix}\")"
 		end
 	end
 
