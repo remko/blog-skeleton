@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Twentyfifteen overrides
- *******************************************************************************/
+* Twentyfifteen overrides
+*******************************************************************************/
 
 body {
 	background: #B7B1A2;
@@ -62,25 +62,25 @@ input, textarea {
 
 
 /* 
- * Header customization.
- * See custom-header.php:twentyfifteen_header_style() 
- */
+* Header customization.
+* See custom-header.php:twentyfifteen_header_style() 
+*/
 
 .site-header {
 	background: url("/css/background.png") no-repeat 50% 50%;
 	-webkit-background-size: cover;
-	-moz-background-size:    cover;
-	-o-background-size:      cover;
-	background-size:         cover;
+	-moz-background-size:		 cover;
+	-o-background-size:			 cover;
+	background-size:				 cover;
 }
 
 @media screen and (min-width: 59.6875em) {
 	body:before {
 		background: url("/css/background.png") no-repeat 100% 50%;
 		-webkit-background-size: cover;
-		-moz-background-size:    cover;
-		-o-background-size:      cover;
-		background-size:         cover;
+		-moz-background-size:		 cover;
+		-o-background-size:			 cover;
+		background-size:				 cover;
 		border-right: 0;
 	}
 
@@ -136,19 +136,19 @@ article.format-link blockquote {
 }
 
 /*******************************************************************************
- * Twitter widget overrides
- *******************************************************************************/
+* Twitter widget overrides
+*******************************************************************************/
 
 .twtr-widget h3, h4 {
-		clear: none;
+	clear: none;
 }
 
 .twtr-ft span { visibility: hidden; display: none; }
 
 
 /*******************************************************************************
- * Disqus overrides
- *******************************************************************************/
+* Disqus overrides
+*******************************************************************************/
 
 #dsq-content h3 { visibility: hidden; display: none; }
 #dsq-subscribe { visibility: hidden; display: none; }
@@ -160,8 +160,8 @@ article.format-link blockquote {
 
 
 /*******************************************************************************
- * Code style
- *******************************************************************************/
+* Code style
+*******************************************************************************/
 
 pre { 
 	background-color: #333; 
@@ -234,34 +234,38 @@ pre {
 .highlight .gi { color: #a6e22e; } /* Generic.Inserted & Diff Inserted */
 
 /*******************************************************************************
- * Spinner
- * Source: http://codepen.io/bernethe/pen/dorozd
- *******************************************************************************/
+* Spinner
+* Source: http://codepen.io/bernethe/pen/dorozd
+*******************************************************************************/
 
 .spinner {
 	width: 32px;
 	height: 32px;
 	margin: 20px auto;
-  border: 4px rgba(0, 0, 0, 0.25) solid;
-  border-top: 4px black solid;
-  border-radius: 50%;
-  -webkit-animation: rotateSpinner .6s infinite linear;
-  animation: rotateSpinner .6s infinite linear;
+	border: 4px rgba(0, 0, 0, 0.25) solid;
+	border-top: 4px black solid;
+	border-radius: 50%;
+	-webkit-animation: rotateSpinner .6s infinite linear;
+	animation: rotateSpinner .6s infinite linear;
 }
 
 @-webkit-keyframes rotateSpinner {
-  from { -webkit-transform: rotate(0deg); }
-  to { -webkit-transform: rotate(359deg); }
+	from { -webkit-transform: rotate(0deg); }
+	to { -webkit-transform: rotate(359deg); }
 }
 
 @keyframes rotateSpinner {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(359deg); }
+	from { transform: rotate(0deg); }
+	to { transform: rotate(359deg); }
 }
 
 /*******************************************************************************
- * Custom overrides for specific elements in posts
- *******************************************************************************/
+* Custom overrides for specific elements in posts
+*******************************************************************************/
+
+.id-ci .entry-content li img {
+	display: inline;
+}
 
 .id-blog--jsnprsr img[alt="Timing Benchmarks"] { 
 	width: 100%; 

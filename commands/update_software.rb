@@ -182,7 +182,7 @@ EOS
 		project_index << "\n"
 
 		if travis_url = get_travis_image_url(project[:id])
-			ci_line = "- #{project[:title]} [![Build Status](#{travis_url})](#{TRAVIS_PAGE_URL_PREFIX}/#{project[:id]})"
+			ci_line = "- #{project[:title].split(":")[0]} [![Build Status](#{travis_url})](#{TRAVIS_PAGE_URL_PREFIX}/#{project[:id]})"
 			if coveralls_url = get_coveralls_image_url(project[:id])
 				ci_line << " [![Coverage](#{coveralls_url})](#{COVERALLS_PAGE_URL_PREFIX}/#{project[:id]}?branch=master)"
 			end
