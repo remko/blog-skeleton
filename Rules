@@ -249,7 +249,7 @@ end
 
 compile '/**/*.js' do
 	filter :erb
-	filter :minify_js
+	filter :uglify_js
 end
 
 compile '/**/*.{png,jpg}' do
