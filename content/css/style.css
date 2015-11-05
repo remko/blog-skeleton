@@ -90,15 +90,15 @@ input, textarea {
 }
 
 /*
- * OpenPGP social item
- */
+* OpenPGP social item
+*/
 .social-navigation a.openpgp:before {
 	content: "\f427";
 }
 
 /*
- * Misc tweaks
- */
+* Misc tweaks
+*/
 article.format-link blockquote {
 	line-height: 1.6842;
 	font-size: 100%;
