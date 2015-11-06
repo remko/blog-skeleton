@@ -2,4 +2,18 @@ check :eslint do
 	self.add_issue("Error") unless system "eslint ."
 end
 
-deploy_check :stale, :mixed_content, :eslint, :ilinks
+check :external_images do
+	require 'nokogiri'
+	allowed_domains = config.fetch(:checks, {}).fetch(:external_images, {}).fetch(:exclude, [])
+	filenames = output_filenames.select { |f| File.extname(f) == '.html' }
+	filenames.each do |filename|
+		doc = ::Nokogiri::HTML.parse(File.read(filename))
+		doc.css('img').each do |img|
+			if img[:src].start_with?("http") && !allowed_domains.any? {|x| img[:src].start_with?(x) }
+				add_issue("External image: #{img[:src]}", subject: filename)
+			end
+		end
+	end
+end
+
+deploy_check :stale, :mixed_content, :eslint, :ilinks, :external_images

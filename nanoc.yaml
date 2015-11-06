@@ -30,6 +30,16 @@ deploy:
     assets_prefix: "//d18sc3w29ndn46.cloudfront.net"
     options: [ '-aP', '--delete-after' ] # delete existing files on server
 
+checks:
+  external_images:
+    exclude:
+    - https://api.travis-ci.org
+    - https://travis-ci.org
+    - https://ci.testling.com
+    - https://coveralls.io
+  external_links:
+    exclude: []
+
 # Extra configuration
 base_url: "https://el-tramo.be"
 page_size: 10
