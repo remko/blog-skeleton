@@ -55,11 +55,7 @@ class Optimizer
 	def cachebust(file, acc)
 		base = Pathname(file).sub_ext ''
 		new_file = "#{base}-cb-#{fingerprint(file)}#{Pathname(file).extname}"
-		if /(^avatar|^favicon.ico$)/.match(Pathname(file).relative_path_from(target).to_s)
-			FileUtils.cp(file, new_file)
-		else
-			FileUtils.mv(file, new_file)
-		end
+		FileUtils.cp(file, new_file)
 		acc["/" + Pathname(file).relative_path_from(target).to_s] = "/" + Pathname(new_file).relative_path_from(target).to_s
 		acc
 	end
