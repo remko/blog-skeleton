@@ -47,7 +47,7 @@ module SearchHelper
     %w(
       wasn
       didn
-    )
+    ) unless const_defined?(:RESET)
 
   def search_index(items)
     Hash[items.map do |item|
