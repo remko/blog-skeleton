@@ -1,17 +1,43 @@
-- if @item[:header_image]
-	%meta{name: "twitter:card", content: "summary_large_image"}
+- if false && @item[:video] && @item[:video].include?("youtube")
+  %meta{name: "twitter:card", content: "player"}
+- elsif @item[:header_image]
+  %meta{name: "twitter:card", content: "summary_large_image"}
 - else
-	%meta{name: "twitter:card", content: "summary"}
+  %meta{name: "twitter:card", content: "summary"}
+
 %meta{name: "twitter:creator:id", content: @config[:author_twitter_id]}
+
 - if @item[:kind] == "article_list"
-	%meta{name: "twitter:title", content: @config[:site_title]}
-	%meta{name: "twitter:description", content: @config[:site_subtitle]}
-	%meta{name: "twitter:url", content: @config[:base_url]}
+  %meta{name: "twitter:title", content: @config[:site_title]}
+  %meta{name: "twitter:description", content: @config[:site_subtitle]}
+  %meta{name: "twitter:url", content: @config[:base_url]}
 - else
-	%meta{name: "twitter:title", content: @item[:title]}
-	%meta{name: "twitter:url", content: "#{@config[:base_url]}#{@item.path}"}
-	%meta{name: "twitter:description", content: excerptize(decode_html_entities(strip_html(strip_more(@item.compiled_content(snapshot: :filtered_contents))).gsub(/\n/, ' ')), length: 200)}
+  %meta{name: "twitter:title", content: @item[:title]}
+  %meta{name: "twitter:description", content: excerptize(decode_html_entities(strip_html(strip_more(@item.compiled_content(snapshot: :filtered_contents))).gsub(/\n/, ' ')), length: 200)}
+  - if false && @item[:video] && @item[:video].include?("youtube")
+    - youtube_id = @item[:video].gsub(/.*v=/, '')
+    %meta{name: "twitter:site", content: "@youtube"}
+    %meta{name: "twitter:url", content: @item[:video]}
+    %meta{name: "twitter:app:name:iphone", content: "YouTube"}
+    %meta{name: "twitter:app:id:iphone", content: "544007664"}
+    %meta{name: "twitter:app:name:ipad", content: "YouTube"}
+    %meta{name: "twitter:app:id:ipad", content: "544007664"}
+    %meta{name: "twitter:app:url:iphone", content: "vnd.youtube://www.youtube.com/watch?v=#{youtube_id}&feature=applinks"}
+    %meta{name: "twitter:app:url:ipad", content: "vnd.youtube://www.youtube.com/watch?v=#{youtube_id}&feature=applinks"}
+    %meta{name: "twitter:app:name:googleplay", content: "YouTube"}
+    %meta{name: "twitter:app:id:googleplay", content: "com.google.android.youtube"}
+    %meta{name: "twitter:app:url:googleplay", content: @item[:video]}
+    %meta{name: "twitter:player", content: "https://www.youtube.com/embed/#{youtube_id}"}
+    %meta{name: "twitter:player:width", content: "1280"}
+    %meta{name: "twitter:player:height", content: "720"}
+  - else
+    %meta{name: "twitter:url", content: "#{@config[:base_url]}#{@item.path}"}
+
 - if @item[:header_image]
-	%meta{name: "twitter:image", content: "#{@config[:base_url]}#{@item[:header_image]}"}
+  %meta{name: "twitter:image", content: "#{@config[:base_url]}#{@item[:header_image]}"}
 - elsif @item[:images]
-	%meta{name: "twitter:image", content: "#{@config[:base_url]}#{@item[:images][0]}"}
+  %meta{name: "twitter:image", content: "#{@config[:base_url]}#{@item[:images][0]}"}
+
+  
+
+
