@@ -1,4 +1,4 @@
-- format = post[:link] ? "link" : "standard"
+- format = post[:link] ? "link" : post[:video] ? "video" : "standard"
 - link = post[:link] ? post[:link] : post.path
 - link_uri = URI.parse(link)
 - link_site = (link_uri && link_uri.host ? link_uri.host.downcase : link).gsub(/^www\./, '')

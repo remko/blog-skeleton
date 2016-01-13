@@ -157,6 +157,7 @@ This is a list of all my public software projects:
 
 - [BookWidgets](https://www.bookwidgets.com) <span class="genericon genericon-external"></span>
 - [Swift IM Project](http://swift.im) <span class="genericon genericon-external"></span>
+- [Password Generator](/password-generator): Diceware & Memorable Random-letter Passphrase generator
 EOS
 
 	ci_page = <<-EOS

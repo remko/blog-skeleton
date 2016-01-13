@@ -9,9 +9,9 @@ class MoreFilter < Nanoc::Filter
 
 	def run(content, params = {})
 		if params[:mode] == :replace
-			replace_more(content, params)
+			replace_more(content, more_url: item.path)
 		else
-			strip_more(content, params)
+			strip_more(content, more_url: item.path)
 		end
 	end
 end

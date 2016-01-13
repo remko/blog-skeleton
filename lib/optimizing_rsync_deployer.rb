@@ -25,12 +25,18 @@ class Optimizer
 		mapping = {}
 
 		# Cachebust images
-		mapping = Dir.glob("#{target}/**/*.{png,jpg,svg,eot,ttf,ico}").inject(mapping) { |acc, f| cachebust(f, acc) }
+		mapping = Dir.glob("#{target}/**/*.{png,jpg,svg,eot,ttf,ico,txt,asc}").inject(mapping) { |acc, f| cachebust(f, acc) }
 
 		# Cachebust other static files
 		mapping = Dir.glob("#{target}/**/*.{pdf,bz2}").inject(mapping) { |acc, f| cachebust(f, acc) }
 
-		# Cachebust JavaScript
+		# Process & Cachebust JavaScript
+		Dir.glob("#{target}/**/*.js").each do |js_file| 
+			js = File.read(js_file)
+			js.gsub!(/"([^"]*)"/) { |match| js_replace_match(match, $1, '"', js_file, mapping) }
+			js.gsub!(/'([^']*)'/) { |match| js_replace_match(match, $1, "'", js_file, mapping) }
+			File.open(js_file, 'w') { |f| f.write(js) }
+		end
 		mapping = Dir.glob("#{target}/**/*.{js}").inject(mapping) { |acc, f| cachebust(f, acc) }
 
 		# Process & cachebust CSS
@@ -81,6 +87,17 @@ class Optimizer
 		end
 	end
 
+	def js_replace_match(match, path, paren, file, mapping)
+		dir = Pathname("/" + Pathname(file).parent.relative_path_from(target).to_s)
+		path = "#{dir + path}"
+		mapped = mapping[path]
+		if not mapped
+			match
+		else
+			# Omitting @assets_prefix, because of XHR rules
+			"#{paren}#{mapped}#{paren}"
+		end
+	end
 
 	def html_map_urls(file, mapping)
 		doc = ::Nokogiri::HTML.parse(File.read(file))

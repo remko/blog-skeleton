@@ -17,6 +17,8 @@
 			(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);
 		
 		%link(rel='stylesheet' href='//fonts.googleapis.com/css?family=Noto+Sans%3A400italic%2C700italic%2C400%2C700%7CNoto+Serif%3A400italic%2C700italic%2C400%2C700%7CInconsolata%3A400%2C700&#038;subset=latin%2Clatin-ext' type='text/css' media='all')
+		- for style in @item.fetch(:styles, [])
+			%link{rel:'stylesheet', href: style, type: 'text/css', media: 'all'}
 	
 	- id = @item.path[1..-2].gsub('/', '--')
 	%body{class: [@item[:body_classes], "id-#{id}"]}
@@ -63,5 +65,7 @@
 				"expand":"<span class=\"screen-reader-text\">Expand all<\/span>",
 				"collapse":"<span class=\"screen-reader-text\">Collapse all<\/span>"
 			};
-		%script(type='text/javascript' async src='/js/all.js')
-		%script(type='text/javascript' async src='/js/search.js')
+		%script{type: 'text/javascript', async: !@item[:scripts], src: '/js/all.js'}
+		%script{type: 'text/javascript', async: !@item[:scripts], src: '/js/search.js'}
+		- for script in @item.fetch(:scripts, [])
+			%script{type: 'text/javascript', src: script}

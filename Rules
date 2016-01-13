@@ -103,12 +103,8 @@ end
 compile '/**/{feed,sitemap}.xml' do
 	filter :erb
 	filter :git_link_filter
+	write item.identifier.to_s
 end
-
-route '/**/{feed,sitemap}.xml' do
-	item.identifier.to_s
-end
-
 
 ################################################################################
 # Blog
@@ -117,20 +113,16 @@ end
 # Excerpts with a "Read More ..." link
 compile '/blog/**/*.md', rep: :linked_excerpt do
 	filter :rdiscount, extensions: [:smart]
-	filter :more_filter, more_url: item.path
-end
-
-route '/blog/**/*', rep: :linked_excerpt do
+	filter :more_filter
+	write nil
 end
 
 compile '/blog/**/*.md', rep: :feed_excerpt do
 	filter :rdiscount, extensions: [:smart]
-	filter :more_filter, more_url: item.path
+	filter :more_filter
 	filter :git_link_filter
 	filter :absolutify_urls, base: @config[:base_url]
-end
-
-route '/blog/**/*', rep: :feed_excerpt do
+	write nil
 end
 
 route '/blog/**/*' do
@@ -175,22 +167,19 @@ end
 
 # Libravatar avatars
 @config[:avatars][:email].each do |avatar|
-	compile "/avatar.*", rep: avatar + "_sha256" do end
-	route "/avatar.*", rep: avatar + "_sha256" do
-		"/avatar/" + Digest::SHA256.hexdigest(avatar.strip.downcase)
+	compile "/avatar.*", rep: avatar + "_sha256" do 
+		write "/avatar/" + Digest::SHA256.hexdigest(avatar.strip.downcase)
 	end
 
-	compile "/avatar.*", rep: avatar + "_md5" do end
-	route "/avatar.*", rep: avatar + "_md5" do
-		"/avatar/" + Digest::MD5.hexdigest(avatar.strip.downcase)
+	compile "/avatar.*", rep: avatar + "_md5" do 
+		write "/avatar/" + Digest::MD5.hexdigest(avatar.strip.downcase)
 	end
 end
 
 if @config[:avatars] && @config[:avatars][:openid]
 	@config[:avatars][:openid].each do |avatar|
-		compile "/avatar.*", rep: avatar do end
-		route "/avatar.*", rep: avatar do
-			"/avatar/" + Digest::SHA256.hexdigest(avatar.strip.downcase)
+		compile "/avatar.*", rep: avatar do 
+			write "/avatar/" + Digest::SHA256.hexdigest(avatar.strip.downcase)
 		end
 	end
 end
@@ -214,10 +203,7 @@ end
 ################################################################################
 
 compile '/static/**/*' do
-end
-
-route '/static/**/*' do
-  item.identifier.to_s.sub(/\A\/static/, '')
+  write item.identifier.to_s.sub(/\A\/static/, '')
 end
 
 ################################################################################
@@ -247,8 +233,13 @@ compile '/**/*.css' do
 	filter :minify_css
 end
 
-compile '/**/*.js' do
+compile '/**/*.js.erb' do
 	filter :erb
+	filter :uglify_js
+	write item.identifier.without_ext
+end
+
+compile '/**/*.js' do
 	filter :uglify_js
 end
 
@@ -259,7 +250,7 @@ end
 compile '/**/*' do
 end
 
-route '/**/index.*' do
+route '/**/index.{html,md}' do
 	item.identifier.without_ext + '.html'
 end
 

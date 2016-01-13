@@ -8,7 +8,7 @@
 					- current_tag = @item[:kind] == "article_list" ? @item[:tag] : nil
 					.tag-cloud= tag_cloud "/blog/tag/", current_tag: current_tag, link_for_tag: lambda {|x,y| link_for_tag(x,y) }
 
-		%li.menu-item.menu-item-has-children{class: [ @item.path == "/software/" && "current-menu-item", ["/retjilp/", "/wigit/", "/atomail/", "/docbook-kit/"].include?(@item.path) && "current-menu-ancestor" ]}
+		%li.menu-item.menu-item-has-children{class: [ @item.path == "/software/" && "current-menu-item", ["/retjilp/", "/wigit/", "/atomail/", "/docbook-kit/", "/password-generator/"].include?(@item.path) && "current-menu-ancestor" ]}
 			%a(href="/software/") Software
 			%ul.sub-menu
 				%li.menu-item<
@@ -16,6 +16,10 @@
 						Swift IM 
 						%span.genericon.genericon-external
 						.menu-item-description XMPP Messaging Software
+				%li.menu-item{class: [@item.path == "/password-generator/" && "current-menu-item"]}<
+					%a(href="/password-generator/")<
+						Password Generator
+						.menu-item-description Diceware &amp; Memorable Random-letter Passphrase generator
 				%li.menu-item{class: [@item.path == "/retjilp/" && "current-menu-item"]}<
 					%a(href="/retjilp/")<
 						Retjilp

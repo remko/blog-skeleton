@@ -60,6 +60,7 @@
 		var nextPageURL = getNextPageURL();
 
 		// Checks if we need to fetch the next page, and fetch if so
+		var fetchPage;
 		var fetchNextPageIfNecessary = throttle(function() {
 			if (isAlmostVisible($nav) && nextPageURL && !searching) {
 				fetchPage(nextPageURL);
@@ -67,7 +68,7 @@
 		}, 300);
 
 		// Fetches the page at the given URL, and append its articles
-		var fetchPage = function (url) {
+		fetchPage = function (url) {
 			$(window).off('scroll', fetchNextPageIfNecessary);
 			$nav
 				.html('<div class=\'nav-links\'><div class=\'spinner\'/></div>')

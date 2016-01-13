@@ -3,6 +3,9 @@ content/js/jquery*
 content/js/lunr*
 content/js/search.js
 content/js/all.js
+content/password-generator/random.js
+content/password-generator/lodash.js
 output/**
 dist/**
 blog-skeleton/**
+password-generator/**
