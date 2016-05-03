@@ -1,6 +1,8 @@
 /* global jQuery */
 
 (function ($, lunr) {
+	"use strict";
+
 	var searching = false;
 
 	// Clicking menus without a link but with children expands

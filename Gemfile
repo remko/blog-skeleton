@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'nanoc', '~> 4.1.1'
 gem 'guard-nanoc', '~> 2.0.0'
+gem 'sqlite3'
 gem 'rdiscount'
 gem 'httpclient'
 gem 'builder'

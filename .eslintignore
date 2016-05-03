@@ -7,5 +7,6 @@ content/password-generator/random.js
 content/password-generator/lodash.js
 output/**
 dist/**
+**/*.wdgt/**
 blog-skeleton/**
 password-generator/**
