@@ -25,7 +25,7 @@ class Optimizer
 		mapping = {}
 
 		# Cachebust images
-		mapping = Dir.glob("#{target}/**/*.{png,jpg,svg,eot,ttf,ico,txt,asc}").inject(mapping) { |acc, f| cachebust(f, acc) }
+		mapping = Dir.glob("#{target}/**/*.{png,jpg,svg,eot,ttf,woff,ico,txt,asc}").inject(mapping) { |acc, f| cachebust(f, acc) }
 
 		# Cachebust other static files
 		mapping = Dir.glob("#{target}/**/*.{pdf,bz2}").inject(mapping) { |acc, f| cachebust(f, acc) }
@@ -42,8 +42,8 @@ class Optimizer
 		# Process & cachebust CSS
 		Dir.glob("#{target}/**/*.css").each do |css_file| 
 			css = File.read(css_file)
-			css.gsub!(/url\("([^"#]*)([^"]*)"\)/) { |match| css_replace_match(match, $1, $2, css_file, mapping) }
-			css.gsub!(/url\('([^'#]*)([^']*)'\)/) { |match| css_replace_match(match, $1, $2, css_file, mapping) }
+			css.gsub!(/url\("([^"#\?]+)([^"]*)"\)/) { |match| css_replace_match(match, $1, $2, css_file, mapping) }
+			css.gsub!(/url\('([^'#\?]+)([^']*)'\)/) { |match| css_replace_match(match, $1, $2, css_file, mapping) }
 			File.open(css_file, 'w') { |f| f.write(css) }
 		end
 		mapping = Dir.glob("#{target}/**/*.css").inject(mapping) { |acc, f| cachebust(f, acc) }

@@ -5,10 +5,10 @@ class AbsolutifyCSSURLs < Nanoc::Filter
 	def run(content, params = {})
 		item_path = Pathname.new(assigns[:item].path)
 		content
-			.gsub(/url\("([^"#]*)([^"]*)"\)/) do |match| 
+			.gsub(/url\("([^"#\?]+)([^"]*)"\)/) do |match| 
 				"url(\"#{absolutify_url($1, path: item_path)}#{$2}\")"
 			end
-			.gsub(/url\('([^'#]*)([^']*)'\)/) do |match| 
+			.gsub(/url\('([^'#\?]+)([^']*)'\)/) do |match| 
 				"url('#{absolutify_url($1, path: item_path)}#{$2}')"
 			end
 	end
