@@ -118,7 +118,7 @@ compile '/blog/**/*.md', rep: :linked_excerpt do
 end
 
 compile '/blog/**/*.md', rep: :feed_excerpt do
-	filter :rdiscount, extensions: [:smart]
+	filter :rdiscount, extensions: [:smart, :footnotes]
 	filter :more_filter
 	filter :git_link_filter
 	filter :absolutify_urls, base: @config[:base_url]
@@ -214,7 +214,7 @@ end
 compile '/**/*.{md,html}' do
 	filter :erb
 	if item.identifier.to_s.end_with?(".md")
-		filter :rdiscount, extensions: [:smart]
+		filter :rdiscount, extensions: [:smart, :footnotes]
 	end
 	snapshot :filtered_contents
 	filter :colorize_syntax, coderay: { tab_width: 2 }, syntax: :html, default_colorizer: :rouge
