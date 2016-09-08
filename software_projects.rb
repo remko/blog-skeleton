@@ -6,6 +6,7 @@ project 'retjilp', :extra_download_links => [
 	"[Ruby Gem](https://rubygems.org/gems/retjilp)"
 ]
 project 'blog-skeleton'
+project 'smtp-http-proxy'
 project 'jsnprsr'
 project 'atomail'
 project 'wigit'

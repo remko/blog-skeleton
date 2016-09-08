@@ -23,6 +23,10 @@ a, body {
 	background-color: #F7EFDB;
 }
 
+.entry-content figcaption {
+	color: #666;
+}
+
 @media screen and (min-width: 59.6875em) {
 	.site-header,
 	.secondary {
@@ -282,4 +286,27 @@ pre {
 
 .id-blog--async-monad pre {
 	font-size: .9em;
+}
+
+
+.diceware-nl--downloads {
+	border: none;
+}
+
+.diceware-nl--downloads td, .diceware-nl--downloads th {
+	border: 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.diceware-nl--downloads--header th,.diceware-nl--downloads--header td {
+	border-bottom: 2px solid #ccc;
+}
+
+.diceware-nl--downloads a {
+	border-bottom: 0;
+}
+
+.diceware-nl--downloads .genericon {
+	font-size: 1.4em;
 }

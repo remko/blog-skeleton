@@ -1,6 +1,6 @@
 # Standard Nanoc configuration
 string_pattern_type: glob
-text_extensions: [ 'html', 'htm', 'md', 'markdown', 'xml', 'haml', 'css', 'js', 'erb' ]
+text_extensions: [ 'html', 'htm', 'md', 'markdown', 'xml', 'haml', 'css', 'js', 'erb', 'asc' ]
 output_dir: output
 index_filenames: [ 'index.html' ]
 enable_output_diff: false
@@ -44,7 +44,7 @@ checks:
 # Extra configuration
 base_url: "https://el-tramo.be"
 page_size: 10
-site_title: "El Tramo"
+site_title: "mko.re"
 site_subtitle: "Remko Tronçon's Homepage"
 ga_tracking_id: "UA-41394304-1"
 author_name: "Remko Tronçon"
@@ -55,6 +55,7 @@ author_twitter_id: "803083"
 author_facebook_id: "672523803"
 disqus_shortname: "el-tramo"
 github_id: "remko"
+gpg_key: "3F4B0D61"
 avatars:
   email: ['remko@el-tramo.be', 'git@el-tramo.be', 'r@mko.re']
   openid: ['https://el-tramo.be/']

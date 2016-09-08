@@ -49,7 +49,11 @@ preprocess do
 		first = i*config[:page_size] + 1
 		last = (i+1)*config[:page_size]
 		if i == 0
-			title = "#{@config[:site_title]} | #{@config[:site_subtitle]}"
+			if @config[:site_subtitle]
+				title = "#{@config[:site_title]} | #{@config[:site_subtitle]}"
+			else
+				title = "#{@config[:site_title]}"
+			end
 			id = "/index.html"
 		else
 			title = "Archive (posts #{first} to #{last})"
@@ -241,6 +245,10 @@ end
 
 compile '/**/*.js' do
 	filter :uglify_js
+end
+
+compile '/**/*.asc' do
+	filter :erb
 end
 
 compile '/**/*.{png,jpg}' do

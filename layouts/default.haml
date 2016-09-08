@@ -29,7 +29,8 @@
 					.site-branding
 						%h1.site-title
 							%a(href="/" rel="home")= @config[:site_title]
-						%p.site-description= @config[:site_subtitle]
+						-if @config[:site_subtitle]
+							%p.site-description= @config[:site_subtitle]
 						%button.secondary-toggle Menu
 
 				#secondary.secondary
