@@ -100,12 +100,21 @@ class Optimizer
 	end
 
 	def html_map_urls(file, mapping)
+		original_doc = ::Nokogiri::HTML.parse(File.read(file))
 		doc = ::Nokogiri::HTML.parse(File.read(file))
 		doc.css("a").each do |a|
 			a["href"] = map_url(a["href"], file, mapping) if a["href"]
 		end
 		doc.css("img").each do |img|
 			img["src"] = map_url(img["src"], file, mapping) if img["src"]
+			img["srcset"] = img["srcset"]
+					.split(",")
+					.map do |srcset| 
+						s = srcset.strip.split(" ")
+						s[0] = map_url(s[0].strip, file, mapping)
+						s.join(" ")
+					end
+					.join(",") if img["srcset"]
 		end
 		doc.css("script").each do |script|
 			script["src"] = map_url(script["src"], file, mapping) if script["src"]
@@ -113,7 +122,10 @@ class Optimizer
 		doc.css("link").each do |link|
 			link["href"] = map_url(link["href"], file, mapping) if link["href"]
 		end
-		File.open(file, "w") { |f| f.write(doc.to_html) }
+		# Leave the file alone if nothing changed
+		if doc.to_html != original_doc.to_html
+			File.open(file, "w") { |f| f.write(doc.to_html) }
+		end
 	end
 end
 
